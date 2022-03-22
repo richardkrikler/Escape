@@ -2,7 +2,8 @@
   <img alt="Vue logo" src="./assets/logo.png">
   <HelloWorld msg="Welcome to Your Vue.js App"/>
 
-  <p>{{$store.state.test}}</p>
+  <p class="text-red-600">{{$store.state.test}}</p>
+
 
   <router-view />
 </template>
