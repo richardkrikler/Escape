@@ -6,7 +6,7 @@
       </h1>
     </div>
 
-    <p class="text-blue-600 ">{{ $store.state.test }}</p>
+    <p class="text-blue-600 test-text">{{ $store.state.test }}</p>
 
     <!--    <img alt="Vue logo" src="./assets/logo.png">-->
     <!--  <router-view />-->
@@ -17,6 +17,12 @@
 
 </script>
 
-<style>
+<style lang="scss">
+$test: #110000;
+
+.test-text {
+  background-color: $test;
+}
+
 
 </style>
