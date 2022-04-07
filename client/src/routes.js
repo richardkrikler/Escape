@@ -1,5 +1,10 @@
-import TitleScreen from "@/components/TitleScreen";
+import TitleScreen from '@/components/TitleScreen'
 
 export default [
-    {name: 'default', path: '/', component: TitleScreen, props: false}
+    {
+        name: 'default',
+        path: '/',
+        component: TitleScreen,
+        props: true
+    }
 ]

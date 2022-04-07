@@ -1,35 +1,37 @@
 <template>
-  <div class="relative flex min-h-screen">
-    <div class="flex-1 grid place-items-center h-screen ml-20">
-      <div>
-        <div class="container">
-          <h1 class="text-center text-9xl text-white adorn-font mb-24 text-title">
-            ELYSION
-          </h1>
-        </div>
-        <div class="text-center text-4xl text-white adorn-font mb-8 text-button text-glow" @click="newGame">
-          NEUES SPIEL
-        </div>
-        <div class="text-center text-4xl text-white adorn-font mb-8 text-button text-glow" @click="loadGame">
-          SPIEL LADEN
-        </div>
-        <div class="text-center text-4xl text-white adorn-font mb-8 text-button text-glow" @click="openSetting">
-          EINSTELLUNGEN
+  <div class="title-screen">
+    <div class="relative flex">
+      <div class="flex-1 grid place-items-center h-screen ml-20">
+        <div>
+          <div class="container">
+            <h1 class="text-center text-9xl  text-white mb-24 text-title">
+              ELYSION
+            </h1>
+          </div>
+          <div class="text-center text-4xl text-white mb-8 text-button text-glow" @click="newGame">
+            NEUES SPIEL
+          </div>
+          <div class="text-center text-4xl text-white mb-8 text-button text-glow" @click="loadGame">
+            SPIEL LADEN
+          </div>
+          <div class="text-center text-4xl text-white mb-8 text-button text-glow" @click="openSetting">
+            EINSTELLUNGEN
+          </div>
         </div>
       </div>
+      <div class="flex-1"></div>
+      <!--
+          <div class="relative h-32 w-32">
+            <div class="absolute bottom-0 left-0 h-16 w-16 text-white adorn-font text-2xl">Impressum</div>
+          </div>
+          -->
     </div>
-    <div class="flex-1"></div>
-    <!--
-        <div class="relative h-32 w-32">
-          <div class="absolute bottom-0 left-0 h-16 w-16 text-white adorn-font text-2xl">Impressum</div>
-        </div>
-        -->
   </div>
 </template>
 
 <script>
 export default {
-  name: "TitleScreen",
+  name: 'TitleScreen',
 
   methods: {
     newGame() {
@@ -51,11 +53,12 @@ export default {
 
 <style scoped>
 
-body {
+.title-screen {
   background-image: url('../assets/Titlescreen.png');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
+  width: 100%;
 }
 
 .text-glow:hover {
@@ -65,12 +68,6 @@ body {
   text-align: center;
 }
 
-.adorn-font {
-  font-family: adorn-condensed-sans, sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
 .text-title {
   cursor: default;
 }
@@ -78,6 +75,5 @@ body {
 .text-button {
   cursor: pointer;
 }
-
 
 </style>
