@@ -35,19 +35,32 @@ export default {
 
   methods: {
     newGame() {
+      //checks if there is already something saved in localStorage
       if(JSON.parse(localStorage.getItem('saveGame')) === null) {
+
+        // There is no saved Game  in localStorage, so push the gameView and tell the Component to not load anything
         this.$router.push({ name: 'GameView', params: {loadFromStorage : 'no'} })
+
       } else {
+
         // TODO: Change to appropriately Designed Dialog which allows the user to answer yes or no
+        // There is a saved Game in localStorage, so ask the user if he wants to overwrite it
         alert('You already have a saved game, do you want to overwrite it?')
+
       }
     },
 
     loadGame() {
+      //checks if there is already something saved in localStorage
       if(JSON.parse(localStorage.getItem('saveGame')) === null) {
+
         // TODO: Dont know, maybe just start a new game, without telling the user he hasn't saved a game yet?
+        // There is no saved Game, either tell the User he hasn't started a Game yet or just start a new Game
         alert('You don\'t have a saved game yet')
+
       } else {
+
+        // There is a saved Game in localStorage, so push the gameView and tell the Component to load it
         this.$router.push({ name: 'GameView', params: {loadFromStorage : 'yes'} })
       }
     },
