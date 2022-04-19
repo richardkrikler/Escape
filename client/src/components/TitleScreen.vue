@@ -18,9 +18,10 @@
             EINSTELLUNGEN
           </div>
         </div>
+
       </div>
       <div class="flex-1"></div>
-      <div class="absolute bottom-0 left-2 text-white adorn-font text-2xl impressum-hover text-button" @click="redirectImpressum">
+      <div class="absolute bottom-4 left-4 text-white adorn-font text-2xl impressum-hover text-button" @click="redirectImpressum">
         Impressum
       </div>
     </div>
