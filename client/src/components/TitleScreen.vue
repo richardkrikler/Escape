@@ -20,11 +20,9 @@
         </div>
       </div>
       <div class="flex-1"></div>
-      <!--
-          <div class="relative h-32 w-32">
-            <div class="absolute bottom-0 left-0 h-16 w-16 text-white adorn-font text-2xl">Impressum</div>
-          </div>
-          -->
+      <div class="absolute bottom-0 left-2 text-white adorn-font text-2xl impressum-hover text-button" @click="redirectImpressum">
+        Impressum
+      </div>
     </div>
   </div>
 </template>
@@ -36,10 +34,10 @@ export default {
   methods: {
     newGame() {
       //checks if there is already something saved in localStorage
-      if(JSON.parse(localStorage.getItem('saveGame')) === null) {
+      if (JSON.parse(localStorage.getItem('saveGame')) === null) {
 
         // There is no saved Game  in localStorage, so push the gameView and tell the Component to not load anything
-        this.$router.push({ name: 'GameView', params: {loadFromStorage : 'no'} })
+        this.$router.push({name: 'GameView', params: {loadFromStorage: 'no'}})
 
       } else {
 
@@ -52,7 +50,7 @@ export default {
 
     loadGame() {
       //checks if there is already something saved in localStorage
-      if(JSON.parse(localStorage.getItem('saveGame')) === null) {
+      if (JSON.parse(localStorage.getItem('saveGame')) === null) {
 
         // TODO: Dont know, maybe just start a new game, without telling the user he hasn't saved a game yet?
         // There is no saved Game, either tell the User he hasn't started a Game yet or just start a new Game
@@ -61,11 +59,15 @@ export default {
       } else {
 
         // There is a saved Game in localStorage, so push the gameView and tell the Component to load it
-        this.$router.push({ name: 'GameView', params: {loadFromStorage : 'yes'} })
+        this.$router.push({name: 'GameView', params: {loadFromStorage: 'yes'}})
       }
     },
 
     openSetting() {
+
+    },
+
+    redirectImpressum() {
 
     },
 
@@ -88,6 +90,12 @@ export default {
   text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 42px #fff, 0 0 82px #fff, 0 0 92px #fff;
   color: white;
   font-size: 40px;
+  text-align: center;
+}
+
+.impressum-hover:hover {
+  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 42px #fff, 0 0 82px #fff, 0 0 92px #fff;
+  color: white;
   text-align: center;
 }
 
