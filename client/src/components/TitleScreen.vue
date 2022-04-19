@@ -18,10 +18,10 @@
             EINSTELLUNGEN
           </div>
         </div>
-
       </div>
+
       <div class="flex-1"></div>
-      <div class="absolute bottom-4 left-4 text-white adorn-font text-2xl impressum-hover text-button" @click="redirectImpressum">
+      <div class="absolute bottom-4 left-4 text-white text-2xl text-button text-glow" @click="redirectImpressum">
         Impressum
       </div>
     </div>
@@ -70,9 +70,7 @@ export default {
 
     redirectImpressum() {
 
-    },
-
-
+    }
   }
 }
 </script>
@@ -85,19 +83,6 @@ export default {
   background-attachment: fixed;
   background-size: cover;
   width: 100%;
-}
-
-.text-glow:hover {
-  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 42px #fff, 0 0 82px #fff, 0 0 92px #fff;
-  color: white;
-  font-size: 40px;
-  text-align: center;
-}
-
-.impressum-hover:hover {
-  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 42px #fff, 0 0 82px #fff, 0 0 92px #fff;
-  color: white;
-  text-align: center;
 }
 
 .text-title {
