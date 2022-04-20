@@ -24,6 +24,7 @@ export default {
 .text-glow:hover {
   text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 42px #fff, 0 0 82px #fff, 0 0 92px #fff;
   color: white;
+  // font-size: 40px;
 }
 
 </style>

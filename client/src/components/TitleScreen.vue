@@ -4,24 +4,24 @@
       <div class="flex-1 grid place-items-center h-screen ml-20">
         <div>
           <div class="container">
-            <h1 class="text-center text-9xl  text-white mb-24 text-title">
+            <h1 class="text-center text-9xl text-white mb-24 cursor-default">
               ELYSION
             </h1>
           </div>
-          <div class="text-center text-4xl text-white mb-8 text-button text-glow" @click="newGame">
+          <div class="text-center text-4xl text-white mb-8 cursor-pointer text-glow" @click="newGame">
             NEUES SPIEL
           </div>
-          <div class="text-center text-4xl text-white mb-8 text-button text-glow" @click="loadGame">
+          <div class="text-center text-4xl text-white mb-8 cursor-pointer text-glow" @click="loadGame">
             SPIEL LADEN
           </div>
-          <div class="text-center text-4xl text-white mb-8 text-button text-glow" @click="openSetting">
+          <div class="text-center text-4xl text-white mb-8 cursor-pointer text-glow" @click="openSetting">
             EINSTELLUNGEN
           </div>
         </div>
       </div>
 
       <div class="flex-1"></div>
-      <div class="absolute bottom-4 left-4 text-white text-2xl text-button text-glow" @click="redirectImpressum">
+      <div class="absolute bottom-4 left-4 text-white text-2xl cursor-pointer text-glow" @click="redirectImpressum">
         Impressum
       </div>
     </div>
@@ -83,14 +83,6 @@ export default {
   background-attachment: fixed;
   background-size: cover;
   width: 100%;
-}
-
-.text-title {
-  cursor: default;
-}
-
-.text-button {
-  cursor: pointer;
 }
 
 </style>

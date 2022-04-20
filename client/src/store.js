@@ -1,22 +1,19 @@
 export default {
     state: {
         test: 'Test Variable',
-        save: {
-        },
-        settings: {
-        },
-        blurred: true
+        save: {},
+        settings: {},
+        blurred: false,
+        paused: false
     },
 
-    getters: {
-
-    },
+    getters: {},
 
     mutations: {
 
         saveGame(state) {
             // sets the saveGame variable in the localStorage and gives it the store Object where the status of the Game is saved
-            localStorage.setItem('saveGame',JSON.stringify(state.save))
+            localStorage.setItem('saveGame', JSON.stringify(state.save))
         },
 
         loadGame(state) {
