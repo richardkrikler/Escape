@@ -4,7 +4,7 @@
       <div class="flex justify-between">
         <h2 class="text-center text-8xl text-white mt-12 mb-2 text-title">PAUSE</h2>
         <div class="flex mt-12 mb-2">
-          <mdicon name="clock-time-five-outline" class="clock-icon self-end mb-3 mx-2 text-white" size="55"/>
+          <img src="../assets/schedule_white_24dp.svg" alt="clock-icon" class="clock-icon self-end mb-3 mx-2">
           <h2 class="text-center text-6xl text-white text-title self-end mx-2">22:13</h2>
         </div>
       </div>
@@ -39,10 +39,13 @@
 
 <script>
 export default {
-  name: 'PauseScreen',
-
+  name: 'PauseScreen'
 }
 </script>
 
 <style scoped>
+.clock-icon {
+  width: 55px;
+  height: 55px;
+}
 </style>

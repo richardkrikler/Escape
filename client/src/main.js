@@ -5,12 +5,8 @@ import store from './store'
 import {createStore} from 'vuex'
 import {createRouter, createWebHashHistory} from 'vue-router'
 import './assets/tailwind.css'
-import mdiVue from 'mdi-vue/v3'
-import * as mdijs from '@mdi/js'
 
 createApp(App).use(createStore(store)).use(createRouter({
     history: createWebHashHistory(),
     routes
-})).use(mdiVue, {
-    icons: mdijs
-}).mount('#app')
+})).mount('#app')
