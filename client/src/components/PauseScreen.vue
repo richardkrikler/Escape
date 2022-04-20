@@ -14,22 +14,22 @@
       <div>
         <div
             class="text-5xl text-white my-10 cursor-pointer text-glow w-max"
-            @click="newGame">
+            @click="continueGame">
           FORTSETZEN
         </div>
         <div
             class="text-5xl text-white my-10 cursor-pointer text-glow w-max"
-            @click="loadGame">
+            @click="saveGame">
           SPEICHERN
         </div>
         <div
             class="text-5xl text-white my-10 cursor-pointer text-glow w-max"
-            @click="openSetting">
+            @click="openSettings">
           EINSTELLUNGEN
         </div>
         <div
             class="text-5xl text-white my-10 cursor-pointer text-glow w-max"
-            @click="openSetting">
+            @click="endGame">
           BEENDEN
         </div>
       </div>
@@ -39,7 +39,26 @@
 
 <script>
 export default {
-  name: 'PauseScreen'
+  name: 'PauseScreen',
+
+  methods: {
+    continueGame() {
+      this.$store.state.blurred = false
+      this.$store.state.paused = false
+    },
+
+    saveGame() {
+
+    },
+
+    openSettings() {
+
+    },
+
+    endGame() {
+
+    }
+  }
 }
 </script>
 

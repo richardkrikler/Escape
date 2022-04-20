@@ -55,7 +55,6 @@ export default {
   filter: blur(8px);
 }
 
-
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.2s ease;
