@@ -8,19 +8,19 @@
         <div class="flex-1 grid ">
           <div class="ml-20">
             <div class="mb-10">
-              <SliderComponent min="0" max="10" value="10" setting-name="MUSIK" />
+              <SliderComponent :min="0" :max="10" :value="10" setting-name="MUSIK" />
             </div>
             <div class="mb-10">
-              <SliderComponent min="0" max="10" value="10" setting-name="STIMME"/>
+              <SliderComponent :min="0" :max="10" :value="10" setting-name="STIMME"/>
             </div>
             <div class="mb-10">
-              <SliderComponent min="0" max="10" value="10" setting-name="SFX"/>
+              <SliderComponent :min="0" :max="10" :value="10" setting-name="SFX"/>
             </div>
             <div class="mb-10">
-              <div class="text-4xl text-white text-title mb-2">
-                UNTERTITEL
-              </div>
-              <checkbox-component></checkbox-component>
+              <checkbox-component setting-name="UNTERTITEL" />
+            </div>
+            <div class="mb-10">
+              <checkbox-component setting-name="HINWEISE" />
             </div>
           </div>
 

@@ -1,13 +1,31 @@
 <template>
-  <div class="squaredOne">
-    <input type="checkbox" value="None" id="squaredOne" name="check" />
-    <label for="squaredOne"></label>
+  <div>
+    <div class="text-4xl text-white text-title mb-2">
+      {{ settingName }}
+    </div>
+    <div class="squaredOne">
+      <input type="checkbox" :id="settingName" name="check" v-model="settingBool" @change="printlog"/>
+      <label :for="settingName"></label>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "CheckboxComponent"
+  name: "CheckboxComponent",
+  props: {
+    settingName: {
+      type: String,
+      required: true
+    },
+  },
+  data() {
+    return {
+      settingBool: false,
+    }
+  },
+  methods: {
+  }
 }
 </script>
 
@@ -17,36 +35,27 @@ input[type=checkbox] {
 }
 
 .squaredOne {
-  width: 28px;
-  height: 28px;
-  background: #fcfff4;
+  width: 52px;
+  height: 52px;
+  background: #777777;
 
-  background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
-  -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-  -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-  box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fcfff4', endColorstr='#b3bead', GradientType=0);
   position: relative;
 }
 
 .squaredOne label {
   cursor: pointer;
   position: absolute;
-  width: 20px;
-  height: 20px;
-  left: 4px;
-  top: 4px;
-  
+
+  left: 2px;
+  top: 2px;
+
   background: -webkit-linear-gradient(top, #222 0%, #45484d 100%);
   background: -moz-linear-gradient(top, #222 0%, #45484d 100%);
   background: -o-linear-gradient(top, #222 0%, #45484d 100%);
   background: -ms-linear-gradient(top, #222 0%, #45484d 100%);
   background: linear-gradient(top, #222 0%, #45484d 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#222', endColorstr='#45484d',GradientType=0 );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#222', endColorstr='#45484d', GradientType=0);
 }
 
 .squaredOne label:after {
@@ -55,22 +64,13 @@ input[type=checkbox] {
   opacity: 0;
   content: '';
   position: absolute;
-  width: 16px;
-  height: 16px;
-  background: #00bf00;
+  width: 44px;
+  height: 44px;
+  background: #ffffff;
 
-  background: -webkit-linear-gradient(top, #00bf00 0%, #009400 100%);
-  background: -moz-linear-gradient(top, #00bf00 0%, #009400 100%);
-  background: -o-linear-gradient(top, #00bf00 0%, #009400 100%);
-  background: -ms-linear-gradient(top, #00bf00 0%, #009400 100%);
-  background: linear-gradient(top, #00bf00 0%, #009400 100%);
 
   top: 2px;
   left: 2px;
-
-  -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-  -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-  box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
 }
 
 .squaredOne label:hover::after {
