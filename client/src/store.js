@@ -1,6 +1,5 @@
 export default {
     state: {
-        test: 'Test Variable',
         save: {},
         settings: {},
         blurred: false,

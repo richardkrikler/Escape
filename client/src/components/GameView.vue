@@ -1,13 +1,13 @@
 <template>
-  <div class="flex justify-center items-center h-screen" ref="gameView">
-    <div class="text-9xl" :class="($store.state.blurred ? 'blurred ' : '') + 'transition-all'">
-      Game View
-    </div>
+    <div class="flex justify-center items-center h-screen" ref="gameView">
+      <div class="text-9xl" :class="($store.state.blurred ? 'blurred ' : '') + ' text-white'">
+        Game View
+      </div>
 
-    <Transition>
-      <pause-screen v-if="$store.state.paused"/>
-    </Transition>
-  </div>
+      <Transition name="short-fade">
+        <pause-screen v-if="$store.state.paused"/>
+      </Transition>
+    </div>
 </template>
 
 <script>
@@ -47,21 +47,4 @@ export default {
 </script>
 
 <style scoped>
-.transition-all {
-  transition: all 0.2s ease;
-}
-
-.blurred {
-  filter: blur(8px);
-}
-
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.2s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
 </style>

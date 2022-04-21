@@ -4,7 +4,7 @@
       <div class="flex-1 grid place-items-center h-screen ml-20">
         <div>
           <div class="container">
-            <h1 class="text-center text-9xl text-white mb-24 cursor-default">
+            <h1 class="text-center text-9xl text-white mb-24">
               ELYSION
             </h1>
           </div>

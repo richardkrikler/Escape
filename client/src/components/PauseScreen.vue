@@ -56,7 +56,9 @@ export default {
     },
 
     endGame() {
-
+      this.$store.state.blurred = false
+      this.$store.state.paused = false
+      this.$router.push({name: 'default'})
     }
   }
 }
