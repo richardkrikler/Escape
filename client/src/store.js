@@ -4,6 +4,7 @@ export default {
         save: {
         },
         settings: {
+            mama : 'kek',
         },
     },
 
@@ -24,6 +25,8 @@ export default {
 
             // TODO: remove after demonstration, just for demonstration purposes
             console.log('loaded Game')
+            let joe = 'mama'
+            console.log(state.settings[joe])
         },
     }
 }

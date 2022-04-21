@@ -1,10 +1,10 @@
 <template>
   <div class="title-screen">
-    <div class="relative flex">
+    <div class="relative flex" :style='showSettings ? "filter: blur(0.8rem);" : "" + "z-index: auto;"'>
       <div class="flex-1 grid place-items-center h-screen ml-20">
         <div>
           <div class="container">
-            <h1 class="text-center text-9xl  text-white mb-24 text-title">
+            <h1 class="text-center text-9xl text-white mb-24 text-title">
               ELYSION
             </h1>
           </div>
@@ -25,13 +25,20 @@
         Impressum
       </div>
     </div>
+    <SettingOverlay v-if="showSettings" @keyup.esc="showSettings = false"></SettingOverlay>
   </div>
 </template>
 
 <script>
+import SettingOverlay from "@/components/SettingOverlay";
 export default {
   name: 'TitleScreen',
-
+  components: {SettingOverlay},
+  data() {
+    return {
+      showSettings: false,
+    }
+  },
   methods: {
     newGame() {
       //checks if there is already something saved in localStorage
@@ -65,7 +72,7 @@ export default {
     },
 
     openSetting() {
-
+      this.showSettings = true
     },
 
     redirectImpressum() {
@@ -73,7 +80,7 @@ export default {
     },
 
 
-  }
+  },
 }
 </script>
 
