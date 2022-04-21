@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center items-center h-screen" ref="gameView">
-      <div class="text-9xl" :class="($store.state.blurred ? 'blurred ' : '') + ' text-white'">
+      <div class="text-9xl" :class="($store.state.blurred ? 'blurred' : 'not-blurred') + ' text-white'">
         Game View
       </div>
 

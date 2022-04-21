@@ -30,14 +30,19 @@ export default {
   // font-size: 40px;
 }
 
-
 .blurred {
+  transition: filter 0.3s ease;
   filter: blur(8px);
+}
+
+.not-blurred {
+  transition: filter 0.3s ease;
+  filter: blur(0px);
 }
 
 .short-fade-enter-active,
 .short-fade-leave-active {
-  transition: opacity .2s ease-in-out;
+  transition: opacity 0.3s ease;
 }
 
 .long-fade-enter-active,
