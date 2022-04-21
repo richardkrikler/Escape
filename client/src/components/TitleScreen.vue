@@ -21,16 +21,18 @@
 
       </div>
       <div class="flex-1"></div>
-      <div class="absolute bottom-4 left-4 text-white adorn-font text-2xl impressum-hover text-button" @click="redirectImpressum">
+      <div class="absolute bottom-4 left-4 text-white adorn-font text-2xl impressum-hover text-button"
+           @click="redirectImpressum">
         Impressum
       </div>
     </div>
-    <SettingOverlay v-if="showSettings" @keyup.esc="showSettings = false"></SettingOverlay>
+    <SettingOverlay v-if="showSettings"></SettingOverlay>
   </div>
 </template>
 
 <script>
 import SettingOverlay from "@/components/SettingOverlay";
+
 export default {
   name: 'TitleScreen',
   components: {SettingOverlay},
@@ -39,6 +41,15 @@ export default {
       showSettings: false,
     }
   },
+
+  mounted() {
+    document.onkeyup = (evt) => {
+      if (evt.key === 'Escape') {
+        this.showSettings = !this.showSettings
+      }
+    }
+  },
+
   methods: {
     newGame() {
       //checks if there is already something saved in localStorage
