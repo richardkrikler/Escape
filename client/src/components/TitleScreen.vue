@@ -21,7 +21,7 @@
       </div>
 
       <div class="flex-1"></div>
-      <div class="absolute bottom-4 left-4 text-white text-2xl cursor-pointer text-glow" @click="redirectImpressum">
+      <div class="absolute bottom-4 left-4 text-white text-2xl cursor-pointer text-glow" @click="redirectImprint">
         Impressum
       </div>
     </div>
@@ -72,7 +72,7 @@ export default {
 
     },
 
-    redirectImpressum() {
+    redirectImprint() {
 
     }
   }
@@ -82,7 +82,7 @@ export default {
 <style scoped>
 
 .title-screen {
-  background-image: url('../assets/Titlescreen.png');
+  background-image: url('../assets/media/images/Titlescreen.png');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
