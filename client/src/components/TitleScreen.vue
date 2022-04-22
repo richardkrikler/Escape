@@ -36,6 +36,8 @@ export default {
     newGame() {
       //checks if there is already something saved in localStorage
       if (JSON.parse(localStorage.getItem('saveGame')) === null) {
+        this.$store.state.blurred = false
+        this.$store.state.paused = false
 
         // There is no saved Game  in localStorage, so push the gameView and tell the Component to not load anything
         this.$router.push({name: 'GameView', params: {loadFromStorage: 'no'}})
@@ -58,6 +60,8 @@ export default {
         alert('You don\'t have a saved game yet')
 
       } else {
+        this.$store.state.blurred = false
+        this.$store.state.paused = false
 
         // There is a saved Game in localStorage, so push the gameView and tell the Component to load it
         this.$router.push({name: 'GameView', params: {loadFromStorage: 'yes'}})

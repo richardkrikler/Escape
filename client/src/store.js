@@ -9,7 +9,6 @@ export default {
     getters: {},
 
     mutations: {
-
         saveGame(state) {
             // sets the saveGame variable in the localStorage and gives it the store Object where the status of the Game is saved
             localStorage.setItem('saveGame', JSON.stringify(state.save))
@@ -21,6 +20,6 @@ export default {
 
             // TODO: remove after demonstration, just for demonstration purposes
             console.log('loaded Game')
-        },
+        }
     }
 }
