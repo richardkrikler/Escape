@@ -39,6 +39,10 @@ export default {
     settingName : {
       type: String,
       required: true
+    },
+    store : {
+      type: String,
+      required: true
     }
   },
   data(){
@@ -49,7 +53,7 @@ export default {
   methods: {
     onInput() {
       // this.currentValue is a string because HTML is weird
-      this.$emit('input', parseInt(this.currentValue));
+      this.$store.commit('setSetting', { name : this.store, value : parseInt(this.currentValue)})
     }
   }
 };

@@ -4,7 +4,7 @@
       {{ settingName }}
     </div>
     <div class="squaredOne">
-      <input type="checkbox" :id="settingName" name="check" v-model="settingBool" @change="printlog"/>
+      <input type="checkbox" :id="settingName" name="check" v-model="settingBool" @input="onInput"/>
       <label :for="settingName"></label>
     </div>
   </div>
@@ -18,13 +18,25 @@ export default {
       type: String,
       required: true
     },
+    store : {
+      type: String,
+      required: true
+    },
+    value : {
+      type: Boolean,
+      required: true
+    },
+
   },
   data() {
     return {
-      settingBool: false,
+      settingBool: this.value,
     }
   },
   methods: {
+    onInput() {
+      this.$store.commit('setSetting', { name : this.store, value : !this.settingBool })
+    }
   }
 }
 </script>

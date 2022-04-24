@@ -4,7 +4,11 @@ export default {
         save: {
         },
         settings: {
-            mama : 'kek',
+            music : 10,
+            voice : 10,
+            sfx : 10,
+            sub : false,
+            hints : false,
         },
     },
 
@@ -25,8 +29,23 @@ export default {
 
             // TODO: remove after demonstration, just for demonstration purposes
             console.log('loaded Game')
-            let joe = 'mama'
-            console.log(state.settings[joe])
         },
+
+        saveSettings(state) {
+            // sets the settings variable in the localStorage and gives it the store Object where the settings are saved
+            localStorage.setItem('settings',JSON.stringify(state.settings))
+        },
+
+        loadSettings(state) {
+            // loads the settings variable from the localStorage and gives it to the store Object where the settings are saved
+            if (JSON.parse(localStorage.getItem('settings')) !== null) {
+                Object.assign(state.settings, JSON.parse(localStorage.getItem('settings')))
+            }
+        },
+
+        setSetting(state, obj) {
+            console.log(obj.value)
+            state.settings[obj.name] = obj.value
+        }
     }
 }
