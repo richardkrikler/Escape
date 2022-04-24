@@ -1,23 +1,29 @@
 <template>
     <div class="flex justify-center items-center h-screen" ref="gameView">
-      <div class="text-9xl" :class="($store.state.blurred ? 'blurred' : 'not-blurred') + ' text-white'">
+      <div class="text-9xl" :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred') + ' text-white'">
         Game View
       </div>
 
       <Transition name="short-fade">
-        <pause-screen v-if="$store.state.paused"/>
+        <pause-screen v-if="$store.state.overlay.paused"/>
+      </Transition>
+
+      <Transition name="short-fade">
+        <settings-overlay v-if="$store.state.overlay.settings"/>
       </Transition>
     </div>
 </template>
 
 <script>
 import PauseScreen from '@/components/PauseScreen'
+import SettingsOverlay from '@/components/SettingsOverlay'
 
 export default {
   name: 'GameView',
 
   components: {
-    PauseScreen
+    PauseScreen,
+    SettingsOverlay
   },
 
   props: {
@@ -33,12 +39,15 @@ export default {
 
     document.onkeyup = (evt) => {
       if (evt.key === 'Escape') {
-        if (this.$store.state.paused) {
-          this.$store.state.blurred = false
-          this.$store.state.paused = false
+        if (this.$store.state.overlay.settings) {
+          this.$store.state.overlay.paused = true
+          this.$store.state.overlay.settings = false
+        } else if (this.$store.state.overlay.paused) {
+          this.$store.state.overlay.blurred = false
+          this.$store.state.overlay.paused = false
         } else {
-          this.$store.state.blurred = true
-          this.$store.state.paused = true
+          this.$store.state.overlay.blurred = true
+          this.$store.state.overlay.paused = true
         }
       }
     }

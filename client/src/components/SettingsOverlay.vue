@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute flex min-h-screen min-w-full top-0 left-0 bg-gray-700 bg-opacity-80" style="z-index: 1;">
+  <div class="absolute flex min-h-screen min-w-full top-0 left-0 bg-black bg-opacity-30">
     <div class="min-w-full mt-16">
       <div class="text-center text-8xl text-white">
         Einstellungen
@@ -19,7 +19,7 @@
               <SliderComponent :min="0" :max="10" :value="$store.state.settings.sfx" setting-name="SFX" store="sfx"/>
             </div>
             <div class="mb-10">
-              <checkbox-component setting-name="UNTERTITEL" :value="$store.state.settings.sub" store="subtitles"/>
+              <checkbox-component setting-name="UNTERTITEL" :value="$store.state.settings.subtitles" store="subtitles"/>
             </div>
             <div class="mb-10">
               <checkbox-component setting-name="HINWEISE" :value="$store.state.settings.hints" store="hints"/>
@@ -38,7 +38,7 @@ import SliderComponent from '@/components/SliderComponent'
 import CheckboxComponent from '@/components/CheckboxComponent'
 
 export default {
-  name: 'SettingOverlay',
+  name: 'SettingsOverlay',
 
   components: {
     CheckboxComponent,

@@ -1,13 +1,15 @@
-import {Debouncer} from "@/models/Debouncer";
+import {Debouncer} from '@/models/Debouncer'
 
 let debouncer = new Debouncer(300);
 
 export default {
     state: {
         save: {},
-        settings: {},
-        blurred: false,
-        paused: false
+        overlay: {
+            blurred: false,
+            paused: false,
+            settings:false
+        },
         settings: {
             music: 10,
             voice: 10,

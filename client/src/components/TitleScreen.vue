@@ -1,6 +1,6 @@
 <template>
   <div class="title-screen">
-    <div class="relative flex" :style='showSettings ? "filter: blur(0.8rem);" : "" + "z-index: auto;"'>
+    <div :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred') + ' title-screen-content relative flex'">
       <div class="flex-1 grid place-items-center h-screen ml-20">
         <div>
           <div class="container">
@@ -14,37 +14,42 @@
           <div class="text-center text-4xl text-white mb-8 cursor-pointer text-glow" @click="loadGame">
             SPIEL LADEN
           </div>
-          <div class="text-center text-4xl text-white mb-8 cursor-pointer text-glow" @click="openSetting">
+          <div class="text-center text-4xl text-white mb-8 cursor-pointer text-glow" @click="openSettings">
             EINSTELLUNGEN
           </div>
         </div>
       </div>
 
       <div class="flex-1"></div>
+
       <div class="absolute bottom-4 left-4 text-white text-2xl cursor-pointer text-glow" @click="redirectImprint">
         Impressum
       </div>
     </div>
-    <SettingOverlay v-if="showSettings"></SettingOverlay>
+
+    <Transition name="short-fade">
+      <settings-overlay v-if="$store.state.overlay.settings"/>
+    </Transition>
   </div>
 </template>
 
 <script>
-import SettingOverlay from "@/components/SettingOverlay";
+import SettingsOverlay from '@/components/SettingsOverlay'
 
 export default {
   name: 'TitleScreen',
-  components: {SettingOverlay},
-  data() {
-    return {
-      showSettings: false,
-    }
+
+  components: {
+    SettingsOverlay
   },
 
   mounted() {
     document.onkeyup = (evt) => {
       if (evt.key === 'Escape') {
-        this.showSettings = !this.showSettings
+        if (this.$store.state.overlay.settings) {
+          this.$store.state.overlay.blurred = false
+          this.$store.state.overlay.settings = false
+        }
       }
     }
   },
@@ -89,23 +94,27 @@ export default {
       }
     },
 
-    openSetting() {
-      this.showSettings = true
+    openSettings() {
+      this.$store.state.overlay.blurred = true
+      this.$store.state.overlay.settings = true
     },
 
-    redirectImprint() {}
+    redirectImprint() {
+    }
   }
 }
 </script>
 
 <style scoped>
-
 .title-screen {
+  width: 100%;
+}
+
+.title-screen-content {
   background-image: url('../assets/media/images/Titlescreen.png');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
-  width: 100%;
 }
 
 </style>

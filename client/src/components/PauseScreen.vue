@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute top-0 left-0 w-full h-full">
+  <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-30">
     <div class="mx-32 my-16">
       <div class="flex justify-between">
         <h2 class="text-center text-8xl text-white mt-12 mb-2 text-title">PAUSE</h2>
@@ -43,8 +43,8 @@ export default {
 
   methods: {
     continueGame() {
-      this.$store.state.blurred = false
-      this.$store.state.paused = false
+      this.$store.state.overlay.blurred = false
+      this.$store.state.overlay.paused = false
     },
 
     saveGame() {
@@ -52,12 +52,14 @@ export default {
     },
 
     openSettings() {
-
+      this.$store.state.overlay.blurred = true
+      this.$store.state.overlay.paused = false
+      this.$store.state.overlay.settings = true
     },
 
     endGame() {
-      this.$store.state.blurred = false
-      this.$store.state.paused = false
+      this.$store.state.overlay.blurred = false
+      this.$store.state.overlay.paused = false
       this.$router.push({name: 'default'})
     }
   }
