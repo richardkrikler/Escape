@@ -12,30 +12,33 @@
 
 <script>
 export default {
-  name: "CheckboxComponent",
+  name: 'CheckboxComponent',
+
   props: {
     settingName: {
       type: String,
       required: true
     },
-    store : {
+    store: {
       type: String,
       required: true
     },
-    value : {
+    value: {
       type: Boolean,
       required: true
     },
 
   },
+
   data() {
     return {
       settingBool: this.value,
     }
   },
+
   methods: {
     onInput() {
-      this.$store.commit('setSetting', { name : this.store, value : !this.settingBool })
+      this.$store.commit('setSetting', {name: this.store, value: !this.settingBool})
     }
   }
 }
@@ -50,28 +53,17 @@ input[type=checkbox] {
   width: 52px;
   height: 52px;
   background: #777777;
-
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fcfff4', endColorstr='#b3bead', GradientType=0);
   position: relative;
 }
 
 .squaredOne label {
   cursor: pointer;
   position: absolute;
-
   left: 2px;
   top: 2px;
-
-  background: -webkit-linear-gradient(top, #222 0%, #45484d 100%);
-  background: -moz-linear-gradient(top, #222 0%, #45484d 100%);
-  background: -o-linear-gradient(top, #222 0%, #45484d 100%);
-  background: -ms-linear-gradient(top, #222 0%, #45484d 100%);
-  background: linear-gradient(top, #222 0%, #45484d 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#222', endColorstr='#45484d', GradientType=0);
 }
 
 .squaredOne label:after {
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
   opacity: 0;
   content: '';
@@ -86,13 +78,11 @@ input[type=checkbox] {
 }
 
 .squaredOne label:hover::after {
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
   filter: alpha(opacity=30);
   opacity: 0.3;
 }
 
 .squaredOne input[type=checkbox]:checked + label:after {
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   filter: alpha(opacity=100);
   opacity: 1;
 }
