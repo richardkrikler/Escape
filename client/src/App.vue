@@ -17,10 +17,16 @@ export default {
 </script>
 
 <style lang="scss">
+
 * {
   font-family: adorn-condensed-sans, sans-serif;
   font-weight: 400;
   font-style: normal;
+  
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
 }
 

@@ -1,9 +1,20 @@
+import {Debouncer} from "@/models/Debouncer";
+
+let debouncer = new Debouncer(300);
+
 export default {
     state: {
         save: {},
         settings: {},
         blurred: false,
         paused: false
+        settings: {
+            music: 10,
+            voice: 10,
+            sfx: 10,
+            subtitles: false,
+            hints: false,
+        },
     },
 
     getters: {},
@@ -20,6 +31,22 @@ export default {
 
             // TODO: remove after demonstration, just for demonstration purposes
             console.log('loaded Game')
+        },
+
+        loadSettings(state) {
+            // loads the settings variable from the localStorage and gives it to the store Object where the settings are saved
+            if (JSON.parse(localStorage.getItem('settings')) !== null) {
+                Object.assign(state.settings, JSON.parse(localStorage.getItem('settings')))
+            }
+        },
+
+        setSetting(state, obj) {
+            state.settings[obj.name] = obj.value
+            debouncer.debounce(
+                () => {
+                    // sets the settings variable in the localStorage and gives it the store Object where the settings are saved
+                    localStorage.setItem('settings', JSON.stringify(state.settings))
+                })
         }
     }
 }

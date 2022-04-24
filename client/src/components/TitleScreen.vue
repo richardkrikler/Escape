@@ -1,6 +1,6 @@
 <template>
   <div class="title-screen">
-    <div class="relative flex">
+    <div class="relative flex" :style='showSettings ? "filter: blur(0.8rem);" : "" + "z-index: auto;"'>
       <div class="flex-1 grid place-items-center h-screen ml-20">
         <div>
           <div class="container">
@@ -25,12 +25,33 @@
         Impressum
       </div>
     </div>
+    <SettingOverlay v-if="showSettings"></SettingOverlay>
   </div>
 </template>
 
 <script>
+import SettingOverlay from "@/components/SettingOverlay";
+
 export default {
   name: 'TitleScreen',
+  components: {SettingOverlay},
+  data() {
+    return {
+      showSettings: false,
+    }
+  },
+
+  mounted() {
+    document.onkeyup = (evt) => {
+      if (evt.key === 'Escape') {
+        this.showSettings = !this.showSettings
+      }
+    }
+  },
+
+  created() {
+    this.$store.commit('loadSettings')
+  },
 
   methods: {
     newGame() {
@@ -69,12 +90,10 @@ export default {
     },
 
     openSetting() {
-
+      this.showSettings = true
     },
 
-    redirectImprint() {
-
-    }
+    redirectImprint() {}
   }
 }
 </script>
