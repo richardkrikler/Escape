@@ -54,10 +54,6 @@ export default {
     }
   },
 
-  created() {
-    this.$store.commit('loadSettings')
-  },
-
   methods: {
     newGame() {
       //checks if there is already something saved in localStorage

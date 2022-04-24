@@ -1,6 +1,6 @@
 import {Debouncer} from '@/models/Debouncer'
 
-let debouncer = new Debouncer(300);
+let debouncer = new Debouncer(300)
 
 export default {
     state: {

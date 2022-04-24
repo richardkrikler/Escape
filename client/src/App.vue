@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex min-h-screen" style="background-color: #1A1919">
+  <div class="relative flex min-h-screen">
     <Transition name="long-fade">
       <router-view/>
     </Transition>
@@ -9,12 +9,20 @@
 <script>
 
 export default {
-  name: 'App'
+  name: 'App',
+
+  created() {
+    this.$store.commit('loadSettings')
+  }
 }
 
 </script>
 
 <style lang="scss">
+
+body {
+  background-color: #1A1919
+}
 
 * {
   font-family: adorn-condensed-sans, sans-serif;
