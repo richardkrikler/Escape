@@ -8,16 +8,18 @@
         <div class="flex-1 grid ">
           <div class="ml-20">
             <div class="mb-10">
-              <SliderComponent :min="0" :max="10" :value="$store.state.settings.music" setting-name="MUSIK" store="music" />
+              <SliderComponent :min="0" :max="10" :value="$store.state.settings.music" setting-name="MUSIK"
+                               store="music"/>
             </div>
             <div class="mb-10">
-              <SliderComponent :min="0" :max="10" :value="$store.state.settings.voice" setting-name="STIMME" store="voice"/>
+              <SliderComponent :min="0" :max="10" :value="$store.state.settings.voice" setting-name="STIMME"
+                               store="voice"/>
             </div>
             <div class="mb-10">
               <SliderComponent :min="0" :max="10" :value="$store.state.settings.sfx" setting-name="SFX" store="sfx"/>
             </div>
             <div class="mb-10">
-              <checkbox-component setting-name="UNTERTITEL" :value="$store.state.settings.sub" store="sub"/>
+              <checkbox-component setting-name="UNTERTITEL" :value="$store.state.settings.sub" store="subtitles"/>
             </div>
             <div class="mb-10">
               <checkbox-component setting-name="HINWEISE" :value="$store.state.settings.hints" store="hints"/>
@@ -32,11 +34,16 @@
 </template>
 
 <script>
-import SliderComponent from "@/components/SliderComponent";
-import CheckboxComponent from "@/components/CheckboxComponent";
+import SliderComponent from '@/components/SliderComponent'
+import CheckboxComponent from '@/components/CheckboxComponent'
+
 export default {
-  name: "SettingOverlay",
-  components: {CheckboxComponent, SliderComponent},
+  name: 'SettingOverlay',
+
+  components: {
+    CheckboxComponent,
+    SliderComponent
+  }
 }
 </script>
 

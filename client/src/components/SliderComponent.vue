@@ -22,7 +22,8 @@
 <script>
 
 export default {
-  name: "SliderComponent",
+  name: 'SliderComponent',
+
   props: {
     value: {
       type: Number,
@@ -36,27 +37,29 @@ export default {
       type: Number,
       required: true
     },
-    settingName : {
+    settingName: {
       type: String,
       required: true
     },
-    store : {
+    store: {
       type: String,
       required: true
     }
   },
-  data(){
+
+  data() {
     return {
       currentValue: this.value
     }
   },
+
   methods: {
     onInput() {
       // this.currentValue is a string because HTML is weird
-      this.$store.commit('setSetting', { name : this.store, value : parseInt(this.currentValue)})
+      this.$store.commit('setSetting', {name: this.store, value: parseInt(this.currentValue)})
     }
   }
-};
+}
 </script>
 
 <style scoped>
