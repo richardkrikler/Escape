@@ -4,25 +4,24 @@
       <div class="flex-1 grid place-items-center h-screen ml-20">
         <div>
           <div class="container">
-            <h1 class="text-center text-9xl text-white mb-24 text-title">
+            <h1 class="text-center text-9xl text-white mb-24">
               ELYSION
             </h1>
           </div>
-          <div class="text-center text-4xl text-white mb-8 text-button text-glow" @click="newGame">
+          <div class="text-center text-4xl text-white mb-8 cursor-pointer text-glow" @click="newGame">
             NEUES SPIEL
           </div>
-          <div class="text-center text-4xl text-white mb-8 text-button text-glow" @click="loadGame">
+          <div class="text-center text-4xl text-white mb-8 cursor-pointer text-glow" @click="loadGame">
             SPIEL LADEN
           </div>
-          <div class="text-center text-4xl text-white mb-8 text-button text-glow" @click="openSetting">
+          <div class="text-center text-4xl text-white mb-8 cursor-pointer text-glow" @click="openSetting">
             EINSTELLUNGEN
           </div>
         </div>
-
       </div>
+
       <div class="flex-1"></div>
-      <div class="absolute bottom-4 left-4 text-white adorn-font text-2xl impressum-hover text-button"
-           @click="redirectImpressum">
+      <div class="absolute bottom-4 left-4 text-white text-2xl cursor-pointer text-glow" @click="redirectImprint">
         Impressum
       </div>
     </div>
@@ -58,6 +57,8 @@ export default {
     newGame() {
       //checks if there is already something saved in localStorage
       if (JSON.parse(localStorage.getItem('saveGame')) === null) {
+        this.$store.state.blurred = false
+        this.$store.state.paused = false
 
         // There is no saved Game  in localStorage, so push the gameView and tell the Component to not load anything
         this.$router.push({name: 'GameView', params: {loadFromStorage: 'no'}})
@@ -80,6 +81,8 @@ export default {
         alert('You don\'t have a saved game yet')
 
       } else {
+        this.$store.state.blurred = false
+        this.$store.state.paused = false
 
         // There is a saved Game in localStorage, so push the gameView and tell the Component to load it
         this.$router.push({name: 'GameView', params: {loadFromStorage: 'yes'}})
@@ -90,44 +93,19 @@ export default {
       this.showSettings = true
     },
 
-    redirectImpressum() {
-
-    },
-
-
-  },
+    redirectImprint() {}
+  }
 }
 </script>
 
 <style scoped>
 
 .title-screen {
-  background-image: url('../assets/Titlescreen.png');
+  background-image: url('../assets/media/images/Titlescreen.png');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
   width: 100%;
-}
-
-.text-glow:hover {
-  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 42px #fff, 0 0 82px #fff, 0 0 92px #fff;
-  color: white;
-  font-size: 40px;
-  text-align: center;
-}
-
-.impressum-hover:hover {
-  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 42px #fff, 0 0 82px #fff, 0 0 92px #fff;
-  color: white;
-  text-align: center;
-}
-
-.text-title {
-  cursor: default;
-}
-
-.text-button {
-  cursor: pointer;
 }
 
 </style>

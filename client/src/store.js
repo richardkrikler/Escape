@@ -4,8 +4,10 @@ let debouncer = new Debouncer(300);
 
 export default {
     state: {
-        test: 'Test Variable',
         save: {},
+        settings: {},
+        blurred: false,
+        paused: false
         settings: {
             music: 10,
             voice: 10,
@@ -18,7 +20,6 @@ export default {
     getters: {},
 
     mutations: {
-
         saveGame(state) {
             // sets the saveGame variable in the localStorage and gives it the store Object where the status of the Game is saved
             localStorage.setItem('saveGame', JSON.stringify(state.save))
