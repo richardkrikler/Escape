@@ -4,13 +4,13 @@
       Game View
     </div>
 
-    <Transition name="short-fade">
+    <transition name="short-fade">
       <pause-screen v-if="$store.state.overlay.paused"/>
-    </Transition>
+    </transition>
 
-    <Transition name="short-fade">
+    <transition name="short-fade">
       <settings-overlay v-if="$store.state.overlay.settings"/>
-    </Transition>
+    </transition>
   </div>
 </template>
 

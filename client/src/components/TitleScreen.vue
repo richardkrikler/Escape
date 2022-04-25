@@ -27,9 +27,9 @@
       </div>
     </div>
 
-    <Transition name="short-fade">
+    <transition name="short-fade">
       <settings-overlay v-if="$store.state.overlay.settings"/>
-    </Transition>
+    </transition>
   </div>
 </template>
 

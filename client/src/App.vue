@@ -1,8 +1,8 @@
 <template>
   <div class="relative flex min-h-screen">
-    <Transition name="long-fade">
+    <transition name="long-fade">
       <router-view/>
-    </Transition>
+    </transition>
   </div>
 </template>
 

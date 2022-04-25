@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-30">
+  <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-30 text-white">
     <div class="mx-32 my-16">
       <div class="flex justify-between">
         <h2 class="text-center text-8xl text-white mt-12 mb-2 text-title">PAUSE</h2>
@@ -14,22 +14,25 @@
 
       <div>
         <div
-            class="text-5xl text-white my-10 cursor-pointer text-glow w-max"
+            class="text-5xl my-10 cursor-pointer text-glow w-max"
             @click="continueGame">
           FORTSETZEN
         </div>
-        <div
-            class="text-5xl text-white my-10 cursor-pointer text-glow w-max"
-            @click="saveGame">
-          SPEICHERN
+        <div class="flex my-10 w-max">
+          <div class="text-5xl cursor-pointer text-glow w-max" @click="saveGame">SPEICHERN</div>
+          <transition name="long-fade">
+            <div class="text-3xl my-auto mx-5 pb-1" v-if="savedMsg">
+              <span class="opacity-80">GESPEICHERT</span>
+            </div>
+          </transition>
         </div>
         <div
-            class="text-5xl text-white my-10 cursor-pointer text-glow w-max"
+            class="text-5xl my-10 cursor-pointer text-glow w-max"
             @click="openSettings">
           EINSTELLUNGEN
         </div>
         <div
-            class="text-5xl text-white my-10 cursor-pointer text-glow w-max"
+            class="text-5xl my-10 cursor-pointer text-glow w-max"
             @click="endGame">
           BEENDEN
         </div>
@@ -50,6 +53,8 @@ export default {
 
     saveGame() {
       this.$store.commit('saveGame')
+      this.savedMsg = true
+      setTimeout(() => this.savedMsg = false, 3000)
     },
 
     openSettings() {
@@ -62,6 +67,12 @@ export default {
       this.$store.state.overlay.blurred = false
       this.$store.state.overlay.paused = false
       this.$router.push({name: 'default'})
+    }
+  },
+
+  data() {
+    return {
+      savedMsg: false
     }
   }
 }
