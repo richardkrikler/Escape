@@ -21,8 +21,8 @@
         <div class="flex my-10 w-max">
           <div class="text-5xl cursor-pointer text-glow w-max" @click="saveGame">SPEICHERN</div>
           <transition name="long-fade">
-            <div class="text-3xl my-auto mx-5 pb-1" v-if="savedMsg">
-              <span class="opacity-80">GESPEICHERT</span>
+            <div class="text-2xl my-auto mx-5 pb-1" v-if="savedMsg">
+              <span class="opacity-70">GESPEICHERT</span>
             </div>
           </transition>
         </div>
