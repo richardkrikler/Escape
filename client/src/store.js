@@ -4,22 +4,35 @@ let debouncer = new Debouncer(300)
 
 export default {
     state: {
-        save: {},
+        save: {
+            elapsedTime: 0
+        },
         overlay: {
             blurred: false,
             paused: false,
-            settings:false
+            settings: false
         },
         settings: {
             music: 10,
             voice: 10,
             sfx: 10,
-            subtitles: false,
+            subtitles: true,
             hints: false,
         },
     },
 
-    getters: {},
+    getters: {
+        elapsedTime(state) {
+            const date = new Date(state.save.elapsedTime * 1000)
+            const result = new Date(date.toISOString().slice(0, -1))
+            const timeFormat = (n) => n !== 0 ? n < 10 ? '0' + n : n : ''
+
+            return (result.getDate() !== 1 ? timeFormat(result.getDate() - 1) + ' Tage' : '') +
+                (result.getHours() !== 0 ? timeFormat(result.getHours()) + ':' : '') +
+                (result.getMinutes() !== 0 ? timeFormat(result.getMinutes()) + ':' : '') +
+                timeFormat(result.getSeconds())
+        }
+    },
 
     mutations: {
         saveGame(state) {
