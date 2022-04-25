@@ -25,11 +25,11 @@ export default {
         elapsedTime(state) {
             const date = new Date(state.save.elapsedTime * 1000)
             const result = new Date(date.toISOString().slice(0, -1))
-            const timeFormat = (n) => n !== 0 ? n < 10 ? '0' + n : n : ''
+            const timeFormat = n => n !== 0 ? n < 10 ? '0' + n : n : ''
 
             return (result.getDate() !== 1 ? timeFormat(result.getDate() - 1) + ' Tage' : '') +
                 (result.getHours() !== 0 ? timeFormat(result.getHours()) + ':' : '') +
-                (result.getMinutes() !== 0 ? timeFormat(result.getMinutes()) + ':' : '') +
+                (result.getMinutes() < 10 ? '0' + result.getMinutes() : result.getMinutes()) + ':' +
                 timeFormat(result.getSeconds())
         }
     },
