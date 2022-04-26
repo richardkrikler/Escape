@@ -30,16 +30,26 @@
     <transition name="short-fade">
       <settings-overlay v-if="$store.state.overlay.settings"/>
     </transition>
+
+    <transition name="short-fade">
+      <modal-overlay v-if="$store.state.overlay.newGameModal" name="newGameModal" question="Gespeicherten Spielstand überschreiben?"></modal-overlay>
+    </transition>
+
+    <transition name="short-fade">
+      <modal-overlay v-if="$store.state.overlay.loadingGameModal" name="loadingGameModal" question="Kein gespeicherter Spielstand. Möchten Sie ein neues Spiel starten?"></modal-overlay>
+    </transition>
   </div>
 </template>
 
 <script>
 import SettingsOverlay from '@/components/SettingsOverlay'
+import ModalOverlay from '@/components/ModalOverlay'
 
 export default {
   name: 'TitleScreen',
 
   components: {
+    ModalOverlay,
     SettingsOverlay
   },
 
@@ -63,23 +73,17 @@ export default {
 
         // There is no saved Game  in localStorage, so push the gameView and tell the Component to not load anything
         this.$router.push({name: 'GameScreen', params: {loadFromStorage: 'no'}})
-
       } else {
-
-        // TODO: Change to appropriately Designed Dialog which allows the user to answer yes or no
-        // There is a saved Game in localStorage, so ask the user if he wants to overwrite it
-        alert('You already have a saved game, do you want to overwrite it?')
-
+        this.$store.state.overlay.blurred = true
+        this.$store.state.overlay.newGameModal = true
       }
     },
 
     loadGame() {
       //checks if there is already something saved in localStorage
       if (JSON.parse(localStorage.getItem('saveGame')) === null) {
-
-        // TODO: Dont know, maybe just start a new game, without telling the user he hasn't saved a game yet?
-        // There is no saved Game, either tell the User he hasn't started a Game yet or just start a new Game
-        alert('You don\'t have a saved game yet')
+        this.$store.state.overlay.blurred = true
+        this.$store.state.overlay.loadingGameModal = true
 
       } else {
         this.$store.state.blurred = false

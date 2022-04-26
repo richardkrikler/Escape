@@ -10,14 +10,16 @@ export default {
         overlay: {
             blurred: false,
             paused: false,
-            settings: false
+            settings: false,
+            newGameModal: false,
+            loadingGameModal: false
         },
         settings: {
             music: 10,
             voice: 10,
             sfx: 10,
             subtitles: true,
-            hints: false,
+            hints: false
         },
     },
 
@@ -53,6 +55,13 @@ export default {
             if (JSON.parse(localStorage.getItem('settings')) !== null) {
                 Object.assign(state.settings, JSON.parse(localStorage.getItem('settings')))
             }
+        },
+
+        deleteGame(state) {
+            localStorage.removeItem('saveGame')
+            Object.assign(state.save, {
+                elapsedTime: 0
+            })
         },
 
         setSetting(state, obj) {
