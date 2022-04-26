@@ -62,7 +62,7 @@ export default {
         this.$store.state.paused = false
 
         // There is no saved Game  in localStorage, so push the gameView and tell the Component to not load anything
-        this.$router.push({name: 'GameView', params: {loadFromStorage: 'no'}})
+        this.$router.push({name: 'GameScreen', params: {loadFromStorage: 'no'}})
 
       } else {
 
@@ -86,7 +86,7 @@ export default {
         this.$store.state.paused = false
 
         // There is a saved Game in localStorage, so push the gameView and tell the Component to load it
-        this.$router.push({name: 'GameView', params: {loadFromStorage: 'yes'}})
+        this.$router.push({name: 'GameScreen', params: {loadFromStorage: 'yes'}})
       }
     },
 

@@ -1,11 +1,11 @@
 import TitleScreen from '@/components/TitleScreen'
-import GameView from "@/components/GameView";
+import GameScreen from '@/components/GameScreen'
 
 export default [
     {
-        name: 'GameView',
+        name: 'GameScreen',
         path: '/game',
-        component: GameView,
+        component: GameScreen,
         props: true
     },
     {

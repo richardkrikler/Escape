@@ -5,7 +5,7 @@
     </div>
 
     <transition name="short-fade">
-      <pause-screen v-if="$store.state.overlay.paused"/>
+      <pause-overlay v-if="$store.state.overlay.paused"/>
     </transition>
 
     <transition name="short-fade">
@@ -15,14 +15,14 @@
 </template>
 
 <script>
-import PauseScreen from '@/components/PauseScreen'
+import PauseOverlay from '@/components/PauseOverlay'
 import SettingsOverlay from '@/components/SettingsOverlay'
 
 export default {
-  name: 'GameView',
+  name: 'GameScreen',
 
   components: {
-    PauseScreen,
+    PauseOverlay,
     SettingsOverlay
   },
 
