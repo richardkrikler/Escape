@@ -32,11 +32,14 @@
     </transition>
 
     <transition name="short-fade">
-      <modal-overlay v-if="$store.state.overlay.newGameModal" name="newGameModal" question="Gespeicherten Spielstand überschreiben?"></modal-overlay>
+      <modal-overlay v-if="$store.state.overlay.newGameModal" name="newGameModal"
+                     question="Gespeicherten Spielstand überschreiben?"/>
     </transition>
 
     <transition name="short-fade">
-      <modal-overlay v-if="$store.state.overlay.loadingGameModal" name="loadingGameModal" question="Kein gespeicherter Spielstand. Möchten Sie ein neues Spiel starten?"></modal-overlay>
+      <modal-overlay v-if="$store.state.overlay.loadingGameModal" name="loadingGameModal"
+                     text="Kein gespeicherter Spielstand."
+                     question="Möchten Sie ein neues Spiel starten?"/>
     </transition>
   </div>
 </template>
@@ -57,9 +60,13 @@ export default {
     document.onkeyup = (evt) => {
       if (evt.key === 'Escape') {
         if (this.$store.state.overlay.settings) {
-          this.$store.state.overlay.blurred = false
           this.$store.state.overlay.settings = false
+        } else if (this.$store.state.overlay.newGameModal) {
+          this.$store.state.overlay.newGameModal = false
+        } else if (this.$store.state.overlay.loadingGameModal) {
+          this.$store.state.overlay.loadingGameModal = false
         }
+        this.$store.state.overlay.blurred = false
       }
     }
   },

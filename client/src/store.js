@@ -59,9 +59,8 @@ export default {
 
         deleteGame(state) {
             localStorage.removeItem('saveGame')
-            Object.assign(state.save, {
-                elapsedTime: 0
-            })
+            state.save.elapsedTime = 0
+            Object.assign(state.save, JSON.stringify(state.save))
         },
 
         setSetting(state, obj) {
