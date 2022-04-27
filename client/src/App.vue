@@ -13,6 +13,14 @@ export default {
 
   created() {
     this.$store.commit('loadSettings')
+  },
+
+  watch:{
+    $route () {
+      for (let key in this.$store.state.overlay) {
+        this.$store.state.overlay[key] = false
+      }
+    }
   }
 }
 
@@ -28,7 +36,7 @@ body {
   font-family: adorn-condensed-sans, sans-serif;
   font-weight: 400;
   font-style: normal;
-  
+
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -39,7 +47,10 @@ body {
 .text-glow:hover {
   text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 42px #fff, 0 0 82px #fff, 0 0 92px #fff;
   color: white;
-  // font-size: 40px;
+}
+
+.text-grow:hover {
+  font-size: 125%;
 }
 
 .blurred {
