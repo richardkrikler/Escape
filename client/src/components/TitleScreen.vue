@@ -30,16 +30,29 @@
     <transition name="short-fade">
       <settings-overlay v-if="$store.state.overlay.settings"/>
     </transition>
+
+    <transition name="short-fade">
+      <modal-overlay v-if="$store.state.overlay.newGameModal" name="newGameModal"
+                     question="Gespeicherten Spielstand überschreiben?"/>
+    </transition>
+
+    <transition name="short-fade">
+      <modal-overlay v-if="$store.state.overlay.loadingGameModal" name="loadingGameModal"
+                     text="Kein gespeicherter Spielstand."
+                     question="Möchten Sie ein neues Spiel starten?"/>
+    </transition>
   </div>
 </template>
 
 <script>
 import SettingsOverlay from '@/components/SettingsOverlay'
+import ModalOverlay from '@/components/ModalOverlay'
 
 export default {
   name: 'TitleScreen',
 
   components: {
+    ModalOverlay,
     SettingsOverlay
   },
 
@@ -47,9 +60,13 @@ export default {
     document.onkeyup = (evt) => {
       if (evt.key === 'Escape') {
         if (this.$store.state.overlay.settings) {
-          this.$store.state.overlay.blurred = false
           this.$store.state.overlay.settings = false
+        } else if (this.$store.state.overlay.newGameModal) {
+          this.$store.state.overlay.newGameModal = false
+        } else if (this.$store.state.overlay.loadingGameModal) {
+          this.$store.state.overlay.loadingGameModal = false
         }
+        this.$store.state.overlay.blurred = false
       }
     }
   },
@@ -62,31 +79,25 @@ export default {
         this.$store.state.paused = false
 
         // There is no saved Game  in localStorage, so push the gameView and tell the Component to not load anything
-        this.$router.push({name: 'GameView', params: {loadFromStorage: 'no'}})
-
+        this.$router.push({name: 'GameScreen', params: {loadFromStorage: 'no'}})
       } else {
-
-        // TODO: Change to appropriately Designed Dialog which allows the user to answer yes or no
-        // There is a saved Game in localStorage, so ask the user if he wants to overwrite it
-        alert('You already have a saved game, do you want to overwrite it?')
-
+        this.$store.state.overlay.blurred = true
+        this.$store.state.overlay.newGameModal = true
       }
     },
 
     loadGame() {
       //checks if there is already something saved in localStorage
       if (JSON.parse(localStorage.getItem('saveGame')) === null) {
-
-        // TODO: Dont know, maybe just start a new game, without telling the user he hasn't saved a game yet?
-        // There is no saved Game, either tell the User he hasn't started a Game yet or just start a new Game
-        alert('You don\'t have a saved game yet')
+        this.$store.state.overlay.blurred = true
+        this.$store.state.overlay.loadingGameModal = true
 
       } else {
         this.$store.state.blurred = false
         this.$store.state.paused = false
 
         // There is a saved Game in localStorage, so push the gameView and tell the Component to load it
-        this.$router.push({name: 'GameView', params: {loadFromStorage: 'yes'}})
+        this.$router.push({name: 'GameScreen', params: {loadFromStorage: 'yes'}})
       }
     },
 

@@ -9,11 +9,11 @@
           <div class="ml-20">
             <div class="mb-10">
               <slider-component :min="0" :max="10" :value="$store.state.settings.music" setting-name="MUSIK"
-                               store="music"/>
+                                store="music"/>
             </div>
             <div class="mb-10">
               <slider-component :min="0" :max="10" :value="$store.state.settings.voice" setting-name="STIMME"
-                               store="voice"/>
+                                store="voice"/>
             </div>
             <div class="mb-10">
               <slider-component :min="0" :max="10" :value="$store.state.settings.sfx" setting-name="SFX" store="sfx"/>
