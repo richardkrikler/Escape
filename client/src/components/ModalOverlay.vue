@@ -48,14 +48,11 @@ export default {
       this.$store.state.overlay[this.name] = false
 
       if (this.name === 'newGameModal') {
-        this.$store.commit('deleteGame')
-
-        // There is no saved Game  in localStorage, so push the gameView and tell the Component to not load anything
-        this.$router.push({name: 'GameScreen', params: {loadFromStorage: 'no'}})
-      } else if (this.name === 'loadingGameModal') {
-        // There is a saved Game in localStorage, so push the gameView and tell the Component to load it
-        this.$router.push({name: 'GameScreen', params: {loadFromStorage: 'yes'}})
+        this.$store.commit('resetGame')
       }
+
+      // There is no saved Game  in localStorage, so push the gameView and tell the Component to not load anything
+      this.$router.push({name: 'GameScreen', params: {loadFromStorage: 'no'}})
     },
 
     exit() {

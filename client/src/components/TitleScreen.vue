@@ -2,19 +2,19 @@
   <div class="title-screen">
     <div :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred') + ' title-screen-content relative flex'">
       <div class="flex-1 grid place-items-center h-screen ml-20">
-        <div>
+        <div class="text-4xl">
           <div class="container">
             <h1 class="text-center text-9xl text-white mb-24">
               ELYSION
             </h1>
           </div>
-          <div class="text-center text-4xl text-white mb-8 cursor-pointer text-glow" @click="newGame">
+          <div class="text-center text-white mb-8 cursor-pointer text-glow text-grow" @click="newGame">
             NEUES SPIEL
           </div>
-          <div class="text-center text-4xl text-white mb-8 cursor-pointer text-glow" @click="loadGame">
+          <div class="text-center text-white mb-8 cursor-pointer text-glow text-grow" @click="loadGame">
             SPIEL LADEN
           </div>
-          <div class="text-center text-4xl text-white mb-8 cursor-pointer text-glow" @click="openSettings">
+          <div class="text-center text-white mb-8 cursor-pointer text-glow text-grow" @click="openSettings">
             EINSTELLUNGEN
           </div>
         </div>

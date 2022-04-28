@@ -39,6 +39,7 @@ export default {
     mutations: {
         saveGame(state) {
             // sets the saveGame variable in the localStorage and gives it the store Object where the status of the Game is saved
+            console.log(state.save)
             localStorage.setItem('saveGame', JSON.stringify(state.save))
         },
 
@@ -57,10 +58,9 @@ export default {
             }
         },
 
-        deleteGame(state) {
+        resetGame(state) {
             localStorage.removeItem('saveGame')
             state.save.elapsedTime = 0
-            Object.assign(state.save, JSON.stringify(state.save))
         },
 
         setSetting(state, obj) {
