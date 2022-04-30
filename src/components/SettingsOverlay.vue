@@ -34,8 +34,8 @@
 </template>
 
 <script>
-import SliderComponent from '@/components/SliderComponent'
-import CheckboxComponent from '@/components/CheckboxComponent'
+import SliderComponent from '@/components/SliderComponent.vue'
+import CheckboxComponent from '@/components/CheckboxComponent.vue'
 
 export default {
   name: 'SettingsOverlay',

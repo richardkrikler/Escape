@@ -1,4 +1,4 @@
-import {Debouncer} from '@/models/Debouncer'
+import {Debouncer} from './models/Debouncer'
 
 let debouncer = new Debouncer(300)
 

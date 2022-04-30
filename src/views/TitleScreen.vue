@@ -45,8 +45,8 @@
 </template>
 
 <script>
-import SettingsOverlay from '@/components/SettingsOverlay'
-import ModalOverlay from '@/components/ModalOverlay'
+import SettingsOverlay from '@/components/SettingsOverlay.vue'
+import ModalOverlay from '@/components/ModalOverlay.vue'
 
 export default {
   name: 'TitleScreen',

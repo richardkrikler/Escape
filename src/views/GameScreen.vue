@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import PauseOverlay from '@/components/PauseOverlay'
-import SettingsOverlay from '@/components/SettingsOverlay'
+import PauseOverlay from '@/components/PauseOverlay.vue'
+import SettingsOverlay from '@/components/SettingsOverlay.vue'
 
 export default {
   name: 'GameScreen',
