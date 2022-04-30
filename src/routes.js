@@ -1,5 +1,5 @@
-import TitleScreen from '@/views/TitleScreen.vue'
-import GameScreen from '@/views/GameScreen.vue'
+import TitleScreen from '@/components/TitleScreen.vue'
+import GameScreen from '@/components/GameScreen.vue'
 
 export default [
     {
