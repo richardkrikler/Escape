@@ -3,6 +3,10 @@
     <div class="text-9xl" :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred') + ' text-white'">
       <div class="game-container overflow-hidden relative">
         <img alt="Foto-9" src="src/assets/media/images/Foto-9.jpg" class="game-img">
+
+        <img alt="Foto-9" src="src/assets/media/images/Foto-8_Edit.png" class="game-img absolute left-0 top-0">
+
+
       </div>
     </div>
 
