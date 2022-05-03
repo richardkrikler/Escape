@@ -107,6 +107,7 @@ export default {
     },
 
     redirectImprint() {
+      this.$router.push({name: 'ImprintScreen'})
     }
   }
 }
