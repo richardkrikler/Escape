@@ -1,6 +1,6 @@
 <template>
   <div class="title-screen">
-    <div :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred') + ' title-screen-content relative flex'">
+    <div :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred') + ' title-content relative flex'">
       <div class="flex-1 grid place-items-center h-screen ml-20">
         <div class="text-4xl">
           <div class="container">
@@ -118,7 +118,7 @@ export default {
   width: 100%;
 }
 
-.title-screen-content {
+.title-content {
   background-image: url('../assets/media/images/Titlescreen.png');
   background-repeat: no-repeat;
   background-attachment: fixed;
