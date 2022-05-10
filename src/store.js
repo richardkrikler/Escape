@@ -5,7 +5,8 @@ let debouncer = new Debouncer(300)
 export default {
     state: {
         save: {
-            elapsedTime: 0
+            elapsedTime: 0,
+            screen: 'OO1',
         },
         overlay: {
             blurred: false,
@@ -70,6 +71,15 @@ export default {
                     // sets the settings variable in the localStorage and gives it the store Object where the settings are saved
                     localStorage.setItem('settings', JSON.stringify(state.settings))
                 })
+        },
+
+        switchOuterView(state, increment) {
+            let currentScreen = parseInt(state.save.screen.slice(2))
+            if(increment) {
+                state.save.screen = 'OO' + (currentScreen===2 ? 1 : (currentScreen+1))
+            } else {
+                state.save.screen = 'OO' + (currentScreen===1 ? 2 : (currentScreen-1))
+            }
         }
     }
 }

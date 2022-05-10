@@ -1,12 +1,37 @@
 <template>
   <div class="flex justify-center items-center h-screen w-full" ref="gameView">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+
+
+
     <div class="text-9xl" :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred') + ' text-white'">
       <div class="game-container overflow-hidden relative">
-        <img alt="Foto-9" src="../assets/media/images/Foto-9.jpg" class="game-img">
 
-        <img alt="Foto-9" src="../assets/media/images/Foto-8_Edit.png" class="game-img absolute left-0 top-0">
+        <div v-if="$store.state.save.screen==='OO1'">
+          <img alt="Foto-9" src="../assets/media/images/outerView1.png" class="game-img">
+        </div>
+        <div v-else-if="$store.state.save.screen==='OO2'">
+          <img alt="Foto-9" src="../assets/media/images/outerView2.png" class="game-img">
+        </div>
+        <div v-else-if="$store.state.save.screen==='O1'">
+          <img alt="Foto-9" src="../assets/media/images/Foto-9.jpg" class="game-img">
+          <img alt="Foto-9" src="../assets/media/images/Foto-8_Edit.png" class="game-img absolute left-0 top-0">
+        </div>
 
-
+      </div>
+    </div>
+    <div v-if="this.$store.state.save.screen.slice(0,2) === 'OO'">
+      <div class="clickable absolute h-full top-0 left-0 flex flex-col justify-center" @click="this.$store.commit('switchOuterView',false)">
+        <span class="iconLeft material-icons text-white">
+          arrow_back_ios
+        </span>
+      </div>
+      <div class="clickable absolute h-full top-0 right-0 flex flex-col justify-center" @click="this.$store.commit('switchOuterView',true)">
+        <span class="iconRight material-icons text-white">
+          arrow_forward_ios
+        </span>
       </div>
     </div>
 
@@ -29,11 +54,17 @@ export default {
 
   components: {
     PauseOverlay,
-    SettingsOverlay
+    SettingsOverlay,
   },
 
   props: {
     loadFromStorage: String,
+  },
+
+  data() {
+    return {
+
+    }
   },
 
   methods: {
@@ -67,6 +98,10 @@ export default {
           this.$store.state.overlay.blurred = true
           this.$store.state.overlay.paused = true
         }
+      } else if(evt.key === 'ArrowLeft' && this.$store.state.save.screen.slice(0,2) ==='OO') {
+        this.$store.commit('switchOuterView',false)
+      } else if(evt.key === 'ArrowRight' && this.$store.state.save.screen.slice(0,2) ==='OO') {
+        this.$store.commit('switchOuterView',true)
       }
     }
   }
@@ -82,5 +117,19 @@ export default {
   width: auto;
   max-width: 100vw;
   max-height: 100vh;
+}
+
+.iconLeft {
+  margin-left: 4vh;
+  margin-right: 2vh;
+}
+
+.iconRight {
+  margin-right: 4vh;
+  margin-left: 2vh;
+}
+
+.clickable:hover{
+  cursor: pointer;
 }
 </style>
