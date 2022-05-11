@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center items-center h-screen w-full" ref="gameView">
-    <div class="text-9xl" :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred') + ' text-white relative'">
+    <div class="text-9xl text-white" :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')">
       <div class="game-container overflow-hidden relative">
         <img alt="Foto-9" src="../assets/media/images/Foto-9.jpg" class="game-img">
 
@@ -71,10 +71,14 @@
                     d="M2423.28,2079.1s4.31,99.24,92.76,135.91c99.24,25.89,174.74,17.26,174.74,17.26,0,0,83.06-21.27,127.28-75.89,30.2-53.54,34.52-79.43-10.79-141.99-79.82-38.83-194.16-72.27-254.56-51.78-90.61,25.89-125.12,60.4-129.44,116.49Z"/>
             </g>
           </svg>
+
         </div>
-
-
       </div>
+    </div>
+
+
+    <div :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')" class="absolute bottom-0 mb-5">
+        <itembar-component class="mx-auto"/>
     </div>
 
     <transition name="short-fade">
@@ -90,11 +94,13 @@
 <script>
 import PauseOverlay from '@/components/PauseOverlay.vue'
 import SettingsOverlay from '@/components/SettingsOverlay.vue'
+import ItembarComponent from '@/components/ItembarComponent.vue'
 
 export default {
   name: 'GameScreen',
 
   components: {
+    ItembarComponent,
     PauseOverlay,
     SettingsOverlay
   },
