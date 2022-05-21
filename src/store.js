@@ -5,7 +5,33 @@ let debouncer = new Debouncer(300)
 export default {
     state: {
         save: {
-            elapsedTime: 0
+            elapsedTime: 0,
+            screen: {
+                outerView: true,
+                screen: 1
+            },
+            gameState: {
+                O1: {
+                    batterie : true,
+                    schlussel1 : true,
+                },
+                4: {
+                    offen: false,
+                    schraubenzieher: true,
+                    ziffer4 : true,
+                },
+                6: {
+                    offen: false,
+                    ziffer2: true,
+                    zettel2: true,
+                },
+                7: {
+                    offen: false,
+                    closeup: false,
+                    ziffer3: true,
+                    brief1: true,
+                }
+            }
         },
         overlay: {
             blurred: false,
@@ -70,6 +96,24 @@ export default {
                     // sets the settings variable in the localStorage and gives it the store Object where the settings are saved
                     localStorage.setItem('settings', JSON.stringify(state.settings))
                 })
+        },
+
+        switchOuterView(state, increment) {
+            let currentScreen = state.save.screen.screen
+            if(increment) {
+                state.save.screen.screen = currentScreen===2 ? 1 : (currentScreen+1)
+            } else {
+                state.save.screen.screen = currentScreen===1 ? 2 : (currentScreen-1)
+            }
+        },
+
+        changeScreen(state, input) {
+            console.log(input.outerView)
+            console.log(input.screen)
+            console.log(state.save.gameState[input.screen])
+
+            state.save.screen.outerView = input.outerView
+            state.save.screen.screen = input.screen
         }
     }
 }
