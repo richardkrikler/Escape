@@ -2,35 +2,44 @@ import {Debouncer} from './models/Debouncer'
 
 let debouncer = new Debouncer(300)
 
+const BASE_IMG_PATH = '/src/assets/media/images/'
+
 export default {
     state: {
         save: {
             elapsedTime: 0,
             screen: {
-                outerView: true,
-                screen: 1
-            },
-            gameState: {
-                O1: {
-                    batterie : true,
-                    schlussel1 : true,
-                },
-                4: {
-                    offen: false,
-                    schraubenzieher: true,
-                    ziffer4 : true,
-                },
-                6: {
-                    offen: false,
-                    ziffer2: true,
-                    zettel2: true,
-                },
-                7: {
-                    offen: false,
-                    closeup: false,
-                    ziffer3: true,
-                    brief1: true,
-                }
+                outerViews: [
+                    {
+                        name: 'OV1',
+                        img: 'OV1.png',
+                        visible: true,
+                        innerViews: [
+                            {
+                                name: 'IV1',
+                                img: '',
+                                visible: false,
+                                frame: '',
+                                objects: [
+                                    {
+                                        'OB1': {
+                                            name: '',
+                                            img: '',
+                                            frame: '',
+                                            visible: true
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        'OV2': {
+                            visible: false,
+                            img: 'OV2.png'
+                        }
+                    }
+                ]
             }
         },
         overlay: {
@@ -59,6 +68,20 @@ export default {
                 (result.getHours() !== 0 ? timeFormat(result.getHours()) + ':' : '') +
                 (result.getMinutes() < 10 ? '0' + result.getMinutes() : result.getMinutes()) + ':' +
                 timeFormat(result.getSeconds())
+        },
+
+        currentView(state) {
+            const visibleOuterView = state.save.screen.outerViews.filter((ov) => ov.visible === true)[0]
+            const visibleInnerView = visibleOuterView.innerViews.filter((iv) => iv.visible === true)[0]
+            return visibleInnerView !== undefined ? visibleInnerView : visibleOuterView
+        },
+
+        outerViewVisible(state) {
+            return state.save.screen.outerViews.filter((ov) => ov.visible === true).length > 0
+        },
+
+        imgPath: () => (filename) => {
+            return BASE_IMG_PATH + filename
         }
     },
 
@@ -72,9 +95,6 @@ export default {
         loadGame(state) {
             // loads the saveGame variable from the localStorage and gives it to the store Object where the status of the Game is saved
             Object.assign(state.save, JSON.parse(localStorage.getItem('saveGame')))
-
-            // TODO: remove after demonstration, just for demonstration purposes
-            console.log('loaded Game')
         },
 
         loadSettings(state) {
@@ -91,19 +111,18 @@ export default {
 
         setSetting(state, obj) {
             state.settings[obj.name] = obj.value
-            debouncer.debounce(
-                () => {
-                    // sets the settings variable in the localStorage and gives it the store Object where the settings are saved
-                    localStorage.setItem('settings', JSON.stringify(state.settings))
-                })
+            // sets the settings variable in the localStorage and gives it the store Object where the settings are saved
+            debouncer.debounce(() => localStorage.setItem('settings', JSON.stringify(state.settings)))
         },
 
         switchOuterView(state, increment) {
             let currentScreen = state.save.screen.screen
-            if(increment) {
-                state.save.screen.screen = currentScreen===2 ? 1 : (currentScreen+1)
+            if (increment) {
+                state.save.screen.screen = currentScreen === 2 ? 1 : (currentScreen + 1)
+
+                // console.log(currentView())
             } else {
-                state.save.screen.screen = currentScreen===1 ? 2 : (currentScreen-1)
+                state.save.screen.screen = currentScreen === 1 ? 2 : (currentScreen - 1)
             }
         },
 

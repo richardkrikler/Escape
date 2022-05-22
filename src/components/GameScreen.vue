@@ -1,45 +1,33 @@
 <template>
   <div class="flex justify-center items-center h-screen w-full" ref="gameView">
 
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet">
+    <div class="text-9xl" :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred') + ' text-white'">
+      <div class="max-w-min overflow-hidden relative">
+        <img v-if="$store.getters.currentView.visible" :src="$store.getters.imgPath($store.getters.currentView.img)" class="game-img" alt="current view">
 
-
-
-    <div class="text-9xl" :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred') + ' text-white'" @click="$store.state.save.gameState['7'].closeup = !$store.state.save.gameState['7'].closeup">
-      <div class="game-container overflow-hidden relative">
-
-        <div v-if="$store.state.save.screen.outerView">
-          <img :alt="'outer View'+$store.state.save.screen.screen" :src="'../src/assets/media/images/outerView' + $store.state.save.screen.screen + '.png'" class="game-img">
-        </div>
-        <div v-else>
-
-          <img :alt="'Image ' + $store.state.save.screen.screen"
-               :src="'../src/assets/media/images/O'
-           + $store.state.save.screen.screen
-           + ($store.state.save.gameState[$store.state.save.screen.screen].offen ? '_offen' : '')
-           + ($store.state.save.gameState[$store.state.save.screen.screen].closeup ? '_closeup' : '')
-           + '.jpg'" class="game-img">
-
-          <img v-for="item in currentItems()"
-
-               alt="Foto-9" src="../assets/media/images/O6-ziffer2.png" class="game-img absolute left-0 top-0">
-        </div>
 
       </div>
     </div>
-    <div v-if="this.$store.state.save.screen.outerView">
-      <div class="clickable absolute h-full top-0 left-0 flex flex-col justify-center" @click="this.$store.commit('switchOuterView',false)">
-        <span class="iconLeft material-icons text-white">
-          arrow_back_ios
-        </span>
+
+
+    <div v-if="this.$store.getters.outerViewVisible">
+      <div class="absolute h-full top-0 left-0 flex flex-col justify-center" :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')">
+        <div class="pl-5 pr-2 py-2.5 cursor-pointer" @click="this.$store.commit('switchOuterView', false)">
+          <arrow-back-component class="icon-left element-glow"/>
+        </div>
       </div>
-      <div class="clickable absolute h-full top-0 right-0 flex flex-col justify-center" @click="this.$store.commit('switchOuterView',true)">
-        <span class="iconRight material-icons text-white">
-          arrow_forward_ios
-        </span>
+
+      <div class="absolute h-full top-0 right-0 flex flex-col justify-center" :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')">
+        <div class="pr-3 pl-4 py-2.5 cursor-pointer" @click="this.$store.commit('switchOuterView', true)">
+          <arrow-forward-component class="icon-right element-glow"/>
+        </div>
       </div>
     </div>
+
+    <div v-else>
+      <!-- something else -->
+    </div>
+
 
     <transition name="short-fade">
       <pause-overlay v-if="$store.state.overlay.paused"/>
@@ -54,13 +42,15 @@
 <script>
 import PauseOverlay from '@/components/PauseOverlay.vue'
 import SettingsOverlay from '@/components/SettingsOverlay.vue'
-import fs from 'fs'
-import path from 'path-browserify'
+import ArrowBackComponent from '@/components/ArrowBackComponent.vue'
+import ArrowForwardComponent from '@/components/ArrowForwardComponent.vue'
 
 export default {
   name: 'GameScreen',
 
   components: {
+    ArrowForwardComponent,
+    ArrowBackComponent,
     PauseOverlay,
     SettingsOverlay,
   },
@@ -70,9 +60,7 @@ export default {
   },
 
   data() {
-    return {
-
-    }
+    return {}
   },
 
   methods: {
@@ -81,17 +69,6 @@ export default {
         this.$store.state.save.elapsedTime += 1
         setTimeout(this.incrementTimer, 1000)
       }
-    },
-    currentItems() {
-      console.log('hey')
-
-      const dirPath = path.resolve('../assets/media/images')
-
-      fs.readdir(dirPath, function(err, files){
-        return files.filter(file => {
-          console.log(file)
-        });
-      })
     }
   },
 
@@ -117,11 +94,11 @@ export default {
           this.$store.state.overlay.blurred = true
           this.$store.state.overlay.paused = true
         }
-      } else if(evt.key === 'ArrowLeft' || evt.key === 'a' && this.$store.state.save.screen.outerView) {
-        this.$store.commit('switchOuterView',false)
-      } else if(evt.key === 'ArrowRight' || evt.key === 'd' && this.$store.state.save.screen.outerView) {
-        this.$store.commit('switchOuterView',true)
-      } else if(evt.key === 'x') {
+      } else if ((evt.key === 'ArrowLeft' || evt.key === 'a') && this.$store.state.save.screen.outerView) {
+        this.$store.commit('switchOuterView', false)
+      } else if ((evt.key === 'ArrowRight' || evt.key === 'd') && this.$store.state.save.screen.outerView) {
+        this.$store.commit('switchOuterView', true)
+      } else if (evt.key === 'x') {
         const input = prompt();
         this.$store.commit('changeScreen', {outerView: false, screen: input})
       }
@@ -131,27 +108,15 @@ export default {
 </script>
 
 <style scoped>
-.game-container {
-  max-width: min-content;
-}
-
 .game-img {
   width: auto;
   max-width: 100vw;
   max-height: 100vh;
 }
 
-.iconLeft {
-  margin-left: 4vh;
-  margin-right: 2vh;
-}
-
-.iconRight {
-  margin-right: 4vh;
-  margin-left: 2vh;
-}
-
-.clickable:hover{
-  cursor: pointer;
+.icon-left,
+.icon-right {
+  width: 30px;
+  height: 30px;
 }
 </style>
