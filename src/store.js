@@ -14,7 +14,7 @@ export default {
                         name: 'OV1',
                         pos: 1,
                         img: 'OV1.png',
-                        visible: false,
+                        visible: true,
                         innerViews: [
                             {
                                 name: 'IV1',
@@ -37,7 +37,7 @@ export default {
                     {
                         name: 'OV2',
                         pos: 2,
-                        visible: true,
+                        visible: false,
                         img: 'OV2.png',
                         innerViews: []
                     }
@@ -79,7 +79,12 @@ export default {
         },
 
         outerViewVisible(state) {
-            return state.save.screen.outerViews.filter((ov) => ov.visible === true).length > 0
+            const visibleOuterViews = state.save.screen.outerViews.filter((ov) => ov.visible === true)
+            if (visibleOuterViews.length > 0) {
+                return visibleOuterViews[0].innerViews.filter((iv) => iv.visible === true)[0] === undefined
+            } else {
+                return false
+            }
         },
 
         imgPath: () => (filename) => {

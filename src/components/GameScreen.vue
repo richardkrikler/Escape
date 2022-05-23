@@ -3,6 +3,7 @@
 
     <div class="text-9xl" :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred') + ' text-white'">
       <div class="max-w-min overflow-hidden relative">
+
         <img v-if="$store.getters.currentView.visible" :src="$store.getters.imgPath($store.getters.currentView.img)"
              class="game-img" alt="current view">
 
