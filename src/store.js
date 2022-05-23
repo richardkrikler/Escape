@@ -12,8 +12,9 @@ export default {
                 outerViews: [
                     {
                         name: 'OV1',
+                        pos: 1,
                         img: 'OV1.png',
-                        visible: true,
+                        visible: false,
                         innerViews: [
                             {
                                 name: 'IV1',
@@ -34,10 +35,11 @@ export default {
                         ]
                     },
                     {
-                        'OV2': {
-                            visible: false,
-                            img: 'OV2.png'
-                        }
+                        name: 'OV2',
+                        pos: 2,
+                        visible: true,
+                        img: 'OV2.png',
+                        innerViews: []
                     }
                 ]
             }
@@ -115,15 +117,9 @@ export default {
             debouncer.debounce(() => localStorage.setItem('settings', JSON.stringify(state.settings)))
         },
 
-        switchOuterView(state, increment) {
-            let currentScreen = state.save.screen.screen
-            if (increment) {
-                state.save.screen.screen = currentScreen === 2 ? 1 : (currentScreen + 1)
-
-                // console.log(currentView())
-            } else {
-                state.save.screen.screen = currentScreen === 1 ? 2 : (currentScreen - 1)
-            }
+        setOuterView(state, viewPos) {
+            state.save.screen.outerViews.forEach(ov => ov.visible = false)
+            state.save.screen.outerViews[viewPos].visible = true
         },
 
         changeScreen(state, input) {
@@ -134,5 +130,15 @@ export default {
             state.save.screen.outerView = input.outerView
             state.save.screen.screen = input.screen
         }
+    },
+
+    actions: {
+        switchOuterView({commit, getters, state}, {increment}) {
+            if (increment) {
+                commit('setOuterView', getters.currentView.pos === state.save.screen.outerViews.length ? 0 : getters.currentView.pos);
+            } else {
+                commit('setOuterView', getters.currentView.pos === 1 ? state.save.screen.outerViews.length - 1 : getters.currentView.pos - 2);
+            }
+        },
     }
 }

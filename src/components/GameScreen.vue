@@ -3,7 +3,8 @@
 
     <div class="text-9xl" :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred') + ' text-white'">
       <div class="max-w-min overflow-hidden relative">
-        <img v-if="$store.getters.currentView.visible" :src="$store.getters.imgPath($store.getters.currentView.img)" class="game-img" alt="current view">
+        <img v-if="$store.getters.currentView.visible" :src="$store.getters.imgPath($store.getters.currentView.img)"
+             class="game-img" alt="current view">
 
 
       </div>
@@ -11,14 +12,18 @@
 
 
     <div v-if="this.$store.getters.outerViewVisible">
-      <div class="absolute h-full top-0 left-0 flex flex-col justify-center" :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')">
-        <div class="pl-5 pr-2 py-2.5 cursor-pointer" @click="this.$store.commit('switchOuterView', false)">
+      <div class="absolute h-full top-0 left-0 flex flex-col justify-center"
+           :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')">
+        <div class="pl-5 pr-2 py-2.5 cursor-pointer"
+             @click="this.$store.dispatch('switchOuterView', {increment: false})">
           <arrow-back-component class="icon-left element-glow"/>
         </div>
       </div>
 
-      <div class="absolute h-full top-0 right-0 flex flex-col justify-center" :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')">
-        <div class="pr-3 pl-4 py-2.5 cursor-pointer" @click="this.$store.commit('switchOuterView', true)">
+      <div class="absolute h-full top-0 right-0 flex flex-col justify-center"
+           :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')">
+        <div class="pr-3 pl-4 py-2.5 cursor-pointer"
+             @click="this.$store.dispatch('switchOuterView', {increment: true})">
           <arrow-forward-component class="icon-right element-glow"/>
         </div>
       </div>
