@@ -8,38 +8,76 @@ export default {
     state: {
         save: {
             elapsedTime: 0,
+            itembar: [],
             screen: {
                 outerViews: [
                     {
                         name: 'OV1',
                         pos: 1,
-                        img: 'OV1.png',
                         visible: true,
+                        img: 'OV1.jpg',
+                        pathOptions: [{name: 'Gerade aus', goal: 'OV2'}, {name: 'Rechts', goal: 'OV7'}],
+                        innerViews: []
+                    },
+                    {
+                        name: 'OV2',
+                        pos: 2,
+                        visible: false,
+                        img: 'OV2.jpg',
+                        pathOptions: [{name: 'Links', goal: 'IV1'}, {name: 'Zurück', goal: 'OV1'}],
                         innerViews: [
                             {
                                 name: 'IV1',
-                                img: '',
-                                visible: true,
-                                frame: '',
+                                img: 'IV1.jpg',
+                                visible: false,
                                 objects: [
                                     {
-                                        'OB1': {
-                                            name: '',
-                                            img: '',
-                                            frame: '',
-                                            visible: true
-                                        }
+                                        name: 'OB2 Schlüssel',
+                                        img: 'IV1_OB2_Schluessel.png',
+                                        frame: 'frame_schlüssel1',
+                                        pixelArt: 'PA_Schluessel.png',
+                                        visible: true
                                     }
                                 ]
                             }
                         ]
                     },
                     {
-                        name: 'OV2',
-                        pos: 2,
+                        name: 'OV7',
+                        pos: 3,
                         visible: false,
-                        img: 'OV2.png',
-                        innerViews: []
+                        img: 'OV7.jpg',
+                        pathOptions: [{name: 'Kasten', goal: 'IV7'}, {name: 'Zurück', goal: 'OV1'}],
+                        innerViews: [
+                            {
+                                name: 'IV7',
+                                img: 'IV7.jpg',
+                                visible: false,
+                                objects: [
+                                    {
+                                        name: 'Kasten',
+                                        needs: 'OB2 Schlüssel',
+                                        opens: 'IV7 offen',
+                                        frame: 'frame_kasten1',
+                                        visible: true
+                                    }
+                                ]
+                            },
+                            {
+                                name: 'IV7 offen',
+                                img: 'IV7_offen.jpg',
+                                visible: false,
+                                objects: [
+                                    {
+                                        name: 'IV7_offen_OB Brief',
+                                        img: 'IV7_offen_OBx.png',
+                                        frame: 'frame_brief1',
+                                        pixelArt: 'PA_Brief.png',
+                                        visible: true
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ]
             }
@@ -79,7 +117,15 @@ export default {
         },
 
         outerViewOfInnerView: (state) => (innerView) => {
-            return state.save.screen.outerViews.filter((ov) => ov.visible === true)[0]
+            let ovResult = {}
+
+            state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach(iv => {
+                if (iv.name === innerView.innerView.name) {
+                    ovResult = ov
+                }
+            }))
+
+            return ovResult
         },
 
         outerViewVisible(state) {
@@ -132,13 +178,8 @@ export default {
             state.save.screen.outerViews[viewPos].visible = true
         },
 
-        changeScreen(state, input) {
-            console.log(input.outerView)
-            console.log(input.screen)
-            console.log(state.save.gameState[input.screen])
-
-            state.save.screen.outerView = input.outerView
-            state.save.screen.screen = input.screen
+        setInnerView(state, innerView) {
+            innerView.visible = true
         }
     },
 
@@ -150,5 +191,20 @@ export default {
                 commit('setOuterView', getters.currentView.pos === 1 ? state.save.screen.outerViews.length - 1 : getters.currentView.pos - 2);
             }
         },
+
+        changeView({commit, getters, state}, {screenName}) {
+            state.save.screen.outerViews.forEach(ov => {
+                if (ov.name === screenName) {
+                    commit('setOuterView', ov.pos - 1)
+                } else {
+                    ov.innerViews.forEach(iv => {
+                        if (iv.name === screenName) {
+                            commit('setOuterView', ov.pos - 1)
+                            commit('setInnerView', iv)
+                        }
+                    })
+                }
+            })
+        }
     }
 }
