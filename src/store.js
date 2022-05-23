@@ -19,7 +19,7 @@ export default {
                             {
                                 name: 'IV1',
                                 img: '',
-                                visible: false,
+                                visible: true,
                                 frame: '',
                                 objects: [
                                     {
@@ -78,6 +78,10 @@ export default {
             return visibleInnerView !== undefined ? visibleInnerView : visibleOuterView
         },
 
+        outerViewOfInnerView: (state) => (innerView) => {
+            return state.save.screen.outerViews.filter((ov) => ov.visible === true)[0]
+        },
+
         outerViewVisible(state) {
             const visibleOuterViews = state.save.screen.outerViews.filter((ov) => ov.visible === true)
             if (visibleOuterViews.length > 0) {
@@ -124,6 +128,7 @@ export default {
 
         setOuterView(state, viewPos) {
             state.save.screen.outerViews.forEach(ov => ov.visible = false)
+            state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach(iv => iv.visible = false))
             state.save.screen.outerViews[viewPos].visible = true
         },
 
