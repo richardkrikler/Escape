@@ -1,11 +1,44 @@
 <template>
   <div class="flex justify-center items-center h-screen w-full" ref="gameView">
-    <div class="text-9xl text-white" :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')">
-      <div class="game-container overflow-hidden relative">
-        <img alt="Foto-9" src="../assets/media/images/Foto-9.jpg" class="game-img">
 
-        <img alt="Foto-9" src="../assets/media/images/Foto-8_Edit.png" class="game-img absolute left-0 top-0">
+    <div class="text-9xl" :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred') + ' text-white'">
+      <div class="max-w-min overflow-hidden relative">
 
+        <img v-if="$store.getters.currentView.visible" :src="$store.getters.imgPath($store.getters.currentView.img)"
+             class="game-img" :alt="$store.getters.currentView.name">
+
+
+      </div>
+    </div>
+
+
+    <div v-if="this.$store.getters.outerViewVisible">
+      <div class="absolute h-full top-0 left-0 flex flex-col justify-center"
+           :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')">
+        <div class="pl-5 pr-2 py-2.5 cursor-pointer"
+             @click="this.$store.dispatch('switchOuterView', {increment: false})">
+          <arrow-back-component class="icon-left element-glow"/>
+        </div>
+      </div>
+
+      <div class="absolute h-full top-0 right-0 flex flex-col justify-center"
+           :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')">
+        <div class="pr-3 pl-4 py-2.5 cursor-pointer"
+             @click="this.$store.dispatch('switchOuterView', {increment: true})">
+          <arrow-forward-component class="icon-right element-glow"/>
+        </div>
+      </div>
+    </div>
+    
+    <div v-else>
+      <div class="absolute h-full top-0 left-0 flex flex-col justify-center"
+           :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')">
+        <div class="pl-2 py-0.5 cursor-pointer"
+             @click="innerToOuterView">
+          <arrow-up-component class="icon-up element-glow"/>
+        </div>
+      </div>
+    </div>
 
         <div class="absolute left-0 top-0 h-full w-full">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6000 4000" preserveAspectRatio="none" class="h-full"
@@ -71,15 +104,12 @@
                     d="M2423.28,2079.1s4.31,99.24,92.76,135.91c99.24,25.89,174.74,17.26,174.74,17.26,0,0,83.06-21.27,127.28-75.89,30.2-53.54,34.52-79.43-10.79-141.99-79.82-38.83-194.16-72.27-254.56-51.78-90.61,25.89-125.12,60.4-129.44,116.49Z"/>
             </g>
           </svg>
-
-        </div>
-      </div>
-    </div>
-
+</div>
 
     <div :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')" class="absolute bottom-0 mb-5">
         <itembar-component class="mx-auto"/>
     </div>
+
 
     <transition name="short-fade">
       <pause-overlay v-if="$store.state.overlay.paused"/>
@@ -95,18 +125,28 @@
 import PauseOverlay from '@/components/PauseOverlay.vue'
 import SettingsOverlay from '@/components/SettingsOverlay.vue'
 import ItembarComponent from '@/components/ItembarComponent.vue'
+import ArrowBackComponent from '@/components/ArrowBackComponent.vue'
+import ArrowForwardComponent from '@/components/ArrowForwardComponent.vue'
+import ArrowUpComponent from '@/components/ArrowUpComponent.vue'
 
 export default {
   name: 'GameScreen',
 
   components: {
     ItembarComponent,
+    ArrowUpComponent,
+    ArrowForwardComponent,
+    ArrowBackComponent,
     PauseOverlay,
-    SettingsOverlay
+    SettingsOverlay,
   },
 
   props: {
     loadFromStorage: String,
+  },
+
+  data() {
+    return {}
   },
 
   methods: {
@@ -119,6 +159,10 @@ export default {
 
     test(evt) {
       console.log('test click!: ' + evt.target.id)
+    },
+    
+    innerToOuterView() {
+      this.$store.commit('setOuterView', this.$store.getters.outerViewOfInnerView({innerView: this.$store.getters.currentView}).pos)
     }
   },
 
@@ -144,6 +188,15 @@ export default {
           this.$store.state.overlay.blurred = true
           this.$store.state.overlay.paused = true
         }
+      } else if ((evt.key === 'ArrowLeft' || evt.key === 'a') && this.$store.getters.outerViewVisible) {
+        this.$store.dispatch('switchOuterView', {increment: false})
+      } else if ((evt.key === 'ArrowRight' || evt.key === 'd') && this.$store.getters.outerViewVisible) {
+        this.$store.dispatch('switchOuterView', {increment: true})
+      } else if (evt.key === 'ArrowUp' && !this.$store.getters.outerViewVisible) {
+        this.innerToOuterView()
+      } else if (evt.key === 'x') {
+        const input = prompt();
+        this.$store.commit('changeScreen', {outerView: false, screen: input})
       }
     }
   }
@@ -151,13 +204,20 @@ export default {
 </script>
 
 <style scoped>
-.game-container {
-  max-width: min-content;
-}
-
 .game-img {
   width: auto;
   max-width: 100vw;
   max-height: 100vh;
+}
+
+.icon-left,
+.icon-right {
+  width: 30px;
+  height: 30px;
+}
+
+.icon-up {
+  width: 47px;
+  height: 47px;
 }
 </style>

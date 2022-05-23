@@ -1,0 +1,15 @@
+<template>
+  <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48" fill="#ffffff" viewBox="0 0 48 48">
+    <path d="M20 44 0 24 20 4 22.8 6.85 5.65 24 22.8 41.15Z"/>
+  </svg>
+</template>
+
+<script>
+export default {
+  name: 'ArrowBackComponent'
+}
+</script>
+
+<style scoped>
+
+</style>
