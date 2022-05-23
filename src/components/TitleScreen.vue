@@ -1,6 +1,6 @@
 <template>
   <div class="title-screen">
-    <div :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred') + ' title-content relative flex'">
+    <div :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred') + ' title-content relative flex'" @click="backgroundSound">
       <div class="flex-1 grid place-items-center h-screen ml-20">
         <div class="text-4xl">
           <div class="container">
@@ -41,6 +41,12 @@
                      text="Kein gespeicherter Spielstand."
                      question="Möchten Sie ein neues Spiel starten?"/>
     </transition>
+    <audio
+        ref="intro"
+        src="src/assets/media/audio/startingScreen.wav"
+        preload
+        id="intro"
+    ></audio>
   </div>
 </template>
 
@@ -54,6 +60,12 @@ export default {
   components: {
     ModalOverlay,
     SettingsOverlay
+  },
+
+  data() {
+    return {
+      click: false,
+    }
   },
 
   mounted() {
@@ -91,7 +103,6 @@ export default {
       if (JSON.parse(localStorage.getItem('saveGame')) === null) {
         this.$store.state.overlay.blurred = true
         this.$store.state.overlay.loadingGameModal = true
-
       } else {
         this.$store.state.blurred = false
         this.$store.state.paused = false
@@ -108,6 +119,25 @@ export default {
 
     redirectImprint() {
       this.$router.push({name: 'ImprintScreen'})
+    },
+
+    backgroundSound() {
+      if(!this.click) {
+        let audio = this.$refs.intro
+        audio.play()
+        setTimeout(this.loop, 50000)
+        this.click = true
+      }
+    },
+
+    loop() {
+      let audio = this.$refs.intro
+
+      audio.play()
+
+      console.log('hey')
+
+      setTimeout(this.loop, 50000)
     }
   }
 }
