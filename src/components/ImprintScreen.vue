@@ -15,14 +15,14 @@
           <p class="mt-7 mb-1"><b>Anschrift:</b> Rennweg, 89b, 1030 Wien</p>
           <p class="mt-7 mb-1"><b>Kontaktdaten:</b> <br>Email: <a href="mailto:richard.krikler@htl.rennweg.at" class="text-glow">richard.krikler@htl.rennweg.at</a></p>
 
-          <p class="mt-7 mb-1"><b>Anwendbare Rechtsvorschrift:</b> www.ris.bka.gv.at <br> <b>Berufsbezeichnung:</b>
+          <p class="mt-7 mb-1"><b>Anwendbare Rechtsvorschrift:</b> <a href="https://www.ris.bka.gv.at" target="_blank" class="text-glow">www.ris.bka.gv.at</a> <br> <b>Berufsbezeichnung:</b>
             Schüler</p>
 
           <p class="mt-7 mb-1"><b>Online Streitbeilegung:</b> Verbraucher, welche in Österreich oder in einem sonstigen
             Vertragsstaat der
             ODR-VO niedergelassen sind, haben die Möglichkeit Probleme bezüglich dem entgeltlichen Kauf von Waren oder
             Dienstleistungen im Rahmen einer Online-Streitbeilegung (nach OS, AStG) zu lösen. Die Europäische Kommission
-            stellt eine Plattform hierfür bereit: https://ec.europa.eu/consumers/odr</p>
+            stellt eine Plattform hierfür bereit: <a href="https://ec.europa.eu/consumers/odr" target="_blank" class="text-glow">https://ec.europa.eu/consumers/odr</a></p>
 
           <p class="mt-7 mb-1"><b>Urheberrecht:</b> Die Inhalte dieser Webseite unterliegen, soweit dies rechtlich
             möglich ist, diversen

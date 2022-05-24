@@ -15,8 +15,8 @@ export default {
     this.$store.commit('loadSettings')
   },
 
-  watch:{
-    $route () {
+  watch: {
+    $route() {
       for (let key in this.$store.state.overlay) {
         this.$store.state.overlay[key] = false
       }
@@ -46,6 +46,16 @@ body {
 
 .text-glow:hover {
   text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 42px #fff, 0 0 82px #fff, 0 0 92px #fff;
+  color: white;
+}
+
+.element-glow:hover {
+  filter:
+      drop-shadow(0 0 1px #fff)
+      drop-shadow(0 0 5px #fff)
+      drop-shadow(0 0 15px #fff)
+      drop-shadow(0 0 17px #fff)
+      drop-shadow(0 0 19px #fff);
   color: white;
 }
 
