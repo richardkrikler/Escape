@@ -33,6 +33,11 @@
         </div>
         <div
             class="text-5xl my-10 cursor-pointer text-glow w-max"
+            @click="this.$router.push({name: 'GuideScreen', params: {from: 'GameScreen'}})">
+          ANLEITUNG
+        </div>
+        <div
+            class="text-5xl my-10 cursor-pointer text-glow w-max"
             @click="endGame">
           BEENDEN
         </div>

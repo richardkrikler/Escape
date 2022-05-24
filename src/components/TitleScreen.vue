@@ -17,6 +17,9 @@
           <div class="text-center text-white mb-8 cursor-pointer text-glow text-grow" @click="openSettings">
             EINSTELLUNGEN
           </div>
+          <div class="text-center text-white mb-8 cursor-pointer text-glow text-grow" @click="openGuide">
+            ANLEITUNG
+          </div>
         </div>
       </div>
 
@@ -108,7 +111,11 @@ export default {
 
     redirectImprint() {
       this.$router.push({name: 'ImprintScreen'})
-    }
+    },
+    openGuide() {
+      this.$router.push({name: 'GuideScreen', params: {from: 'default'}})
+
+    },
   }
 }
 </script>
