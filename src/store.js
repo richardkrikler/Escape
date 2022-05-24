@@ -70,8 +70,8 @@ export default {
                                 visible: false,
                                 objects: [
                                     {
-                                        name: 'IV7_offen_OB Brief',
-                                        img: 'IV7_offen_OBx.png',
+                                        name: 'IV7_offen_OB4 Brief',
+                                        img: 'IV7_offen_OB4.png',
                                         frame: 'frame_brief1',
                                         pixelArt: 'PA_Brief.png',
                                         visible: true
