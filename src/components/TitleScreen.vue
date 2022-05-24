@@ -119,7 +119,7 @@ export default {
 }
 
 .title-content {
-  background-image: url('../assets/media/images/Titlescreen.png');
+  background-image: url('/media/images/Titlescreen.png');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
