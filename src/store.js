@@ -2,7 +2,7 @@ import {Debouncer} from './models/Debouncer'
 
 let debouncer = new Debouncer(300)
 
-const BASE_IMG_PATH = '/src/assets/media/images/'
+const BASE_IMG_PATH = '/media/images/'
 
 export default {
     state: {
@@ -57,6 +57,7 @@ export default {
                                     {
                                         name: 'Kasten',
                                         needs: 'OB2 Schlüssel',
+                                        opened: false,
                                         opens: 'IV7 offen',
                                         frame: 'frame_kasten1',
                                         visible: true
