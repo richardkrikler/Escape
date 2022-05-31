@@ -54,8 +54,6 @@
 <script>
 import PauseOverlay from '@/components/PauseOverlay.vue'
 import SettingsOverlay from '@/components/SettingsOverlay.vue'
-import fs from 'fs'
-import path from 'path-browserify'
 
 export default {
   name: 'GameScreen',
@@ -82,17 +80,6 @@ export default {
         setTimeout(this.incrementTimer, 1000)
       }
     },
-    currentItems() {
-      console.log('hey')
-
-      const dirPath = path.resolve('../assets/media/images')
-
-      fs.readdir(dirPath, function(err, files){
-        return files.filter(file => {
-          console.log(file)
-        });
-      })
-    }
   },
 
   mounted() {
@@ -103,6 +90,8 @@ export default {
     }
 
     this.incrementTimer()
+
+
 
     document.onkeyup = (evt) => {
       if (evt.key === 'Escape') {
