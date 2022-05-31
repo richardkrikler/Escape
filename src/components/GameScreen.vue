@@ -152,7 +152,6 @@ import ArrowUpComponent from '@/components/ArrowUpComponent.vue'
 const collectDocument = new Audio('media/audio/IV7_offen_dokument_aufheben.mp3')
 const openCupboard = new Audio('media/audio/IV7_schloss_aufschließen.mp3')
 
-
 export default {
   name: 'GameScreen',
 
@@ -191,6 +190,7 @@ export default {
         if (ob.frame === evt.target.id) {
 
           if(ob.name === 'IV7_offen_OB4 Brief') {
+            collectDocument.volume = this.$store.state.settings.sfx/10;
             await collectDocument.play()
           }
 
@@ -206,6 +206,7 @@ export default {
           const index = this.$store.state.save.itembar.findIndex(item => item.name === ob.needs)
           if (index > -1) {
             if(ob.name === 'Kasten') {
+              openCupboard.volume = this.$store.state.settings.sfx/10;
               await openCupboard.play()
             }
             this.$store.state.save.itembar.splice(index, 1)
@@ -226,6 +227,8 @@ export default {
     } else {
       this.$store.commit('loadGame')
     }
+
+
 
     this.incrementTimer()
 
