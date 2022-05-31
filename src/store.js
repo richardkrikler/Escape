@@ -34,7 +34,7 @@ const getDefaultSaveState = () => {
                                 {
                                     name: 'OB2 Schlüssel',
                                     img: 'IV1_OB2_Schluessel.png',
-                                    frame: 'frame_schlüssel1',
+                                    frame: 'frameSchluessel1',
                                     pixelArt: 'PA_Schluessel.png',
                                     visible: true
                                 }
@@ -72,7 +72,7 @@ const getDefaultSaveState = () => {
                                 {
                                     name: 'IV7_offen_OB4 Brief',
                                     img: 'IV7_offen_OB4.png',
-                                    frame: 'frame_brief1',
+                                    frame: 'frameBrief1',
                                     pixelArt: 'PA_Brief.png',
                                     visible: true
                                 }
@@ -93,7 +93,8 @@ export default {
             paused: false,
             settings: false,
             newGameModal: false,
-            loadingGameModal: false
+            loadingGameModal: false,
+            letter: false
         },
         settings: {
             music: 10,

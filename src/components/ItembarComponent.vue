@@ -53,7 +53,8 @@
 
         <img v-else :src="$store.getters.imgPath($store.state.save.itembar[i].pixelArt)"
              :alt="$store.state.save.itembar[i].name"
-             class="w-16 h-16 my-auto glow">
+             class="w-16 h-16 my-auto glow"
+             @click="handle_function_call($store.state.save.itembar[i].frame)">
       </div>
     </div>
   </div>
@@ -61,7 +62,18 @@
 
 <script>
 export default {
-  name: 'ItembarComponent'
+  name: 'ItembarComponent',
+
+  methods: {
+    handle_function_call(function_name) {
+      this[function_name]()
+    },
+
+    frameBrief1() {
+      this.$store.state.overlay.blurred = true
+      this.$store.state.overlay.letter = true
+    },
+  }
 }
 </script>
 
