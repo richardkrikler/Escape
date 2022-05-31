@@ -135,8 +135,6 @@ export default {
 
       audio.play()
 
-      console.log('hey')
-
       setTimeout(this.loop, 50000)
     }
   }

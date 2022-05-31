@@ -5,12 +5,14 @@
           rel="stylesheet">
 
 
-
-    <div class="text-9xl" :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred') + ' text-white'" @click="$store.state.save.gameState['7'].closeup = !$store.state.save.gameState['7'].closeup">
+    <div class="text-9xl" :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred') + ' text-white'"
+         @click="$store.state.save.gameState['7'].closeup = !$store.state.save.gameState['7'].closeup">
       <div class="game-container overflow-hidden relative">
 
         <div v-if="$store.state.save.screen.outerView">
-          <img :alt="'outer View'+$store.state.save.screen.screen" :src="'../src/assets/media/images/outerView' + $store.state.save.screen.screen + '.png'" class="game-img">
+          <img :alt="'outer View'+$store.state.save.screen.screen"
+               :src="'../src/assets/media/images/outerView' + $store.state.save.screen.screen + '.png'"
+               class="game-img">
         </div>
         <div v-else>
 
@@ -29,12 +31,14 @@
       </div>
     </div>
     <div v-if="this.$store.state.save.screen.outerView">
-      <div class="clickable absolute h-full top-0 left-0 flex flex-col justify-center" @click="this.$store.commit('switchOuterView',false)">
+      <div class="clickable absolute h-full top-0 left-0 flex flex-col justify-center"
+           @click="this.$store.commit('switchOuterView',false)">
         <span class="iconLeft material-icons text-white">
           arrow_back_ios
         </span>
       </div>
-      <div class="clickable absolute h-full top-0 right-0 flex flex-col justify-center" @click="this.$store.commit('switchOuterView',true)">
+      <div class="clickable absolute h-full top-0 right-0 flex flex-col justify-center"
+           @click="this.$store.commit('switchOuterView',true)">
         <span class="iconRight material-icons text-white">
           arrow_forward_ios
         </span>
@@ -48,6 +52,14 @@
     <transition name="short-fade">
       <settings-overlay v-if="$store.state.overlay.settings"/>
     </transition>
+
+    <audio
+        ref="intro"
+        src="src/assets/media/audio/startingScreen.wav"
+        preload
+        id="intro"
+    ></audio>
+
   </div>
 </template>
 
@@ -68,9 +80,7 @@ export default {
   },
 
   data() {
-    return {
-
-    }
+    return {}
   },
 
   methods: {
@@ -80,6 +90,25 @@ export default {
         setTimeout(this.incrementTimer, 1000)
       }
     },
+    randomIntFromInterval(min, max) { // min and max included
+      return Math.floor(Math.random() * (max - min + 1) + min)
+    },
+
+    /**
+     * Play sound at the beginning of the game twice
+     * and then do the same every 250 to 350 seconds (~5 min)
+     **/
+    loop() {
+      let audio = this.$refs.intro
+
+      audio.play()
+
+      setTimeout(() => {
+            audio.play()
+            setTimeout(this.loop, this.randomIntFromInterval(285000, 385000))
+          }
+          , 35000)
+    }
   },
 
   mounted() {
@@ -91,6 +120,8 @@ export default {
 
     this.incrementTimer()
 
+
+    this.loop()
 
 
     document.onkeyup = (evt) => {
@@ -106,11 +137,11 @@ export default {
           this.$store.state.overlay.blurred = true
           this.$store.state.overlay.paused = true
         }
-      } else if(evt.key === 'ArrowLeft' || evt.key === 'a' && this.$store.state.save.screen.outerView) {
-        this.$store.commit('switchOuterView',false)
-      } else if(evt.key === 'ArrowRight' || evt.key === 'd' && this.$store.state.save.screen.outerView) {
-        this.$store.commit('switchOuterView',true)
-      } else if(evt.key === 'x') {
+      } else if (evt.key === 'ArrowLeft' || evt.key === 'a' && this.$store.state.save.screen.outerView) {
+        this.$store.commit('switchOuterView', false)
+      } else if (evt.key === 'ArrowRight' || evt.key === 'd' && this.$store.state.save.screen.outerView) {
+        this.$store.commit('switchOuterView', true)
+      } else if (evt.key === 'x') {
         const input = prompt();
         this.$store.commit('changeScreen', {outerView: false, screen: input})
       }
@@ -140,7 +171,7 @@ export default {
   margin-left: 2vh;
 }
 
-.clickable:hover{
+.clickable:hover {
   cursor: pointer;
 }
 </style>
