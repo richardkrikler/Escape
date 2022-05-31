@@ -25,7 +25,7 @@
             <!--            </g>-->
 
             <g @click="itembarAdd">
-              <path id="frame_brief1"
+              <path id="frameBrief1"
                     class="element-glow"
                     v-if="$store.state.save.screen.outerViews[2].innerViews[1].visible && $store.state.save.screen.outerViews[2].innerViews[1].objects[0].visible"
                     d="M2247.48,2010.07v-388.31s277.21,22.65,394.79,19.42c117.57-3.24,239.46,6.47,239.46,6.47l148.85,2.16v390.47h-276.13s-182.29,17.26-319.28-12.94c-136.99-30.2-187.69-17.26-187.69-17.26Z"/>
@@ -56,7 +56,7 @@
             </g>
 
             <g @click="itembarAdd">
-              <path id="frame_schlüssel1"
+              <path id="frameSchluessel1"
                     class="element-glow"
                     v-if="$store.state.save.screen.outerViews[1].innerViews[0].visible && $store.state.save.screen.outerViews[1].innerViews[0].objects[0].visible"
                     d="M3706,3496l50-12s10-4,9-23-4-25-4-25l-6-7s-15.93,10.43-19.46-6.79-12.54-28.21-17.54-35.21l-12-13.33,317-77.67s40,48,102,44,66.65-44,66.65-44c0,0,4.35-49-50.65-86s-107-25-107-25c0,0-51,15-27,67l-426,107s-26,48,18,61c31-12,43-14,43-14,0,0,53,93,64,90Z"/>
@@ -101,26 +101,7 @@
       <itembar-component class="mx-auto"/>
     </div>
 
-
-    <div v-if="this.$store.getters.outerViewVisible">
-      <div class="absolute h-full top-0 left-0 flex flex-col justify-center"
-           :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')">
-        <div class="pl-5 pr-2 py-2.5 cursor-pointer"
-             @click="this.$store.dispatch('switchOuterView', {increment: false})">
-          <arrow-back-component class="icon-left element-glow"/>
-        </div>
-      </div>
-
-      <div class="absolute h-full top-0 right-0 flex flex-col justify-center"
-           :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')">
-        <div class="pr-3 pl-4 py-2.5 cursor-pointer"
-             @click="this.$store.dispatch('switchOuterView', {increment: true})">
-          <arrow-forward-component class="icon-right element-glow"/>
-        </div>
-      </div>
-    </div>
-
-    <div v-else>
+    <div v-if="!$store.getters.outerViewVisible">
       <div class="absolute h-full top-0 left-0 flex flex-col justify-center"
            :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')">
         <div class="pl-2 py-0.5 cursor-pointer"
@@ -130,6 +111,17 @@
       </div>
     </div>
 
+    <transition name="short-fade">
+      <div v-show="$store.state.overlay.letter">
+        <div class="absolute h-full w-full top-0 left-0 flex flex-col justify-center"
+             @click="closeLetter">
+          <div>
+            <img src="/media/images/Textfield_letter.png" :alt="letter" class="w-3/5 mx-auto"
+                 style="filter: drop-shadow(0 0 1px #000) drop-shadow(0 0 5px #000) drop-shadow(0 0 15px #000);">
+          </div>
+        </div>
+      </div>
+    </transition>
 
     <transition name="short-fade">
       <pause-overlay v-if="$store.state.overlay.paused"/>
@@ -177,8 +169,9 @@ export default {
       }
     },
 
-    test(evt) {
-      console.log('test click!: ' + evt.target.id)
+    closeLetter() {
+      this.$store.state.overlay.blurred = false
+      this.$store.state.overlay.letter = false
     },
 
     itembarAdd(evt) {
@@ -228,6 +221,7 @@ export default {
         } else {
           this.$store.state.overlay.blurred = true
           this.$store.state.overlay.paused = true
+          this.$store.state.overlay.letter = false
         }
       } else if ((evt.key === 'ArrowLeft' || evt.key === 'a') && this.$store.getters.outerViewVisible) {
         this.$store.dispatch('switchOuterView', {increment: false})
