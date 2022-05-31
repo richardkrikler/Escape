@@ -18,15 +18,16 @@
           <p class="mt-7 mb-1">
             <b>2.</b>
             Nun müssen Sie versuchen die Rätsel im Spiel zu lösen.
-            Sie können Codes knacken, Schlüssel finden und Items suchen.
-            Diese befinden sich irgendwo auf ihrem Bildschirm.
+            Dabei müssen Sie Codes knacken,
+            Schlüssel finden und nach Items suchen.
+            Diese befinden sich im Keller versteckt.
           </p>
 
           <p class="mt-7 mb-1">
             <b>3.</b>
-            Wenn Sie ein Item gefunden habenund anklicken,
-            wird das Item aus dem Bild verschwinden und in ihrem Inventar
-            am unteren Bildschirmrand wieder erscheinen.
+            Wenn Sie ein Item gefunden haben und anklicken,
+            wird dieses aus dem Bild verschwinden
+            und in Ihrem Inventar am unteren Bildschirmrand erscheinen.
           </p>
 
           <p class="mt-7 mb-1">
@@ -40,10 +41,11 @@
           <p class="mt-7 mb-1">
             <b>5.</b>
             Wenn Sie während des Spielens „ESC“ drücken,
-            dann erscheint ein Menü und das Spiel wird pausiert.
-            Dort können Sie ein paar Einstellungen vornehmen,
-            um Ihr Spielerlebniss zu verbessern.
-            Wenn Sie das Spiel verlassen wird es automatisch gespeichert
+            erscheint ein Menü und das Spiel wird pausiert.
+            Dort können Sie Einstellungen bearbeiten,
+            um Ihr Spielerlebnis zu optimieren.
+            Wenn Sie das Spiel verlassen,
+            wird es automatisch gespeichert
             und Sie können später weiterspielen.
           </p>
 
@@ -51,7 +53,7 @@
             <b>6.</b>
             Beenden Sie das Spiel,
             indem Sie aus dem Keller ausbrechen.
-            Viel Spaß beim Rätseln.
+            Viel Spaß beim Rätseln!
           </p>
 
         </div>
