@@ -151,7 +151,6 @@ export default {
     mutations: {
         saveGame(state) {
             // sets the saveGame variable in the localStorage and gives it the store Object where the status of the Game is saved
-            console.log(state.save)
             localStorage.setItem('saveGame', JSON.stringify(state.save))
         },
 
