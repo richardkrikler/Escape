@@ -58,6 +58,7 @@
         src="src/assets/media/audio/startingScreen.wav"
         preload
         id="intro"
+        :volume="$store.state.settings.music/10"
     ></audio>
 
   </div>
