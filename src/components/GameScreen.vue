@@ -149,6 +149,10 @@ import ArrowBackComponent from '@/components/ArrowBackComponent.vue'
 import ArrowForwardComponent from '@/components/ArrowForwardComponent.vue'
 import ArrowUpComponent from '@/components/ArrowUpComponent.vue'
 
+const collectDocument = new Audio('media/audio/IV7_offen_dokument_aufheben.mp3')
+const openCupboard = new Audio('media/audio/IV7_schloss_aufschließen.mp3')
+
+
 export default {
   name: 'GameScreen',
 
@@ -166,7 +170,8 @@ export default {
   },
 
   data() {
-    return {}
+    return {
+    }
   },
 
   methods: {
@@ -181,20 +186,28 @@ export default {
       console.log('test click!: ' + evt.target.id)
     },
 
-    itembarAdd(evt) {
-      this.$store.state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach(iv => iv.objects.forEach(ob => {
+    async itembarAdd(evt) {
+      this.$store.state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach(iv => iv.objects.forEach(async ob =>  {
         if (ob.frame === evt.target.id) {
+
+          if(ob.name === 'IV7_offen_OB4 Brief') {
+            await collectDocument.play()
+          }
+
           ob.visible = false
           this.$store.state.save.itembar.push(ob)
         }
       })))
     },
 
-    open(evt) {
-      this.$store.state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach(iv => iv.objects.forEach(ob => {
+    async open(evt) {
+      this.$store.state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach( iv => iv.objects.forEach(async ob => {
         if (ob.frame === evt.target.id) {
           const index = this.$store.state.save.itembar.findIndex(item => item.name === ob.needs)
           if (index > -1) {
+            if(ob.name === 'Kasten') {
+              await openCupboard.play()
+            }
             this.$store.state.save.itembar.splice(index, 1)
             this.$store.dispatch('changeView', {screenName: ob.opens})
           }
