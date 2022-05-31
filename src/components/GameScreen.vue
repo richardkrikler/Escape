@@ -17,7 +17,6 @@
         <div class="absolute left-0 top-0 h-full w-full">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6000 4000" preserveAspectRatio="none" class="h-full"
                stroke="gray" stroke-width="2" fill="transparent">
-            <!--               stroke="white" stroke-width="3" fill="transparent">-->
 
             <g @click="itembarAdd">
               <path id="frameBatterie"
