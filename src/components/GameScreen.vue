@@ -19,10 +19,12 @@
                stroke="gray" stroke-width="2" fill="transparent">
             <!--               stroke="white" stroke-width="3" fill="transparent">-->
 
-            <!--            <g @click="test">-->
-            <!--              <path id="frame_batterie"-->
-            <!--                    d="M2009,2459l142-32s23-9,23-29,0-62.26,0-62.26c0,0-2-9.74-14-20.74-15-21-104-155-104-155,0,0-4-8-29-6-28,5-129,26-129,26,0,0-24,13-20,28,.5,17.5,5.5,71.5,5.5,71.5,0,0-1,3,4,11s95,154,95,154c0,0,9,15,26.5,14.5Z"/>-->
-            <!--            </g>-->
+            <g @click="itembarAdd">
+              <path id="frameBatterie"
+                    class="element-glow"
+                    v-if="$store.state.save.screen.outerViews[1].innerViews[0].visible && $store.state.save.screen.outerViews[1].innerViews[0].objects[1].visible"
+                    d="M2009,2459l142-32s23-9,23-29,0-62.26,0-62.26c0,0-2-9.74-14-20.74-15-21-104-155-104-155,0,0-4-8-29-6-28,5-129,26-129,26,0,0-24,13-20,28,.5,17.5,5.5,71.5,5.5,71.5,0,0-1,3,4,11s95,154,95,154c0,0,9,15,26.5,14.5Z"/>
+            </g>
 
             <g @click="itembarAdd">
               <path id="frameBrief1"

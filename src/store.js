@@ -37,6 +37,13 @@ const getDefaultSaveState = () => {
                                     frame: 'frameSchluessel1',
                                     pixelArt: 'PA_Schluessel.png',
                                     visible: true
+                                },
+                                {
+                                    name: 'OB20 Batterie',
+                                    img: 'IV_OB20_Batterie.png',
+                                    frame: 'frameBatterie',
+                                    pixelArt: 'PA_Batterie.png',
+                                    visible: true
                                 }
                             ]
                         }
