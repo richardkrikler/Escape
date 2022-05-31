@@ -93,22 +93,15 @@
 
 
     <div :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')" class="absolute bottom-0 mb-5">
-      <span class="text-white w-full text-center text-2xl absolute flex gap-5 justify-center" style="top: -40px"
-            v-if="$store.getters.outerViewVisible">
+      <span class="text-white w-full text-center text-2xl absolute flex gap-5 justify-center" style="top: -40px">
         <p v-for="pathOption in $store.getters.currentView.pathOptions" class="text-glow cursor-pointer"
-           @click="$store.dispatch('changeView', {screenName: pathOption.goal})">{{ pathOption.name }}</p>
+           @click="$store.dispatch('changeView', {screenName: pathOption.goal})"
+           v-if="$store.getters.outerViewVisible">{{ pathOption.name }}</p>
+
+        <p v-else class="text-glow cursor-pointer"
+           @click="innerToOuterView">Zurück</p>
       </span>
       <itembar-component class="mx-auto"/>
-    </div>
-
-    <div v-if="!$store.getters.outerViewVisible">
-      <div class="absolute h-full top-0 left-0 flex flex-col justify-center"
-           :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')">
-        <div class="pl-2 py-0.5 cursor-pointer"
-             @click="innerToOuterView">
-          <arrow-up-component class="icon-up element-glow"/>
-        </div>
-      </div>
     </div>
 
     <transition name="short-fade">
