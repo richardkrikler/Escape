@@ -157,10 +157,6 @@ export default {
     loadFromStorage: String,
   },
 
-  data() {
-    return {}
-  },
-
   methods: {
     incrementTimer() {
       if (this.$store.state.overlay.paused === false) {
@@ -211,7 +207,10 @@ export default {
 
     document.onkeyup = (evt) => {
       if (evt.key === 'Escape') {
-        if (this.$store.state.overlay.settings) {
+        if (this.$store.state.overlay.letter) {
+          this.$store.state.overlay.blurred = false
+          this.$store.state.overlay.letter = false
+        } else if (this.$store.state.overlay.settings) {
           this.$store.state.overlay.paused = true
           this.$store.state.overlay.settings = false
         } else if (this.$store.state.overlay.paused) {
