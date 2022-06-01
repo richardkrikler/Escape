@@ -8,7 +8,7 @@
 
 <script>
 
-import {BASE_IMG_PATH} from "./store";
+import {BASE_IMG_PATH} from './store'
 
 export default {
   name: 'App',

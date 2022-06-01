@@ -94,14 +94,14 @@
 
 
     <div :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')" class="absolute bottom-0 mb-5">
-      <span class="text-white w-full text-center text-2xl absolute flex gap-5 justify-center" style="top: -40px">
+      <div class="text-white w-full text-center text-2xl absolute flex gap-5 justify-center" style="top: -40px">
         <p v-for="pathOption in $store.getters.currentView.pathOptions" class="text-glow cursor-pointer"
            @click="$store.dispatch('changeView', {screenName: pathOption.goal})"
            v-if="$store.getters.outerViewVisible">{{ pathOption.name }}</p>
 
         <p v-else class="text-glow cursor-pointer"
            @click="innerToOuterView">Zurück</p>
-      </span>
+      </div>
 
       <itembar-component class="mx-auto"/>
     </div>
@@ -233,17 +233,6 @@ export default {
   width: auto;
   max-width: 100vw;
   max-height: 100vh;
-}
-
-.icon-left,
-.icon-right {
-  width: 30px;
-  height: 30px;
-}
-
-.icon-up {
-  width: 47px;
-  height: 47px;
 }
 
 .letter {

@@ -64,7 +64,8 @@
 
 <script>
 export default {
-  name: "GuideScreen",
+  name: 'GuideScreen',
+
   props: {
     from: String,
   },
