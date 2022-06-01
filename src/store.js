@@ -2,13 +2,21 @@ import {Debouncer} from './models/Debouncer'
 
 let debouncer = new Debouncer(300)
 
-const BASE_IMG_PATH = '/media/images/'
+export const BASE_IMG_PATH = '/media/images/'
 
 
 const getDefaultSaveState = () => {
     return {
         elapsedTime: 0,
-        itembar: [],
+        itembar: [
+            {
+                name: 'IV7_offen_OB4 Brief',
+                img: 'IV7_offen_OB4.png',
+                frame: 'frameBrief1',
+                pixelArt: 'PA_Brief.png',
+                visible: true
+            }
+        ],
         screen: {
             outerViews: [
                 {
@@ -94,14 +102,16 @@ const getDefaultSaveState = () => {
 
 export default {
     state: {
-        save: getDefaultSaveState(),
         overlay: {
             blurred: false,
             paused: false,
             settings: false,
             newGameModal: false,
             loadingGameModal: false,
-            letter: false
+            letter: {
+                visible: false,
+                img: ''
+            }
         },
         settings: {
             music: 10,
@@ -110,6 +120,7 @@ export default {
             subtitles: true,
             hints: false
         },
+        save: getDefaultSaveState()
     },
 
     getters: {

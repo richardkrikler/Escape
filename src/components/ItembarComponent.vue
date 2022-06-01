@@ -54,24 +54,26 @@
         <img v-else :src="$store.getters.imgPath($store.state.save.itembar[i].pixelArt)"
              :alt="$store.state.save.itembar[i].name"
              class="w-16 h-16 my-auto glow"
-             @click="handle_function_call($store.state.save.itembar[i].frame)">
+             @click="itemClick($store.state.save.itembar[i].frame)">
       </div>
     </div>
   </div>
 </template>
 
 <script>
+
+import { BASE_IMG_PATH } from '../store'
+
 export default {
   name: 'ItembarComponent',
 
   methods: {
-    handle_function_call(function_name) {
-      this[function_name]()
-    },
-
-    frameBrief1() {
+    itemClick(item) {
       this.$store.state.overlay.blurred = true
-      this.$store.state.overlay.letter = true
+      if (item === 'frameBrief1') {
+        this.$store.state.overlay.letter.img = BASE_IMG_PATH + 'Textfield_letter.png'
+        this.$store.state.overlay.letter.visible = true
+      }
     },
   }
 }

@@ -102,16 +102,16 @@
         <p v-else class="text-glow cursor-pointer"
            @click="innerToOuterView">Zurück</p>
       </span>
+
       <itembar-component class="mx-auto"/>
     </div>
 
     <transition name="short-fade">
-      <div v-show="$store.state.overlay.letter">
+      <div v-if="$store.state.overlay.letter.visible">
         <div class="absolute h-full w-full top-0 left-0 flex flex-col justify-center"
              @click="closeLetter">
           <div>
-            <img src="/media/images/Textfield_letter.png" :alt="letter" class="w-3/5 mx-auto"
-                 style="filter: drop-shadow(0 0 1px #000) drop-shadow(0 0 5px #000) drop-shadow(0 0 15px #000);">
+            <img :src="$store.state.overlay.letter.img" :alt="letter" class="w-3/5 mx-auto letter">
           </div>
         </div>
       </div>
@@ -161,7 +161,7 @@ export default {
 
     closeLetter() {
       this.$store.state.overlay.blurred = false
-      this.$store.state.overlay.letter = false
+      this.$store.state.overlay.letter.visible = false
     },
 
     itembarAdd(evt) {
@@ -201,9 +201,9 @@ export default {
 
     document.onkeyup = (evt) => {
       if (evt.key === 'Escape') {
-        if (this.$store.state.overlay.letter) {
+        if (this.$store.state.overlay.letter.visible) {
           this.$store.state.overlay.blurred = false
-          this.$store.state.overlay.letter = false
+          this.$store.state.overlay.letter.visible = false
         } else if (this.$store.state.overlay.settings) {
           this.$store.state.overlay.paused = true
           this.$store.state.overlay.settings = false
@@ -214,7 +214,7 @@ export default {
         } else {
           this.$store.state.overlay.blurred = true
           this.$store.state.overlay.paused = true
-          this.$store.state.overlay.letter = false
+          this.$store.state.overlay.letter.visible = false
         }
       } else if ((evt.key === 'ArrowLeft' || evt.key === 'a') && this.$store.getters.outerViewVisible) {
         this.$store.dispatch('switchOuterView', {increment: false})
@@ -222,9 +222,6 @@ export default {
         this.$store.dispatch('switchOuterView', {increment: true})
       } else if (evt.key === 'ArrowUp' && !this.$store.getters.outerViewVisible) {
         this.innerToOuterView()
-      } else if (evt.key === 'x') {
-        const input = prompt();
-        this.$store.commit('changeScreen', {outerView: false, screen: input})
       }
     }
   }
@@ -247,5 +244,9 @@ export default {
 .icon-up {
   width: 47px;
   height: 47px;
+}
+
+.letter {
+  filter: drop-shadow(0 0 1px #000) drop-shadow(0 0 5px #000) drop-shadow(0 0 15px #000);
 }
 </style>
