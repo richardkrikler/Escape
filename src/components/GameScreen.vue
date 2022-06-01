@@ -134,6 +134,7 @@ import ItembarComponent from '@/components/ItembarComponent.vue'
 import ArrowBackComponent from '@/components/ArrowBackComponent.vue'
 import ArrowForwardComponent from '@/components/ArrowForwardComponent.vue'
 import ArrowUpComponent from '@/components/ArrowUpComponent.vue'
+import {BASE_IMG_PATH} from "../store";
 
 export default {
   name: 'GameScreen',
@@ -192,6 +193,12 @@ export default {
 
   mounted() {
     if (this.loadFromStorage === 'no') {
+
+      // first letter, explaining the game
+      this.$store.state.overlay.letter.img = BASE_IMG_PATH + 'Textfield_letter1.png'
+      this.$store.state.overlay.letter.visible = true
+      this.$store.state.overlay.blurred = true
+
       this.$store.commit('saveGame')
     } else {
       this.$store.commit('loadGame')

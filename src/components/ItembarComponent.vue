@@ -62,15 +62,15 @@
 
 <script>
 
-import { BASE_IMG_PATH } from '../store'
+import {BASE_IMG_PATH} from '../store'
 
 export default {
   name: 'ItembarComponent',
 
   methods: {
     itemClick(item) {
-      this.$store.state.overlay.blurred = true
       if (item === 'frameBrief1') {
+        this.$store.state.overlay.blurred = true
         this.$store.state.overlay.letter.img = BASE_IMG_PATH + 'Textfield_letter.png'
         this.$store.state.overlay.letter.visible = true
       }
