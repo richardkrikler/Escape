@@ -1,6 +1,6 @@
 <template>
   <div class="title-screen">
-    <div :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred') + ' title-content relative flex'">
+    <div :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')" class="title-content relative flex">
       <div class="flex-1 grid place-items-center h-screen ml-20">
         <div class="text-4xl">
           <div class="container">

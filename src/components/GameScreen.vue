@@ -17,12 +17,13 @@
         <div class="absolute left-0 top-0 h-full w-full">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6000 4000" preserveAspectRatio="none" class="h-full"
                stroke="gray" stroke-width="2" fill="transparent">
-            <!--               stroke="white" stroke-width="3" fill="transparent">-->
 
-            <!--            <g @click="test">-->
-            <!--              <path id="frame_batterie"-->
-            <!--                    d="M2009,2459l142-32s23-9,23-29,0-62.26,0-62.26c0,0-2-9.74-14-20.74-15-21-104-155-104-155,0,0-4-8-29-6-28,5-129,26-129,26,0,0-24,13-20,28,.5,17.5,5.5,71.5,5.5,71.5,0,0-1,3,4,11s95,154,95,154c0,0,9,15,26.5,14.5Z"/>-->
-            <!--            </g>-->
+            <g @click="itembarAdd">
+              <path id="frameBatterie"
+                    class="element-glow"
+                    v-if="$store.state.save.screen.outerViews[1].innerViews[0].visible && $store.state.save.screen.outerViews[1].innerViews[0].objects[1].visible"
+                    d="M2009,2459l142-32s23-9,23-29,0-62.26,0-62.26c0,0-2-9.74-14-20.74-15-21-104-155-104-155,0,0-4-8-29-6-28,5-129,26-129,26,0,0-24,13-20,28,.5,17.5,5.5,71.5,5.5,71.5,0,0-1,3,4,11s95,154,95,154c0,0,9,15,26.5,14.5Z"/>
+            </g>
 
             <g @click="itembarAdd">
               <path id="frameBrief1"
@@ -93,31 +94,24 @@
 
 
     <div :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')" class="absolute bottom-0 mb-5">
-      <span class="text-white w-full text-center text-2xl absolute flex gap-5 justify-center" style="top: -40px"
-            v-if="$store.getters.outerViewVisible">
+      <div class="text-white w-full text-center text-2xl absolute flex gap-5 justify-center" style="top: -40px">
         <p v-for="pathOption in $store.getters.currentView.pathOptions" class="text-glow cursor-pointer"
-           @click="$store.dispatch('changeView', {screenName: pathOption.goal})">{{ pathOption.name }}</p>
-      </span>
+           @click="$store.dispatch('changeView', {screenName: pathOption.goal})"
+           v-if="$store.getters.outerViewVisible">{{ pathOption.name }}</p>
+
+        <p v-else class="text-glow cursor-pointer"
+           @click="innerToOuterView">Zurück</p>
+      </div>
+
       <itembar-component class="mx-auto"/>
     </div>
 
-    <div v-if="!$store.getters.outerViewVisible">
-      <div class="absolute h-full top-0 left-0 flex flex-col justify-center"
-           :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')">
-        <div class="pl-2 py-0.5 cursor-pointer"
-             @click="innerToOuterView">
-          <arrow-up-component class="icon-up element-glow"/>
-        </div>
-      </div>
-    </div>
-
     <transition name="short-fade">
-      <div v-show="$store.state.overlay.letter">
+      <div v-if="$store.state.overlay.letter.visible">
         <div class="absolute h-full w-full top-0 left-0 flex flex-col justify-center"
              @click="closeLetter">
           <div>
-            <img src="/media/images/Textfield_letter.png" :alt="letter" class="w-3/5 mx-auto"
-                 style="filter: drop-shadow(0 0 1px #000) drop-shadow(0 0 5px #000) drop-shadow(0 0 15px #000);">
+            <img :src="$store.state.overlay.letter.img" :alt="letter" class="w-3/5 mx-auto letter">
           </div>
         </div>
       </div>
@@ -140,6 +134,7 @@ import ItembarComponent from '@/components/ItembarComponent.vue'
 import ArrowBackComponent from '@/components/ArrowBackComponent.vue'
 import ArrowForwardComponent from '@/components/ArrowForwardComponent.vue'
 import ArrowUpComponent from '@/components/ArrowUpComponent.vue'
+import {BASE_IMG_PATH} from "../store";
 
 export default {
   name: 'GameScreen',
@@ -167,7 +162,7 @@ export default {
 
     closeLetter() {
       this.$store.state.overlay.blurred = false
-      this.$store.state.overlay.letter = false
+      this.$store.state.overlay.letter.visible = false
     },
 
     itembarAdd(evt) {
@@ -198,6 +193,12 @@ export default {
 
   mounted() {
     if (this.loadFromStorage === 'no') {
+
+      // first letter, explaining the game
+      this.$store.state.overlay.letter.img = BASE_IMG_PATH + 'Textfield_letter1.png'
+      this.$store.state.overlay.letter.visible = true
+      this.$store.state.overlay.blurred = true
+
       this.$store.commit('saveGame')
     } else {
       this.$store.commit('loadGame')
@@ -207,9 +208,9 @@ export default {
 
     document.onkeyup = (evt) => {
       if (evt.key === 'Escape') {
-        if (this.$store.state.overlay.letter) {
+        if (this.$store.state.overlay.letter.visible) {
           this.$store.state.overlay.blurred = false
-          this.$store.state.overlay.letter = false
+          this.$store.state.overlay.letter.visible = false
         } else if (this.$store.state.overlay.settings) {
           this.$store.state.overlay.paused = true
           this.$store.state.overlay.settings = false
@@ -220,7 +221,7 @@ export default {
         } else {
           this.$store.state.overlay.blurred = true
           this.$store.state.overlay.paused = true
-          this.$store.state.overlay.letter = false
+          this.$store.state.overlay.letter.visible = false
         }
       } else if ((evt.key === 'ArrowLeft' || evt.key === 'a') && this.$store.getters.outerViewVisible) {
         this.$store.dispatch('switchOuterView', {increment: false})
@@ -228,9 +229,6 @@ export default {
         this.$store.dispatch('switchOuterView', {increment: true})
       } else if (evt.key === 'ArrowUp' && !this.$store.getters.outerViewVisible) {
         this.innerToOuterView()
-      } else if (evt.key === 'x') {
-        const input = prompt();
-        this.$store.commit('changeScreen', {outerView: false, screen: input})
       }
     }
   }
@@ -244,14 +242,7 @@ export default {
   max-height: 100vh;
 }
 
-.icon-left,
-.icon-right {
-  width: 30px;
-  height: 30px;
-}
-
-.icon-up {
-  width: 47px;
-  height: 47px;
+.letter {
+  filter: drop-shadow(0 0 1px #000) drop-shadow(0 0 5px #000) drop-shadow(0 0 15px #000);
 }
 </style>
