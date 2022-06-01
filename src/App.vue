@@ -17,7 +17,7 @@ export default {
     this.$store.commit('loadSettings')
 
     // first letter, explaining the game
-    this.$store.state.overlay.letter.img = '/media/images/Textfield_letter1.png'
+    this.$store.state.overlay.letter.img = BASE_IMG_PATH + 'Textfield_letter1.png'
     this.$store.state.overlay.letter.visible = true
     this.$store.state.overlay.blurred = true
   },
