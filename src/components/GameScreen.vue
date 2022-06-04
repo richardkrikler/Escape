@@ -20,14 +20,14 @@
 
             <g @click="itembarAdd">
               <path id="frameBatterie"
-                    class="element-glow"
+                    class="element-glow cursor-pointer"
                     v-if="$store.state.save.screen.outerViews[1].innerViews[0].visible && $store.state.save.screen.outerViews[1].innerViews[0].objects[1].visible"
                     d="M2009,2459l142-32s23-9,23-29,0-62.26,0-62.26c0,0-2-9.74-14-20.74-15-21-104-155-104-155,0,0-4-8-29-6-28,5-129,26-129,26,0,0-24,13-20,28,.5,17.5,5.5,71.5,5.5,71.5,0,0-1,3,4,11s95,154,95,154c0,0,9,15,26.5,14.5Z"/>
             </g>
 
             <g @click="itembarAdd">
               <path id="frameBrief1"
-                    class="element-glow"
+                    class="element-glow cursor-pointer"
                     v-if="$store.state.save.screen.outerViews[2].innerViews[1].visible && $store.state.save.screen.outerViews[2].innerViews[1].objects[0].visible"
                     d="M2247.48,2010.07v-388.31s277.21,22.65,394.79,19.42c117.57-3.24,239.46,6.47,239.46,6.47l148.85,2.16v390.47h-276.13s-182.29,17.26-319.28-12.94c-136.99-30.2-187.69-17.26-187.69-17.26Z"/>
             </g>
@@ -51,14 +51,14 @@
 
             <g @click="open">
               <polygon id="frame_kasten1"
-                       class="element-glow"
+                       class="element-glow cursor-pointer"
                        v-if="$store.state.save.screen.outerViews[2].innerViews[0].visible && $store.state.save.screen.outerViews[2].innerViews[0].objects[0].visible"
                        points="1797.66 314.43 1840.81 3576.27 4256.99 3554.7 4256.99 314.43 1797.66 314.43"/>
             </g>
 
             <g @click="itembarAdd">
               <path id="frameSchluessel1"
-                    class="element-glow"
+                    class="element-glow cursor-pointer"
                     v-if="$store.state.save.screen.outerViews[1].innerViews[0].visible && $store.state.save.screen.outerViews[1].innerViews[0].objects[0].visible"
                     d="M3706,3496l50-12s10-4,9-23-4-25-4-25l-6-7s-15.93,10.43-19.46-6.79-12.54-28.21-17.54-35.21l-12-13.33,317-77.67s40,48,102,44,66.65-44,66.65-44c0,0,4.35-49-50.65-86s-107-25-107-25c0,0-51,15-27,67l-426,107s-26,48,18,61c31-12,43-14,43-14,0,0,53,93,64,90Z"/>
             </g>

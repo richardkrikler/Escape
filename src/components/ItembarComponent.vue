@@ -53,7 +53,7 @@
 
         <img v-else :src="$store.getters.imgPath($store.state.save.itembar[i].pixelArt)"
              :alt="$store.state.save.itembar[i].name"
-             class="w-16 h-16 my-auto glow"
+             class="w-16 h-16 my-auto glow cursor-pointer"
              @click="itemClick($store.state.save.itembar[i].frame)">
       </div>
     </div>
