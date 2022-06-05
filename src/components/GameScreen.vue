@@ -4,15 +4,16 @@
     <div class="text-9xl" :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred') + ' text-white'">
       <div class="max-w-min overflow-hidden relative">
 
-        <img v-if="$store.getters.currentView.visible" :src="$store.getters.imgPath($store.getters.currentView.img)"
-             class="game-img" :alt="$store.getters.currentView.name">
+        <div v-if="$store.getters.currentView.visible" ref="outInImg" class="game-img"></div>
 
-        <div v-if="!$store.getters.outerViewVisible">
+
+        <div v-if="!$store.getters.outerViewVisible" ref="obImg">
           <img v-for="ob in $store.getters.currentView.objects" v-show="ob.visible && ob.img !== undefined"
                :src="$store.getters.imgPath(ob.img)"
                class="game-img absolute left-0 top-0"
                :alt="ob.name"/>
         </div>
+
 
         <div class="absolute left-0 top-0 h-full w-full">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6000 4000" preserveAspectRatio="none" class="h-full"
@@ -96,7 +97,7 @@
     <div :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')" class="absolute bottom-0 mb-5">
       <div class="text-white w-full text-center text-2xl absolute flex gap-5 justify-center" style="top: -40px">
         <p v-for="pathOption in $store.getters.currentView.pathOptions" class="text-glow cursor-pointer"
-           @click="$store.dispatch('changeView', {screenName: pathOption.goal})"
+           @click="changeOutInView(pathOption.goal)"
            v-if="$store.getters.outerViewVisible">{{ pathOption.name }}</p>
 
         <p v-else class="text-glow cursor-pointer"
@@ -152,7 +153,24 @@ export default {
     loadFromStorage: String,
   },
 
+  data() {
+    return {
+      images: []
+    }
+  },
+
   methods: {
+    async changeOutInView(screenName) {
+      this.$store.dispatch('changeView', {screenName: screenName})
+
+      this.$refs.outInImg.textContent = ''
+      this.images.forEach(img => {
+        if (img.id === this.$store.getters.currentView.img) {
+          this.$refs.outInImg.appendChild(img)
+        }
+      })
+    },
+
     incrementTimer() {
       if (this.$store.state.overlay.paused === false) {
         this.$store.state.save.elapsedTime += 1
@@ -181,13 +199,14 @@ export default {
           if (index > -1) {
             this.$store.state.save.itembar.splice(index, 1)
             this.$store.dispatch('changeView', {screenName: ob.opens})
+            this.changeOutInView()
           }
         }
       })))
     },
 
     innerToOuterView() {
-      this.$store.commit('setOuterView', this.$store.getters.outerViewOfInnerView({innerView: this.$store.getters.currentView}).pos - 1)
+      this.changeOutInView(this.$store.getters.outerViewOfInnerView({innerView: this.$store.getters.currentView}).name)
     }
   },
 
@@ -231,6 +250,42 @@ export default {
         this.innerToOuterView()
       }
     }
+
+
+    const addToImages = (img) => this.images.push(img)
+
+    const addDataUrl = async (name, src) => {
+      let xhr = new XMLHttpRequest()
+      xhr.onload = () => {
+        let reader = new FileReader()
+        reader.onloadend = () => {
+          const img = document.createElement('img')
+          img.id = name
+          img.src = reader.result
+          img.onload = () => {
+            img.style = 'max-width: 100vw !important'
+            addToImages(img)
+
+            this.changeOutInView('OV1')
+          }
+        }
+        reader.readAsDataURL(xhr.response)
+      }
+      xhr.open('GET', src)
+      xhr.responseType = 'blob'
+      xhr.send()
+    }
+
+    this.$store.state.save.screen.outerViews.forEach(ov => {
+      addDataUrl(ov.img, this.$store.getters.imgPath(ov.img))
+      ov.innerViews.forEach(iv => {
+        addDataUrl(iv.img, this.$store.getters.imgPath(iv.img))
+        iv.objects.forEach(ob => {
+          addDataUrl(ob.img, this.$store.getters.imgPath(ob.img))
+        })
+      })
+    })
+
   }
 }
 </script>
@@ -238,7 +293,7 @@ export default {
 <style scoped>
 .game-img {
   width: auto;
-  max-width: 100vw;
+  max-width: 100vw !important;
   max-height: 100vh;
 }
 
