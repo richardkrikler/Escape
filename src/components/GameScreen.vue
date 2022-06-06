@@ -4,31 +4,38 @@
     <div class="text-9xl" :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred') + ' text-white'">
       <div class="max-w-min overflow-hidden relative">
 
-        <img v-if="$store.getters.currentView.visible" :src="$store.getters.imgPath($store.getters.currentView.img)"
-             class="game-img" :alt="$store.getters.currentView.name">
+        <div v-if="$store.getters.currentView.visible" class="game-img">
+          <transition name="short-fade">
+            <div ref="outInImg" v-show="cvVisible"></div>
+          </transition>
+        </div>
 
-        <div v-if="!$store.getters.outerViewVisible">
-          <img v-for="ob in $store.getters.currentView.objects" v-show="ob.visible && ob.img !== undefined"
-               :src="$store.getters.imgPath(ob.img)"
-               class="game-img absolute left-0 top-0"
-               :alt="ob.name"/>
+        <div v-show="!$store.getters.outerViewVisible">
+          <transition name="short-fade">
+            <div ref="obImg" v-show="obVisible"></div>
+          </transition>
         </div>
 
         <div class="absolute left-0 top-0 h-full w-full">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6000 4000" preserveAspectRatio="none" class="h-full"
                stroke="gray" stroke-width="2" fill="transparent">
-            <!--               stroke="white" stroke-width="3" fill="transparent">-->
-
-            <!--            <g @click="test">-->
-            <!--              <path id="frame_batterie"-->
-            <!--                    d="M2009,2459l142-32s23-9,23-29,0-62.26,0-62.26c0,0-2-9.74-14-20.74-15-21-104-155-104-155,0,0-4-8-29-6-28,5-129,26-129,26,0,0-24,13-20,28,.5,17.5,5.5,71.5,5.5,71.5,0,0-1,3,4,11s95,154,95,154c0,0,9,15,26.5,14.5Z"/>-->
-            <!--            </g>-->
 
             <g @click="itembarAdd">
-              <path id="frame_brief1"
-                    class="element-glow"
-                    v-if="$store.state.save.screen.outerViews[2].innerViews[1].visible && $store.state.save.screen.outerViews[2].innerViews[1].objects[0].visible"
-                    d="M2205.39,276.67s886.65,85.75,967.55,45.3c92.22-8.09,592.18,44.22,592.18,44.22,0,0,166.11-1.08,176.9-12.94s-38.83,852.13-38.83,852.13h-470.29s-221.12-14.02-368.9,10.79c-103.55-23.73-280.45-15.1-280.45-15.1,0,0-24.81-62.56-578.16-75.51V276.67Z"/>
+              <transition name="delay-short-fade">
+                <path id="frameBatterie"
+                      class="element-glow cursor-pointer"
+                      v-if="$store.state.save.screen.outerViews[1].innerViews[0].visible && $store.state.save.screen.outerViews[1].innerViews[0].objects[1].visible"
+                      d="M2009,2459l142-32s23-9,23-29,0-62.26,0-62.26c0,0-2-9.74-14-20.74-15-21-104-155-104-155,0,0-4-8-29-6-28,5-129,26-129,26,0,0-24,13-20,28,.5,17.5,5.5,71.5,5.5,71.5,0,0-1,3,4,11s95,154,95,154c0,0,9,15,26.5,14.5Z"/>
+              </transition>
+            </g>
+
+            <g @click="itembarAdd">
+              <transition name="delay-short-fade">
+                <path id="frameBrief1"
+                      class="element-glow cursor-pointer"
+                      v-if="$store.state.save.screen.outerViews[2].innerViews[1].visible && $store.state.save.screen.outerViews[2].innerViews[1].objects[0].visible"
+                      d="M2247.48,2010.07v-388.31s277.21,22.65,394.79,19.42c117.57-3.24,239.46,6.47,239.46,6.47l148.85,2.16v390.47h-276.13s-182.29,17.26-319.28-12.94c-136.99-30.2-187.69-17.26-187.69-17.26Z"/>
+              </transition>
             </g>
 
             <!--            <g @click="test">-->
@@ -49,17 +56,21 @@
             <!--            </g>-->
 
             <g @click="open">
-              <polygon id="frame_kasten1"
-                       class="element-glow"
-                       v-if="$store.state.save.screen.outerViews[2].innerViews[0].visible && $store.state.save.screen.outerViews[2].innerViews[0].objects[0].visible"
-                       points="1797.66 314.43 1840.81 3576.27 4256.99 3554.7 4256.99 314.43 1797.66 314.43"/>
+              <transition name="delay-short-fade">
+                <polygon id="frame_kasten1"
+                         class="element-glow cursor-pointer"
+                         v-if="$store.state.save.screen.outerViews[2].innerViews[0].visible && $store.state.save.screen.outerViews[2].innerViews[0].objects[0].visible"
+                         points="1797.66 314.43 1840.81 3576.27 4256.99 3554.7 4256.99 314.43 1797.66 314.43"/>
+              </transition>
             </g>
 
             <g @click="itembarAdd">
-              <path id="frame_schlüssel1"
-                    class="element-glow"
-                    v-if="$store.state.save.screen.outerViews[1].innerViews[0].visible && $store.state.save.screen.outerViews[1].innerViews[0].objects[0].visible"
-                    d="M3706,3496l50-12s10-4,9-23-4-25-4-25l-6-7s-15.93,10.43-19.46-6.79-12.54-28.21-17.54-35.21l-12-13.33,317-77.67s40,48,102,44,66.65-44,66.65-44c0,0,4.35-49-50.65-86s-107-25-107-25c0,0-51,15-27,67l-426,107s-26,48,18,61c31-12,43-14,43-14,0,0,53,93,64,90Z"/>
+              <transition name="delay-short-fade">
+                <path id="frameSchluessel1"
+                      class="element-glow cursor-pointer"
+                      v-if="$store.state.save.screen.outerViews[1].innerViews[0].visible && $store.state.save.screen.outerViews[1].innerViews[0].objects[0].visible"
+                      d="M3706,3496l50-12s10-4,9-23-4-25-4-25l-6-7s-15.93,10.43-19.46-6.79-12.54-28.21-17.54-35.21l-12-13.33,317-77.67s40,48,102,44,66.65-44,66.65-44c0,0,4.35-49-50.65-86s-107-25-107-25c0,0-51,15-27,67l-426,107s-26,48,18,61c31-12,43-14,43-14,0,0,53,93,64,90Z"/>
+              </transition>
             </g>
 
             <!--            <g @click="test">-->
@@ -93,43 +104,26 @@
 
 
     <div :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')" class="absolute bottom-0 mb-5">
-      <span class="text-white w-full text-center text-2xl absolute flex gap-5 justify-center" style="top: -40px"
-            v-if="$store.getters.outerViewVisible">
+      <div class="text-white w-full text-center text-2xl absolute flex gap-5 justify-center" style="top: -40px">
         <p v-for="pathOption in $store.getters.currentView.pathOptions" class="text-glow cursor-pointer"
-           @click="$store.dispatch('changeView', {screenName: pathOption.goal})">{{ pathOption.name }}</p>
-      </span>
-      <itembar-component class="mx-auto"/>
-    </div>
+           @click="changeOutInView(pathOption.goal)"
+           v-if="$store.getters.outerViewVisible">{{ pathOption.name }}</p>
 
-
-    <div v-if="this.$store.getters.outerViewVisible">
-      <div class="absolute h-full top-0 left-0 flex flex-col justify-center"
-           :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')">
-        <div class="pl-5 pr-2 py-2.5 cursor-pointer"
-             @click="this.$store.dispatch('switchOuterView', {increment: false})">
-          <arrow-back-component class="icon-left element-glow"/>
-        </div>
+        <p v-else class="text-glow cursor-pointer"
+           @click="innerToOuterView">Zurück</p>
       </div>
 
-      <div class="absolute h-full top-0 right-0 flex flex-col justify-center"
-           :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')">
-        <div class="pr-3 pl-4 py-2.5 cursor-pointer"
-             @click="this.$store.dispatch('switchOuterView', {increment: true})">
-          <arrow-forward-component class="icon-right element-glow"/>
-        </div>
-      </div>
+      <itembar-component class="mx-auto" @changeLetter="changeLetter"/>
     </div>
 
-    <div v-else>
-      <div class="absolute h-full top-0 left-0 flex flex-col justify-center"
-           :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')">
-        <div class="pl-2 py-0.5 cursor-pointer"
-             @click="innerToOuterView">
-          <arrow-up-component class="icon-up element-glow"/>
+    <transition name="short-fade">
+      <div v-show="$store.state.overlay.letter.visible">
+        <div class="absolute h-full w-full top-0 left-0 flex flex-col justify-center"
+             @click="closeLetter">
+          <div ref="letter"></div>
         </div>
       </div>
-    </div>
-
+    </transition>
 
     <transition name="short-fade">
       <pause-overlay v-if="$store.state.overlay.paused"/>
@@ -166,10 +160,59 @@ export default {
   },
 
   data() {
-    return {}
+    return {
+      cvVisible: true,
+      obVisible: false,
+      images: []
+    }
   },
 
   methods: {
+    async changeOutInView(screenName) {
+      this.$store.dispatch('changeView', {screenName: screenName})
+
+
+      this.cvVisible = false
+      setTimeout(async () => {
+        this.$refs.outInImg.textContent = ''
+        this.images.forEach(img => {
+          if (img.id === this.$store.getters.currentView.img) {
+            this.$refs.outInImg.appendChild(img)
+          }
+        })
+        await this.changeObjects()
+        setTimeout(() => this.cvVisible = true, 100)
+      }, 180)
+    },
+
+    async changeLetter(letterImg) {
+      this.$refs.letter.textContent = ''
+      this.images.forEach(img => {
+        if (img.id === letterImg) {
+          this.$refs.letter.appendChild(img)
+        }
+      })
+    },
+
+    async changeObjects() {
+      this.obVisible = false
+      setTimeout(() => {
+        this.$refs.obImg.textContent = ''
+        if (this.$store.getters.currentView.objects !== undefined) {
+          this.$store.getters.currentView.objects.forEach(ob => {
+            if (ob.visible && ob.img !== undefined) {
+              this.images.forEach(img => {
+                if (img.id === ob.img) {
+                  this.$refs.obImg.appendChild(img)
+                }
+              })
+            }
+          })
+        }
+        this.obVisible = true
+      }, 150)
+    },
+
     incrementTimer() {
       if (this.$store.state.overlay.paused === false) {
         this.$store.state.save.elapsedTime += 1
@@ -177,17 +220,20 @@ export default {
       }
     },
 
-    test(evt) {
-      console.log('test click!: ' + evt.target.id)
+    closeLetter() {
+      this.$store.state.overlay.blurred = false
+      this.$store.state.overlay.letter.visible = false
     },
 
-    itembarAdd(evt) {
+    async itembarAdd(evt) {
       this.$store.state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach(iv => iv.objects.forEach(ob => {
         if (ob.frame === evt.target.id) {
           ob.visible = false
           this.$store.state.save.itembar.push(ob)
         }
       })))
+
+      await this.changeObjects()
     },
 
     open(evt) {
@@ -197,18 +243,25 @@ export default {
           if (index > -1) {
             this.$store.state.save.itembar.splice(index, 1)
             this.$store.dispatch('changeView', {screenName: ob.opens})
+            this.changeOutInView()
           }
         }
       })))
     },
 
     innerToOuterView() {
-      this.$store.commit('setOuterView', this.$store.getters.outerViewOfInnerView({innerView: this.$store.getters.currentView}).pos - 1)
+      this.changeOutInView(this.$store.getters.outerViewOfInnerView({innerView: this.$store.getters.currentView}).name)
     }
   },
 
   mounted() {
     if (this.loadFromStorage === 'no') {
+
+      // first letter, explaining the game
+      this.$store.state.overlay.letter.img = 'Textfield_letter1.png'
+      this.$store.state.overlay.letter.visible = true
+      this.$store.state.overlay.blurred = true
+
       this.$store.commit('saveGame')
     } else {
       this.$store.commit('loadGame')
@@ -218,7 +271,10 @@ export default {
 
     document.onkeyup = (evt) => {
       if (evt.key === 'Escape') {
-        if (this.$store.state.overlay.settings) {
+        if (this.$store.state.overlay.letter.visible) {
+          this.$store.state.overlay.blurred = false
+          this.$store.state.overlay.letter.visible = false
+        } else if (this.$store.state.overlay.settings) {
           this.$store.state.overlay.paused = true
           this.$store.state.overlay.settings = false
         } else if (this.$store.state.overlay.paused) {
@@ -228,6 +284,7 @@ export default {
         } else {
           this.$store.state.overlay.blurred = true
           this.$store.state.overlay.paused = true
+          this.$store.state.overlay.letter.visible = false
         }
       } else if ((evt.key === 'ArrowLeft' || evt.key === 'a') && this.$store.getters.outerViewVisible) {
         this.$store.dispatch('switchOuterView', {increment: false})
@@ -235,11 +292,55 @@ export default {
         this.$store.dispatch('switchOuterView', {increment: true})
       } else if (evt.key === 'ArrowUp' && !this.$store.getters.outerViewVisible) {
         this.innerToOuterView()
-      } else if (evt.key === 'x') {
-        const input = prompt();
-        this.$store.commit('changeScreen', {outerView: false, screen: input})
       }
     }
+
+
+    const addToImages = (img) => this.images.push(img)
+
+    const addDataUrl = async (name, src, type) => {
+      let xhr = new XMLHttpRequest()
+      xhr.onload = () => {
+        let reader = new FileReader()
+        reader.onloadend = () => {
+          const img = document.createElement('img')
+          img.id = name
+          img.src = reader.result
+          img.onload = () => {
+            if (type === 'game') {
+              img.style = 'max-width: 100vw !important; max-height: 100vh !important'
+            } else if (type === 'letter') {
+              img.classList = 'w-3/5 mx-auto'
+              img.style = 'filter: drop-shadow(0 0 1px #000) drop-shadow(0 0 5px #000) drop-shadow(0 0 15px #000)'
+            } else if (type === 'object') {
+              img.classList = 'game-img absolute left-0 top-0'
+            }
+            addToImages(img)
+            if (img.id === this.$store.getters.currentView.img) {
+              this.changeOutInView(this.$store.getters.currentView.name)
+            }
+            this.changeLetter('Textfield_letter1.png')
+          }
+        }
+        reader.readAsDataURL(xhr.response)
+      }
+      xhr.open('GET', src)
+      xhr.responseType = 'blob'
+      xhr.send()
+    }
+
+    addDataUrl('Textfield_letter.png', this.$store.getters.imgPath('Textfield_letter.png'), 'letter')
+    addDataUrl('Textfield_letter1.png', this.$store.getters.imgPath('Textfield_letter1.png'), 'letter')
+
+    this.$store.state.save.screen.outerViews.forEach(ov => {
+      addDataUrl(ov.img, this.$store.getters.imgPath(ov.img), 'game')
+      ov.innerViews.forEach(iv => {
+        addDataUrl(iv.img, this.$store.getters.imgPath(iv.img), 'game')
+        iv.objects.forEach(ob => {
+          addDataUrl(ob.img, this.$store.getters.imgPath(ob.img), 'object')
+        })
+      })
+    })
   }
 }
 </script>
@@ -247,18 +348,7 @@ export default {
 <style scoped>
 .game-img {
   width: auto;
-  max-width: 100vw;
-  max-height: 100vh;
-}
-
-.icon-left,
-.icon-right {
-  width: 30px;
-  height: 30px;
-}
-
-.icon-up {
-  width: 47px;
-  height: 47px;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
 }
 </style>

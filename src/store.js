@@ -2,93 +2,116 @@ import {Debouncer} from './models/Debouncer'
 
 let debouncer = new Debouncer(300)
 
-const BASE_IMG_PATH = '/media/images/'
+export const BASE_IMG_PATH = '/media/images/'
+
+
+const getDefaultSaveState = () => {
+    return {
+        elapsedTime: 0,
+        itembar: [
+            {
+                name: 'IV7_offen_OB4 Brief',
+                img: 'IV7_offen_OB4.png',
+                frame: 'frameBrief1',
+                pixelArt: 'PA_Brief.png',
+                visible: true
+            }
+        ],
+        screen: {
+            outerViews: [
+                {
+                    name: 'OV1',
+                    pos: 1,
+                    visible: true,
+                    img: 'OV1.jpg',
+                    pathOptions: [{name: 'Gerade aus', goal: 'OV2'}, {name: 'Rechts', goal: 'OV7'}],
+                    innerViews: []
+                },
+                {
+                    name: 'OV2',
+                    pos: 2,
+                    visible: false,
+                    img: 'OV2.jpg',
+                    pathOptions: [{name: 'Links', goal: 'IV1'}, {name: 'Zurück', goal: 'OV1'}],
+                    innerViews: [
+                        {
+                            name: 'IV1',
+                            img: 'IV1.jpg',
+                            visible: false,
+                            objects: [
+                                {
+                                    name: 'OB2 Schlüssel',
+                                    img: 'IV1_OB2_Schluessel.png',
+                                    frame: 'frameSchluessel1',
+                                    pixelArt: 'PA_Schluessel.png',
+                                    visible: true
+                                },
+                                {
+                                    name: 'OB20 Batterie',
+                                    img: 'IV_OB20_Batterie.png',
+                                    frame: 'frameBatterie',
+                                    pixelArt: 'PA_Batterie.png',
+                                    visible: true
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: 'OV7',
+                    pos: 3,
+                    visible: false,
+                    img: 'OV7.jpg',
+                    pathOptions: [{name: 'Kasten', goal: 'IV7'}, {name: 'Zurück', goal: 'OV1'}],
+                    innerViews: [
+                        {
+                            name: 'IV7',
+                            img: 'IV7.jpg',
+                            visible: false,
+                            objects: [
+                                {
+                                    name: 'Kasten',
+                                    needs: 'OB2 Schlüssel',
+                                    opened: false,
+                                    opens: 'IV7 offen',
+                                    frame: 'frame_kasten1',
+                                    visible: true
+                                }
+                            ]
+                        },
+                        {
+                            name: 'IV7 offen',
+                            img: 'IV7_offen.jpg',
+                            visible: false,
+                            objects: [
+                                {
+                                    name: 'IV7_offen_OB4 Brief',
+                                    img: 'IV7_offen_OB4.png',
+                                    frame: 'frameBrief1',
+                                    pixelArt: 'PA_Brief.png',
+                                    visible: true
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
 
 export default {
     state: {
-        save: {
-            elapsedTime: 0,
-            itembar: [],
-            screen: {
-                outerViews: [
-                    {
-                        name: 'OV1',
-                        pos: 1,
-                        visible: true,
-                        img: 'OV1.jpg',
-                        pathOptions: [{name: 'Gerade aus', goal: 'OV2'}, {name: 'Rechts', goal: 'OV7'}],
-                        innerViews: []
-                    },
-                    {
-                        name: 'OV2',
-                        pos: 2,
-                        visible: false,
-                        img: 'OV2.jpg',
-                        pathOptions: [{name: 'Links', goal: 'IV1'}, {name: 'Zurück', goal: 'OV1'}],
-                        innerViews: [
-                            {
-                                name: 'IV1',
-                                img: 'IV1.jpg',
-                                visible: false,
-                                objects: [
-                                    {
-                                        name: 'OB2 Schlüssel',
-                                        img: 'IV1_OB2_Schluessel.png',
-                                        frame: 'frame_schlüssel1',
-                                        pixelArt: 'PA_Schluessel.png',
-                                        visible: true
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        name: 'OV7',
-                        pos: 3,
-                        visible: false,
-                        img: 'OV7.jpg',
-                        pathOptions: [{name: 'Kasten', goal: 'IV7'}, {name: 'Zurück', goal: 'OV1'}],
-                        innerViews: [
-                            {
-                                name: 'IV7',
-                                img: 'IV7.jpg',
-                                visible: false,
-                                objects: [
-                                    {
-                                        name: 'Kasten',
-                                        needs: 'OB2 Schlüssel',
-                                        opened: false,
-                                        opens: 'IV7 offen',
-                                        frame: 'frame_kasten1',
-                                        visible: true
-                                    }
-                                ]
-                            },
-                            {
-                                name: 'IV7 offen',
-                                img: 'IV7_offen.jpg',
-                                visible: false,
-                                objects: [
-                                    {
-                                        name: 'IV7_offen_OB Brief',
-                                        img: 'IV7_offen_OBx.png',
-                                        frame: 'frame_brief1',
-                                        pixelArt: 'PA_Brief.png',
-                                        visible: true
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
-        },
         overlay: {
             blurred: false,
             paused: false,
             settings: false,
             newGameModal: false,
-            loadingGameModal: false
+            loadingGameModal: false,
+            letter: {
+                visible: false,
+                img: ''
+            }
         },
         settings: {
             music: 10,
@@ -97,6 +120,7 @@ export default {
             subtitles: true,
             hints: false
         },
+        save: getDefaultSaveState()
     },
 
     getters: {
@@ -146,7 +170,6 @@ export default {
     mutations: {
         saveGame(state) {
             // sets the saveGame variable in the localStorage and gives it the store Object where the status of the Game is saved
-            console.log(state.save)
             localStorage.setItem('saveGame', JSON.stringify(state.save))
         },
 
@@ -164,7 +187,7 @@ export default {
 
         resetGame(state) {
             localStorage.removeItem('saveGame')
-            state.save.elapsedTime = 0
+            Object.assign(state.save, getDefaultSaveState())
         },
 
         setSetting(state, obj) {
