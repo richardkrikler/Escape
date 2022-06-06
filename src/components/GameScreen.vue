@@ -310,7 +310,8 @@ export default {
             if (type === 'game') {
               img.style = 'max-width: 100vw !important; max-height: 100vh !important'
             } else if (type === 'letter') {
-              img.classList = 'w-3/5 mx-auto letter'
+              img.classList = 'w-3/5 mx-auto'
+              img.style = 'filter: drop-shadow(0 0 1px #000) drop-shadow(0 0 5px #000) drop-shadow(0 0 15px #000)'
             } else if (type === 'object') {
               img.classList = 'game-img absolute left-0 top-0'
             }
@@ -349,9 +350,5 @@ export default {
   width: auto;
   max-width: 100vw !important;
   max-height: 100vh !important;
-}
-
-.letter {
-  filter: drop-shadow(0 0 1px #000) drop-shadow(0 0 5px #000) drop-shadow(0 0 15px #000);
 }
 </style>
