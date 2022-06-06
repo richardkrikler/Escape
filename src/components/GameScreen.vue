@@ -205,6 +205,7 @@ export default {
           this.$store.state.save.itembar.push(ob)
         }
       })))
+
       await this.changeObjects()
     },
 
@@ -228,6 +229,7 @@ export default {
 
   mounted() {
     if (this.loadFromStorage === 'no') {
+
       // first letter, explaining the game
       this.$store.state.overlay.letter.img = 'Textfield_letter1.png'
       this.$store.state.overlay.letter.visible = true
@@ -309,8 +311,6 @@ export default {
         })
       })
     })
-
-
   }
 }
 </script>
