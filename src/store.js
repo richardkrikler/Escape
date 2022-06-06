@@ -121,8 +121,8 @@ export default {
             hints: false
         },
         music: {
-            background1: new Audio('../src/assets/media/audio/background1.wav'),
-            background2: new Audio('../src/assets/media/audio/background2.wav'),
+            background1: new Audio('/media/audio/background1.wav'),
+            background2: new Audio('/media/audio/background2.wav'),
         },
         save: getDefaultSaveState()
     },
