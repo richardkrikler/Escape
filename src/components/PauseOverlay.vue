@@ -4,7 +4,7 @@
       <div class="flex justify-between">
         <h2 class="text-center text-8xl text-white mt-12 mb-2 text-title">PAUSE</h2>
         <div class="flex mt-12 mb-2">
-          <img src="../assets/media/images/schedule_white_24dp.svg" alt="clock-icon"
+          <img src="/media/icons/schedule.svg" alt="clock-icon"
                class="clock-icon self-end mb-3 mx-2">
           <h2 class="text-center text-6xl text-white text-title self-end mx-2">{{ $store.getters.elapsedTime }}</h2>
         </div>
@@ -30,6 +30,11 @@
             class="text-5xl my-10 cursor-pointer text-glow w-max"
             @click="openSettings">
           EINSTELLUNGEN
+        </div>
+        <div
+            class="text-5xl my-10 cursor-pointer text-glow w-max"
+            @click="this.$router.push({name: 'GuideScreen', params: {from: 'GameScreen'}})">
+          ANLEITUNG
         </div>
         <div
             class="text-5xl my-10 cursor-pointer text-glow w-max"

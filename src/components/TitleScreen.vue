@@ -1,6 +1,6 @@
 <template>
   <div class="title-screen">
-    <div :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred') + ' title-content relative flex'" @click="backgroundSound">
+    <div :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')" class="title-content relative flex" @click="backgroundSound">
       <div class="flex-1 grid place-items-center h-screen ml-20">
         <div class="text-4xl">
           <div class="container">
@@ -16,6 +16,9 @@
           </div>
           <div class="text-center text-white mb-8 cursor-pointer text-glow text-grow" @click="openSettings">
             EINSTELLUNGEN
+          </div>
+          <div class="text-center text-white mb-8 cursor-pointer text-glow text-grow" @click="openGuide">
+            ANLEITUNG
           </div>
         </div>
       </div>
@@ -138,6 +141,10 @@ export default {
 
       setTimeout(this.loop, 50000)
     }
+
+    openGuide() {
+      this.$router.push({name: 'GuideScreen', params: {from: 'default'}})
+    }
   }
 }
 </script>
@@ -148,7 +155,7 @@ export default {
 }
 
 .title-content {
-  background-image: url('../assets/media/images/Titlescreen.png');
+  background-image: url('/media/images/Titlescreen.png');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;

@@ -2,43 +2,116 @@ import {Debouncer} from './models/Debouncer'
 
 let debouncer = new Debouncer(300)
 
+export const BASE_IMG_PATH = '/media/images/'
+
+
+const getDefaultSaveState = () => {
+    return {
+        elapsedTime: 0,
+        itembar: [
+            {
+                name: 'IV7_offen_OB4 Brief',
+                img: 'IV7_offen_OB4.png',
+                frame: 'frameBrief1',
+                pixelArt: 'PA_Brief.png',
+                visible: true
+            }
+        ],
+        screen: {
+            outerViews: [
+                {
+                    name: 'OV1',
+                    pos: 1,
+                    visible: true,
+                    img: 'OV1.jpg',
+                    pathOptions: [{name: 'Gerade aus', goal: 'OV2'}, {name: 'Rechts', goal: 'OV7'}],
+                    innerViews: []
+                },
+                {
+                    name: 'OV2',
+                    pos: 2,
+                    visible: false,
+                    img: 'OV2.jpg',
+                    pathOptions: [{name: 'Links', goal: 'IV1'}, {name: 'Zurück', goal: 'OV1'}],
+                    innerViews: [
+                        {
+                            name: 'IV1',
+                            img: 'IV1.jpg',
+                            visible: false,
+                            objects: [
+                                {
+                                    name: 'OB2 Schlüssel',
+                                    img: 'IV1_OB2_Schluessel.png',
+                                    frame: 'frameSchluessel1',
+                                    pixelArt: 'PA_Schluessel.png',
+                                    visible: true
+                                },
+                                {
+                                    name: 'OB20 Batterie',
+                                    img: 'IV_OB20_Batterie.png',
+                                    frame: 'frameBatterie',
+                                    pixelArt: 'PA_Batterie.png',
+                                    visible: true
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: 'OV7',
+                    pos: 3,
+                    visible: false,
+                    img: 'OV7.jpg',
+                    pathOptions: [{name: 'Kasten', goal: 'IV7'}, {name: 'Zurück', goal: 'OV1'}],
+                    innerViews: [
+                        {
+                            name: 'IV7',
+                            img: 'IV7.jpg',
+                            visible: false,
+                            objects: [
+                                {
+                                    name: 'Kasten',
+                                    needs: 'OB2 Schlüssel',
+                                    opened: false,
+                                    opens: 'IV7 offen',
+                                    frame: 'frame_kasten1',
+                                    visible: true
+                                }
+                            ]
+                        },
+                        {
+                            name: 'IV7 offen',
+                            img: 'IV7_offen.jpg',
+                            visible: false,
+                            objects: [
+                                {
+                                    name: 'IV7_offen_OB4 Brief',
+                                    img: 'IV7_offen_OB4.png',
+                                    frame: 'frameBrief1',
+                                    pixelArt: 'PA_Brief.png',
+                                    visible: true
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
+
 export default {
     state: {
-        save: {
-            elapsedTime: 0,
-            screen: {
-                outerView: true,
-                screen: 1
-            },
-            gameState: {
-                O1: {
-                    batterie : true,
-                    schlussel1 : true,
-                },
-                4: {
-                    offen: false,
-                    schraubenzieher: true,
-                    ziffer4 : true,
-                },
-                6: {
-                    offen: false,
-                    ziffer2: true,
-                    zettel2: true,
-                },
-                7: {
-                    offen: false,
-                    closeup: false,
-                    ziffer3: true,
-                    brief1: true,
-                }
-            }
-        },
         overlay: {
             blurred: false,
             paused: false,
             settings: false,
             newGameModal: false,
-            loadingGameModal: false
+            loadingGameModal: false,
+            letter: {
+                visible: false,
+                img: ''
+            }
         },
         settings: {
             music: 10,
@@ -50,7 +123,8 @@ export default {
         music: {
             background1: new Audio('../src/assets/media/audio/background1.wav'),
             background2: new Audio('../src/assets/media/audio/background2.wav'),
-        }
+        },
+        save: getDefaultSaveState()
     },
 
     getters: {
@@ -63,22 +137,49 @@ export default {
                 (result.getHours() !== 0 ? timeFormat(result.getHours()) + ':' : '') +
                 (result.getMinutes() < 10 ? '0' + result.getMinutes() : result.getMinutes()) + ':' +
                 timeFormat(result.getSeconds())
+        },
+
+        currentView(state) {
+            const visibleOuterView = state.save.screen.outerViews.filter((ov) => ov.visible === true)[0]
+            const visibleInnerView = visibleOuterView.innerViews.filter((iv) => iv.visible === true)[0]
+            return visibleInnerView !== undefined ? visibleInnerView : visibleOuterView
+        },
+
+        outerViewOfInnerView: (state) => (innerView) => {
+            let ovResult = {}
+
+            state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach(iv => {
+                if (iv.name === innerView.innerView.name) {
+                    ovResult = ov
+                }
+            }))
+
+            return ovResult
+        },
+
+        outerViewVisible(state) {
+            const visibleOuterViews = state.save.screen.outerViews.filter((ov) => ov.visible === true)
+            if (visibleOuterViews.length > 0) {
+                return visibleOuterViews[0].innerViews.filter((iv) => iv.visible === true)[0] === undefined
+            } else {
+                return false
+            }
+        },
+
+        imgPath: () => (filename) => {
+            return BASE_IMG_PATH + filename
         }
     },
 
     mutations: {
         saveGame(state) {
             // sets the saveGame variable in the localStorage and gives it the store Object where the status of the Game is saved
-            console.log(state.save)
             localStorage.setItem('saveGame', JSON.stringify(state.save))
         },
 
         loadGame(state) {
             // loads the saveGame variable from the localStorage and gives it to the store Object where the status of the Game is saved
             Object.assign(state.save, JSON.parse(localStorage.getItem('saveGame')))
-
-            // TODO: remove after demonstration, just for demonstration purposes
-            console.log('loaded Game')
         },
 
         loadSettings(state) {
@@ -90,37 +191,52 @@ export default {
 
         resetGame(state) {
             localStorage.removeItem('saveGame')
-            state.save.elapsedTime = 0
+            Object.assign(state.save, getDefaultSaveState())
         },
 
         setSetting(state, obj) {
             state.settings[obj.name] = obj.value
+
             state.music.background1.volume = obj.value/10
             state.music.background2.volume = obj.value/10
 
-            debouncer.debounce(
-                () => {
-                    // sets the settings variable in the localStorage and gives it the store Object where the settings are saved
-                    localStorage.setItem('settings', JSON.stringify(state.settings))
-                })
+            // sets the settings variable in the localStorage and gives it the store Object where the settings are saved
+            debouncer.debounce(() => localStorage.setItem('settings', JSON.stringify(state.settings)))
         },
 
-        switchOuterView(state, increment) {
-            let currentScreen = state.save.screen.screen
-            if(increment) {
-                state.save.screen.screen = currentScreen===2 ? 1 : (currentScreen+1)
+        setOuterView(state, viewPos) {
+            state.save.screen.outerViews.forEach(ov => ov.visible = false)
+            state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach(iv => iv.visible = false))
+            state.save.screen.outerViews[viewPos].visible = true
+        },
+
+        setInnerView(state, innerView) {
+            innerView.visible = true
+        }
+    },
+
+    actions: {
+        switchOuterView({commit, getters, state}, {increment}) {
+            if (increment) {
+                commit('setOuterView', getters.currentView.pos === state.save.screen.outerViews.length ? 0 : getters.currentView.pos);
             } else {
-                state.save.screen.screen = currentScreen===1 ? 2 : (currentScreen-1)
+                commit('setOuterView', getters.currentView.pos === 1 ? state.save.screen.outerViews.length - 1 : getters.currentView.pos - 2);
             }
         },
 
-        changeScreen(state, input) {
-            console.log(input.outerView)
-            console.log(input.screen)
-            console.log(state.save.gameState[input.screen])
-
-            state.save.screen.outerView = input.outerView
-            state.save.screen.screen = input.screen
+        changeView({commit, getters, state}, {screenName}) {
+            state.save.screen.outerViews.forEach(ov => {
+                if (ov.name === screenName) {
+                    commit('setOuterView', ov.pos - 1)
+                } else {
+                    ov.innerViews.forEach(iv => {
+                        if (iv.name === screenName) {
+                            commit('setOuterView', ov.pos - 1)
+                            commit('setInnerView', iv)
+                        }
+                    })
+                }
+            })
         }
     }
 }
