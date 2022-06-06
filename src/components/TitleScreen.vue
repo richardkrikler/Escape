@@ -43,9 +43,10 @@
     </transition>
     <audio
         ref="intro"
-        src="src/assets/media/audio/startingScreen.wav"
+        src="../src/assets/media/audio/background1.wav"
         preload
         id="intro"
+        :volume="$store.state.settings.music/10"
     ></audio>
   </div>
 </template>
@@ -131,6 +132,7 @@ export default {
     },
 
     loop() {
+      console.log('ich begehe selbstmord???')
       let audio = this.$refs.intro
 
       audio.play()

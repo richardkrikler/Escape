@@ -54,10 +54,10 @@
     </transition>
 
     <audio
-        ref="intro"
-        src="src/assets/media/audio/startingScreen.wav"
+        ref="game"
+        :src="'../src/assets/media/audio/background' + (backgroundSound+1) + '.wav'"
         preload
-        id="intro"
+        id="game"
         :volume="$store.state.settings.music/10"
     ></audio>
 
@@ -81,7 +81,9 @@ export default {
   },
 
   data() {
-    return {}
+    return {
+      backgroundSound: false,
+    }
   },
 
   methods: {
@@ -100,16 +102,28 @@ export default {
      * and then do the same every 250 to 350 seconds (~5 min)
      **/
     loop() {
-      let audio = this.$refs.intro
+      let audio = this.$refs.game
 
       audio.play()
 
-      setTimeout(() => {
-            audio.play()
-            setTimeout(this.loop, this.randomIntFromInterval(285000, 385000))
-          }
-          , 35000)
+      console.log("what background: " + this.backgroundSound)
+
+      //Background sound 1
+      if (!this.backgroundSound) {
+        setTimeout(() => {
+              audio.play()
+              this.backgroundSound = !this.backgroundSound
+              setTimeout(this.loop, this.randomIntFromInterval(50000, 60000))
+            }
+            , 36000)
+        //Background sound 2
+      } else {
+        this.backgroundSound = !this.backgroundSound
+        setTimeout(this.loop, this.randomIntFromInterval(162000, 172000))
+
+      }
     }
+
   },
 
   mounted() {
