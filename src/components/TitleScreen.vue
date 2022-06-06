@@ -140,7 +140,7 @@ export default {
       audio.play()
 
       setTimeout(this.loop, 50000)
-    }
+    },
 
     openGuide() {
       this.$router.push({name: 'GuideScreen', params: {from: 'default'}})

@@ -250,8 +250,6 @@ export default {
         this.$store.state.music.background2.play()
         setTimeout(this.loop, this.randomIntFromInterval(162000, 172000))
       }
-    }
-
     },
 
     closeLetter() {
@@ -289,14 +287,12 @@ export default {
   },
 
   mounted() {
-      this.$store.state.music.background1.volume = this.$store.state.settings.music / 10
-      this.$store.state.music.background2.volume = this.$store.state.settings.music / 10
+    this.$store.state.music.background1.volume = this.$store.state.settings.music / 10
+    this.$store.state.music.background2.volume = this.$store.state.settings.music / 10
 
-      this.loop()
+    this.loop()
 
-    
     if (this.loadFromStorage === 'no') {
-
       // first letter, explaining the game
       this.$store.state.overlay.letter.img = 'Textfield_letter1.png'
       this.$store.state.overlay.letter.visible = true
@@ -382,6 +378,7 @@ export default {
       })
     })
   }
+}
 </script>
 
 <style scoped>
