@@ -132,6 +132,7 @@
     <transition name="short-fade">
       <settings-overlay v-if="$store.state.overlay.settings"/>
     </transition>
+
   </div>
 </template>
 
@@ -161,6 +162,7 @@ export default {
 
   data() {
     return {
+      backgroundSound: true,
       cvVisible: true,
       obVisible: false,
       images: []
@@ -220,6 +222,38 @@ export default {
       }
     },
 
+    randomIntFromInterval(min, max) { // min and max included
+      return Math.floor(Math.random() * (max - min + 1) + min)
+    },
+
+    /**
+     * Play sound at the beginning of the game twice
+     * and then do the same every 250 to 350 seconds (~5 min)
+     **/
+    loop() {
+
+      this.backgroundSound = !this.backgroundSound
+
+      if (!this.backgroundSound) {
+        this.$store.state.music.background1.play()
+
+        setTimeout(() => {
+              this.$store.state.music.background1.play()
+              setTimeout(this.loop, this.randomIntFromInterval(50000, 60000))
+            }
+
+            //Background sound 1
+
+            , 35000)
+        //Background sound 2
+      } else {
+        this.$store.state.music.background2.play()
+        setTimeout(this.loop, this.randomIntFromInterval(162000, 172000))
+      }
+    }
+
+    },
+
     closeLetter() {
       this.$store.state.overlay.blurred = false
       this.$store.state.overlay.letter.visible = false
@@ -255,6 +289,12 @@ export default {
   },
 
   mounted() {
+      this.$store.state.music.background1.volume = this.$store.state.settings.music / 10
+      this.$store.state.music.background2.volume = this.$store.state.settings.music / 10
+
+      this.loop()
+
+    
     if (this.loadFromStorage === 'no') {
 
       // first letter, explaining the game
@@ -342,7 +382,6 @@ export default {
       })
     })
   }
-}
 </script>
 
 <style scoped>
