@@ -47,6 +47,10 @@ export default {
             subtitles: true,
             hints: false
         },
+        music: {
+            background1: new Audio('../src/assets/media/audio/background1.wav'),
+            background2: new Audio('../src/assets/media/audio/background2.wav'),
+        }
     },
 
     getters: {
@@ -91,6 +95,9 @@ export default {
 
         setSetting(state, obj) {
             state.settings[obj.name] = obj.value
+            state.music.background1.volume = obj.value/10
+            state.music.background2.volume = obj.value/10
+
             debouncer.debounce(
                 () => {
                     // sets the settings variable in the localStorage and gives it the store Object where the settings are saved

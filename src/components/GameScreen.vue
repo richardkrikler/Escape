@@ -60,11 +60,6 @@
 import PauseOverlay from '@/components/PauseOverlay.vue'
 import SettingsOverlay from '@/components/SettingsOverlay.vue'
 
-const background1 = new Audio('../src/assets/media/audio/background1.wav')
-const background2 = new Audio('../src/assets/media/audio/background2.wav')
-background1.volume = $store.state.settings.music/10;
-background2.volume = $store.state.settings.music/10;
-
 export default {
   name: 'GameScreen',
 
@@ -103,10 +98,10 @@ export default {
       this.backgroundSound = !this.backgroundSound
 
       if (!this.backgroundSound) {
-        background1.play()
+        this.$store.state.music.background1.play()
 
         setTimeout(() => {
-              background1.play()
+              this.$store.state.music.background1.play()
               setTimeout(this.loop, this.randomIntFromInterval(50000, 60000))
             }
 
@@ -115,7 +110,7 @@ export default {
             , 35000)
         //Background sound 2
       } else {
-        background2.play()
+        this.$store.state.music.background2.play()
         setTimeout(this.loop, this.randomIntFromInterval(162000, 172000))
       }
     }
@@ -128,6 +123,10 @@ export default {
       } else {
         this.$store.commit('loadGame')
       }
+
+      this.$store.state.music.background1.volume = this.$store.state.settings.music / 10
+      this.$store.state.music.background2.volume = this.$store.state.settings.music / 10
+
 
       this.incrementTimer()
 
