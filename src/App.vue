@@ -84,9 +84,19 @@ body {
 
 .short-fade-enter-from,
 .short-fade-leave-to,
+.delay-short-fade-enter-from,
+.delay-short-fade-leave-to,
 .long-fade-enter-from,
 .long-fade-leave-to {
   opacity: 0;
+}
+
+.delay-short-fade-enter-active {
+  transition: opacity 0.6s ease 250ms;
+}
+
+.delay-short-fade-leave-active {
+  transition: opacity 0.01s ease;
 }
 
 </style>
