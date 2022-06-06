@@ -6,14 +6,7 @@
 
         <div v-if="$store.getters.currentView.visible" ref="outInImg" class="game-img"></div>
 
-
-        <div v-if="!$store.getters.outerViewVisible" ref="obImg">
-          <img v-for="ob in $store.getters.currentView.objects" v-show="ob.visible && ob.img !== undefined"
-               :src="$store.getters.imgPath(ob.img)"
-               class="game-img absolute left-0 top-0"
-               :alt="ob.name"/>
-        </div>
-
+        <div v-show="!$store.getters.outerViewVisible" ref="obImg"></div>
 
         <div class="absolute left-0 top-0 h-full w-full">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6000 4000" preserveAspectRatio="none" class="h-full"
@@ -104,16 +97,14 @@
            @click="innerToOuterView">Zurück</p>
       </div>
 
-      <itembar-component class="mx-auto"/>
+      <itembar-component class="mx-auto" @changeLetter="changeLetter"/>
     </div>
 
     <transition name="short-fade">
-      <div v-if="$store.state.overlay.letter.visible">
+      <div v-show="$store.state.overlay.letter.visible">
         <div class="absolute h-full w-full top-0 left-0 flex flex-col justify-center"
              @click="closeLetter">
-          <div>
-            <img :src="$store.state.overlay.letter.img" :alt="letter" class="w-3/5 mx-auto letter">
-          </div>
+          <div ref="letter"></div>
         </div>
       </div>
     </transition>
@@ -135,7 +126,6 @@ import ItembarComponent from '@/components/ItembarComponent.vue'
 import ArrowBackComponent from '@/components/ArrowBackComponent.vue'
 import ArrowForwardComponent from '@/components/ArrowForwardComponent.vue'
 import ArrowUpComponent from '@/components/ArrowUpComponent.vue'
-import {BASE_IMG_PATH} from "../store";
 
 export default {
   name: 'GameScreen',
@@ -169,6 +159,31 @@ export default {
           this.$refs.outInImg.appendChild(img)
         }
       })
+      await this.changeObjects()
+    },
+
+    async changeLetter(letterImg) {
+      this.$refs.letter.textContent = ''
+      this.images.forEach(img => {
+        if (img.id === letterImg) {
+          this.$refs.letter.appendChild(img)
+        }
+      })
+    },
+
+    async changeObjects() {
+      this.$refs.obImg.textContent = ''
+      if (this.$store.getters.currentView.objects !== undefined) {
+        this.$store.getters.currentView.objects.forEach(ob => {
+          if (ob.visible && ob.img !== undefined) {
+            this.images.forEach(img => {
+              if (img.id === ob.img) {
+                this.$refs.obImg.appendChild(img)
+              }
+            })
+          }
+        })
+      }
     },
 
     incrementTimer() {
@@ -183,13 +198,14 @@ export default {
       this.$store.state.overlay.letter.visible = false
     },
 
-    itembarAdd(evt) {
+    async itembarAdd(evt) {
       this.$store.state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach(iv => iv.objects.forEach(ob => {
         if (ob.frame === evt.target.id) {
           ob.visible = false
           this.$store.state.save.itembar.push(ob)
         }
       })))
+      await this.changeObjects()
     },
 
     open(evt) {
@@ -212,9 +228,8 @@ export default {
 
   mounted() {
     if (this.loadFromStorage === 'no') {
-
       // first letter, explaining the game
-      this.$store.state.overlay.letter.img = BASE_IMG_PATH + 'Textfield_letter1.png'
+      this.$store.state.overlay.letter.img = 'Textfield_letter1.png'
       this.$store.state.overlay.letter.visible = true
       this.$store.state.overlay.blurred = true
 
@@ -254,7 +269,7 @@ export default {
 
     const addToImages = (img) => this.images.push(img)
 
-    const addDataUrl = async (name, src) => {
+    const addDataUrl = async (name, src, type) => {
       let xhr = new XMLHttpRequest()
       xhr.onload = () => {
         let reader = new FileReader()
@@ -263,10 +278,16 @@ export default {
           img.id = name
           img.src = reader.result
           img.onload = () => {
-            img.style = 'max-width: 100vw !important'
+            if (type === 'game') {
+              img.style = 'max-width: 100vw !important; max-height: 100vh !important'
+            } else if (type === 'letter') {
+              img.classList = 'w-3/5 mx-auto letter'
+            } else if (type === 'object') {
+              img.classList = 'game-img absolute left-0 top-0'
+            }
             addToImages(img)
-
             this.changeOutInView('OV1')
+            this.changeLetter('Textfield_letter1.png')
           }
         }
         reader.readAsDataURL(xhr.response)
@@ -276,15 +297,19 @@ export default {
       xhr.send()
     }
 
+    addDataUrl('Textfield_letter.png', this.$store.getters.imgPath('Textfield_letter.png'), 'letter')
+    addDataUrl('Textfield_letter1.png', this.$store.getters.imgPath('Textfield_letter1.png'), 'letter')
+
     this.$store.state.save.screen.outerViews.forEach(ov => {
-      addDataUrl(ov.img, this.$store.getters.imgPath(ov.img))
+      addDataUrl(ov.img, this.$store.getters.imgPath(ov.img), 'game')
       ov.innerViews.forEach(iv => {
-        addDataUrl(iv.img, this.$store.getters.imgPath(iv.img))
+        addDataUrl(iv.img, this.$store.getters.imgPath(iv.img), 'game')
         iv.objects.forEach(ob => {
-          addDataUrl(ob.img, this.$store.getters.imgPath(ob.img))
+          addDataUrl(ob.img, this.$store.getters.imgPath(ob.img), 'object')
         })
       })
     })
+
 
   }
 }
@@ -294,7 +319,7 @@ export default {
 .game-img {
   width: auto;
   max-width: 100vw !important;
-  max-height: 100vh;
+  max-height: 100vh !important;
 }
 
 .letter {
