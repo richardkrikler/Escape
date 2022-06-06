@@ -53,20 +53,17 @@
       <settings-overlay v-if="$store.state.overlay.settings"/>
     </transition>
 
-    <audio
-        ref="game"
-        :src="'../src/assets/media/audio/background' + (backgroundSound+1) + '.wav'"
-        preload
-        id="game"
-        :volume="$store.state.settings.music/10"
-    ></audio>
-
   </div>
 </template>
 
 <script>
 import PauseOverlay from '@/components/PauseOverlay.vue'
 import SettingsOverlay from '@/components/SettingsOverlay.vue'
+
+const background1 = new Audio('../src/assets/media/audio/background1.wav')
+const background2 = new Audio('../src/assets/media/audio/background2.wav')
+background1.volume = $store.state.settings.music/10;
+background2.volume = $store.state.settings.music/10;
 
 export default {
   name: 'GameScreen',
@@ -82,7 +79,7 @@ export default {
 
   data() {
     return {
-      backgroundSound: false,
+      backgroundSound: true,
     }
   },
 
@@ -102,67 +99,66 @@ export default {
      * and then do the same every 250 to 350 seconds (~5 min)
      **/
     loop() {
-      let audio = this.$refs.game
 
-      audio.play()
+      this.backgroundSound = !this.backgroundSound
 
-      console.log("what background: " + this.backgroundSound)
-
-      //Background sound 1
       if (!this.backgroundSound) {
+        background1.play()
+
         setTimeout(() => {
-              audio.play()
-              this.backgroundSound = !this.backgroundSound
+              background1.play()
               setTimeout(this.loop, this.randomIntFromInterval(50000, 60000))
             }
-            , 36000)
+
+            //Background sound 1
+
+            , 35000)
         //Background sound 2
       } else {
-        this.backgroundSound = !this.backgroundSound
+        background2.play()
         setTimeout(this.loop, this.randomIntFromInterval(162000, 172000))
-
       }
     }
 
-  },
+    },
 
-  mounted() {
-    if (this.loadFromStorage === 'no') {
-      this.$store.commit('saveGame')
-    } else {
-      this.$store.commit('loadGame')
-    }
+    mounted() {
+      if (this.loadFromStorage === 'no') {
+        this.$store.commit('saveGame')
+      } else {
+        this.$store.commit('loadGame')
+      }
 
-    this.incrementTimer()
-
-
-    this.loop()
+      this.incrementTimer()
 
 
-    document.onkeyup = (evt) => {
-      if (evt.key === 'Escape') {
-        if (this.$store.state.overlay.settings) {
-          this.$store.state.overlay.paused = true
-          this.$store.state.overlay.settings = false
-        } else if (this.$store.state.overlay.paused) {
-          this.$store.state.overlay.blurred = false
-          this.$store.state.overlay.paused = false
-          this.incrementTimer()
-        } else {
-          this.$store.state.overlay.blurred = true
-          this.$store.state.overlay.paused = true
+      this.loop()
+
+
+      document.onkeyup = (evt) => {
+        if (evt.key === 'Escape') {
+          if (this.$store.state.overlay.settings) {
+            this.$store.state.overlay.paused = true
+            this.$store.state.overlay.settings = false
+          } else if (this.$store.state.overlay.paused) {
+            this.$store.state.overlay.blurred = false
+            this.$store.state.overlay.paused = false
+            this.incrementTimer()
+          } else {
+            this.$store.state.overlay.blurred = true
+            this.$store.state.overlay.paused = true
+          }
+        } else if (evt.key === 'ArrowLeft' || evt.key === 'a' && this.$store.state.save.screen.outerView) {
+          this.$store.commit('switchOuterView', false)
+        } else if (evt.key === 'ArrowRight' || evt.key === 'd' && this.$store.state.save.screen.outerView) {
+          this.$store.commit('switchOuterView', true)
+        } else if (evt.key === 'x') {
+          const input = prompt();
+          this.$store.commit('changeScreen', {outerView: false, screen: input})
         }
-      } else if (evt.key === 'ArrowLeft' || evt.key === 'a' && this.$store.state.save.screen.outerView) {
-        this.$store.commit('switchOuterView', false)
-      } else if (evt.key === 'ArrowRight' || evt.key === 'd' && this.$store.state.save.screen.outerView) {
-        this.$store.commit('switchOuterView', true)
-      } else if (evt.key === 'x') {
-        const input = prompt();
-        this.$store.commit('changeScreen', {outerView: false, screen: input})
       }
     }
   }
-}
 </script>
 
 <style scoped>

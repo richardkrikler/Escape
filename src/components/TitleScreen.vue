@@ -132,7 +132,6 @@ export default {
     },
 
     loop() {
-      console.log('ich begehe selbstmord???')
       let audio = this.$refs.intro
 
       audio.play()
