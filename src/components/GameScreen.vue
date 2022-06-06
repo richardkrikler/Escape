@@ -288,7 +288,7 @@ export default {
               img.classList = 'game-img absolute left-0 top-0'
             }
             addToImages(img)
-            this.changeOutInView('OV1')
+            this.changeOutInView(this.$store.getters.currentView.name)
             this.changeLetter('Textfield_letter1.png')
           }
         }
