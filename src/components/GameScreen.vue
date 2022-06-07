@@ -144,6 +144,9 @@ import ArrowBackComponent from '@/components/ArrowBackComponent.vue'
 import ArrowForwardComponent from '@/components/ArrowForwardComponent.vue'
 import ArrowUpComponent from '@/components/ArrowUpComponent.vue'
 
+const collectEnvelope = new Audio('media/audio/IV7_offen_brief_aufheben.mp3')
+const openCupboard = new Audio('media/audio/IV7_schloss_aufschließen.mp3')
+
 export default {
   name: 'GameScreen',
 
@@ -258,8 +261,14 @@ export default {
     },
 
     async itembarAdd(evt) {
-      this.$store.state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach(iv => iv.objects.forEach(ob => {
+      this.$store.state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach(iv => iv.objects.forEach(async ob =>  {
         if (ob.frame === evt.target.id) {
+
+          if(ob.name === 'IV7_offen_OB4 Brief') {
+            collectEnvelope.volume = this.$store.state.settings.sfx/10;
+            await collectEnvelope.play()
+          }
+
           ob.visible = false
           this.$store.state.save.itembar.push(ob)
         }
@@ -268,11 +277,15 @@ export default {
       await this.changeObjects()
     },
 
-    open(evt) {
-      this.$store.state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach(iv => iv.objects.forEach(ob => {
+    async open(evt) {
+      this.$store.state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach( iv => iv.objects.forEach(async ob => {
         if (ob.frame === evt.target.id) {
           const index = this.$store.state.save.itembar.findIndex(item => item.name === ob.needs)
           if (index > -1) {
+            if(ob.name === 'Kasten') {
+              openCupboard.volume = this.$store.state.settings.sfx/10;
+              await openCupboard.play()
+            }
             this.$store.state.save.itembar.splice(index, 1)
             this.$store.dispatch('changeView', {screenName: ob.opens})
             this.changeOutInView()
@@ -302,6 +315,8 @@ export default {
     } else {
       this.$store.commit('loadGame')
     }
+
+
 
     this.incrementTimer()
 
