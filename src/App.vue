@@ -8,6 +8,8 @@
 
 <script>
 
+import {BASE_IMG_PATH} from './store'
+
 export default {
   name: 'App',
 
@@ -18,7 +20,9 @@ export default {
   watch: {
     $route() {
       for (let key in this.$store.state.overlay) {
-        this.$store.state.overlay[key] = false
+        if (key !== 'letter') {
+          this.$store.state.overlay[key] = false;
+        }
       }
     }
   }
@@ -50,12 +54,7 @@ body {
 }
 
 .element-glow:hover {
-  filter:
-      drop-shadow(0 0 1px #fff)
-      drop-shadow(0 0 5px #fff)
-      drop-shadow(0 0 15px #fff)
-      drop-shadow(0 0 17px #fff)
-      drop-shadow(0 0 19px #fff);
+  filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 5px #fff) drop-shadow(0 0 15px #fff) drop-shadow(0 0 17px #fff) drop-shadow(0 0 19px #fff);
   color: white;
 }
 
@@ -85,9 +84,19 @@ body {
 
 .short-fade-enter-from,
 .short-fade-leave-to,
+.delay-short-fade-enter-from,
+.delay-short-fade-leave-to,
 .long-fade-enter-from,
 .long-fade-leave-to {
   opacity: 0;
+}
+
+.delay-short-fade-enter-active {
+  transition: opacity 0.6s ease 250ms;
+}
+
+.delay-short-fade-leave-active {
+  transition: opacity 0.01s ease;
 }
 
 </style>

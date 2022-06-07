@@ -2,13 +2,21 @@ import {Debouncer} from './models/Debouncer'
 
 let debouncer = new Debouncer(300)
 
-const BASE_IMG_PATH = '/media/images/'
+export const BASE_IMG_PATH = '/media/images/'
 
 
 const getDefaultSaveState = () => {
     return {
         elapsedTime: 0,
-        itembar: [],
+        itembar: [
+            {
+                name: 'IV7_offen_OB4 Brief',
+                img: 'IV7_offen_OB4.png',
+                frame: 'frameBrief1',
+                pixelArt: 'PA_Brief.png',
+                visible: true
+            }
+        ],
         screen: {
             outerViews: [
                 {
@@ -34,8 +42,15 @@ const getDefaultSaveState = () => {
                                 {
                                     name: 'OB2 Schlüssel',
                                     img: 'IV1_OB2_Schluessel.png',
-                                    frame: 'frame_schlüssel1',
+                                    frame: 'frameSchluessel1',
                                     pixelArt: 'PA_Schluessel.png',
+                                    visible: true
+                                },
+                                {
+                                    name: 'OB20 Batterie',
+                                    img: 'IV_OB20_Batterie.png',
+                                    frame: 'frameBatterie',
+                                    pixelArt: 'PA_Batterie.png',
                                     visible: true
                                 }
                             ]
@@ -72,7 +87,7 @@ const getDefaultSaveState = () => {
                                 {
                                     name: 'IV7_offen_OB4 Brief',
                                     img: 'IV7_offen_OB4.png',
-                                    frame: 'frame_brief1',
+                                    frame: 'frameBrief1',
                                     pixelArt: 'PA_Brief.png',
                                     visible: true
                                 }
@@ -87,13 +102,16 @@ const getDefaultSaveState = () => {
 
 export default {
     state: {
-        save: getDefaultSaveState(),
         overlay: {
             blurred: false,
             paused: false,
             settings: false,
             newGameModal: false,
-            loadingGameModal: false
+            loadingGameModal: false,
+            letter: {
+                visible: false,
+                img: ''
+            }
         },
         settings: {
             music: 10,
@@ -102,6 +120,11 @@ export default {
             subtitles: true,
             hints: false
         },
+        music: {
+            background1: new Audio('/media/audio/background1.wav'),
+            background2: new Audio('/media/audio/background2.wav'),
+        },
+        save: getDefaultSaveState()
     },
 
     getters: {
@@ -173,6 +196,10 @@ export default {
 
         setSetting(state, obj) {
             state.settings[obj.name] = obj.value
+
+            state.music.background1.volume = obj.value/10
+            state.music.background2.volume = obj.value/10
+
             // sets the settings variable in the localStorage and gives it the store Object where the settings are saved
             debouncer.debounce(() => localStorage.setItem('settings', JSON.stringify(state.settings)))
         },

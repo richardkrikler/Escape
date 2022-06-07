@@ -53,15 +53,28 @@
 
         <img v-else :src="$store.getters.imgPath($store.state.save.itembar[i].pixelArt)"
              :alt="$store.state.save.itembar[i].name"
-             class="w-16 h-16 my-auto glow">
+             class="w-16 h-16 my-auto glow cursor-pointer"
+             @click="itemClick($store.state.save.itembar[i].frame)">
       </div>
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
-  name: 'ItembarComponent'
+  name: 'ItembarComponent',
+
+  methods: {
+    itemClick(item) {
+      if (item === 'frameBrief1') {
+        this.$store.state.overlay.blurred = true
+        this.$store.state.overlay.letter.img = 'Textfield_letter.png'
+        this.$store.state.overlay.letter.visible = true
+        this.$emit('changeLetter', this.$store.state.overlay.letter.img)
+      }
+    },
+  }
 }
 </script>
 
