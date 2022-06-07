@@ -8,15 +8,7 @@ export const BASE_IMG_PATH = '/media/images/'
 const getDefaultSaveState = () => {
     return {
         elapsedTime: 0,
-        itembar: [
-            {
-                name: 'IV7_offen_OB4 Brief',
-                img: 'IV7_offen_OB4.png',
-                frame: 'frameBrief1',
-                pixelArt: 'PA_Brief.png',
-                visible: true
-            }
-        ],
+        itembar: [],
         screen: {
             outerViews: [
                 {
@@ -120,6 +112,10 @@ export default {
             subtitles: true,
             hints: false
         },
+        music: {
+            background1: new Audio('/media/audio/background1.wav'),
+            background2: new Audio('/media/audio/background2.wav'),
+        },
         save: getDefaultSaveState()
     },
 
@@ -192,6 +188,10 @@ export default {
 
         setSetting(state, obj) {
             state.settings[obj.name] = obj.value
+
+            state.music.background1.volume = obj.value/10
+            state.music.background2.volume = obj.value/10
+
             // sets the settings variable in the localStorage and gives it the store Object where the settings are saved
             debouncer.debounce(() => localStorage.setItem('settings', JSON.stringify(state.settings)))
         },

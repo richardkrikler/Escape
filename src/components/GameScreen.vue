@@ -132,6 +132,7 @@
     <transition name="short-fade">
       <settings-overlay v-if="$store.state.overlay.settings"/>
     </transition>
+
   </div>
 </template>
 
@@ -142,6 +143,9 @@ import ItembarComponent from '@/components/ItembarComponent.vue'
 import ArrowBackComponent from '@/components/ArrowBackComponent.vue'
 import ArrowForwardComponent from '@/components/ArrowForwardComponent.vue'
 import ArrowUpComponent from '@/components/ArrowUpComponent.vue'
+
+const collectEnvelope = new Audio('media/audio/IV7_offen_brief_aufheben.mp3')
+const openCupboard = new Audio('media/audio/IV7_schloss_aufschließen.mp3')
 
 export default {
   name: 'GameScreen',
@@ -161,6 +165,7 @@ export default {
 
   data() {
     return {
+      backgroundSound: true,
       cvVisible: true,
       obVisible: false,
       images: []
@@ -220,14 +225,50 @@ export default {
       }
     },
 
+    randomIntFromInterval(min, max) { // min and max included
+      return Math.floor(Math.random() * (max - min + 1) + min)
+    },
+
+    /**
+     * Play sound at the beginning of the game twice
+     * and then do the same every 250 to 350 seconds (~5 min)
+     **/
+    loop() {
+
+      this.backgroundSound = !this.backgroundSound
+
+      if (!this.backgroundSound) {
+        this.$store.state.music.background1.play()
+
+        setTimeout(() => {
+              this.$store.state.music.background1.play()
+              setTimeout(this.loop, this.randomIntFromInterval(50000, 60000))
+            }
+
+            //Background sound 1
+
+            , 35000)
+        //Background sound 2
+      } else {
+        this.$store.state.music.background2.play()
+        setTimeout(this.loop, this.randomIntFromInterval(162000, 172000))
+      }
+    },
+
     closeLetter() {
       this.$store.state.overlay.blurred = false
       this.$store.state.overlay.letter.visible = false
     },
 
     async itembarAdd(evt) {
-      this.$store.state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach(iv => iv.objects.forEach(ob => {
+      this.$store.state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach(iv => iv.objects.forEach(async ob =>  {
         if (ob.frame === evt.target.id) {
+
+          if(ob.name === 'IV7_offen_OB4 Brief') {
+            collectEnvelope.volume = this.$store.state.settings.sfx/10;
+            await collectEnvelope.play()
+          }
+
           ob.visible = false
           this.$store.state.save.itembar.push(ob)
         }
@@ -236,11 +277,15 @@ export default {
       await this.changeObjects()
     },
 
-    open(evt) {
-      this.$store.state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach(iv => iv.objects.forEach(ob => {
+    async open(evt) {
+      this.$store.state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach( iv => iv.objects.forEach(async ob => {
         if (ob.frame === evt.target.id) {
           const index = this.$store.state.save.itembar.findIndex(item => item.name === ob.needs)
           if (index > -1) {
+            if(ob.name === 'Kasten') {
+              openCupboard.volume = this.$store.state.settings.sfx/10;
+              await openCupboard.play()
+            }
             this.$store.state.save.itembar.splice(index, 1)
             this.$store.dispatch('changeView', {screenName: ob.opens})
             this.changeOutInView()
@@ -255,8 +300,12 @@ export default {
   },
 
   mounted() {
-    if (this.loadFromStorage === 'no') {
+    this.$store.state.music.background1.volume = this.$store.state.settings.music / 10
+    this.$store.state.music.background2.volume = this.$store.state.settings.music / 10
 
+    this.loop()
+
+    if (this.loadFromStorage === 'no') {
       // first letter, explaining the game
       this.$store.state.overlay.letter.img = 'Textfield_letter1.png'
       this.$store.state.overlay.letter.visible = true
@@ -266,6 +315,8 @@ export default {
     } else {
       this.$store.commit('loadGame')
     }
+
+
 
     this.incrementTimer()
 
