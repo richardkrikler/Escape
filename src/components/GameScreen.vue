@@ -149,7 +149,7 @@ import ArrowBackComponent from '@/components/ArrowBackComponent.vue'
 import ArrowForwardComponent from '@/components/ArrowForwardComponent.vue'
 import ArrowUpComponent from '@/components/ArrowUpComponent.vue'
 
-const collectDocument = new Audio('media/audio/IV7_offen_dokument_aufheben.mp3')
+const collectEnvelope = new Audio('media/audio/IV7_offen_brief_aufheben.mp3')
 const openCupboard = new Audio('media/audio/IV7_schloss_aufschließen.mp3')
 
 export default {
@@ -190,8 +190,8 @@ export default {
         if (ob.frame === evt.target.id) {
 
           if(ob.name === 'IV7_offen_OB4 Brief') {
-            collectDocument.volume = this.$store.state.settings.sfx/10;
-            await collectDocument.play()
+            collectEnvelope.volume = this.$store.state.settings.sfx/10;
+            await collectEnvelope.play()
           }
 
           ob.visible = false
