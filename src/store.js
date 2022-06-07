@@ -8,15 +8,7 @@ export const BASE_IMG_PATH = '/media/images/'
 const getDefaultSaveState = () => {
     return {
         elapsedTime: 0,
-        itembar: [
-            {
-                name: 'IV7_offen_OB4 Brief',
-                img: 'IV7_offen_OB4.png',
-                frame: 'frameBrief1',
-                pixelArt: 'PA_Brief.png',
-                visible: true
-            }
-        ],
+        itembar: [],
         screen: {
             outerViews: [
                 {
