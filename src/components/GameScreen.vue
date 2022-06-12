@@ -237,19 +237,20 @@ export default {
      * and then do the same every 250 to 350 seconds (~5 min)
      **/
     loop() {
+      this.$store.state.music.background1.volume = this.$store.state.settings.music / 10
+      this.$store.state.music.background2.volume = this.$store.state.settings.music / 10
 
+      this.backgroundSound1 = !this.backgroundSound1
 
-      // this.backgroundSound1 = !this.backgroundSound1
-      //
-      // if (!this.backgroundSound1) {
-      //   this.$store.state.music.background1.play()
-      //
-      //   setTimeout(this.loop, this.randomIntFromInterval(50000, 60000))
-      //   //Background sound 2
-      // } else {
-      //   this.$store.state.music.background2.play()
-      //   setTimeout(this.loop, this.randomIntFromInterval(162000, 172000))
-      // }
+      if (!this.backgroundSound1) {
+        this.$store.state.music.background1.play()
+
+        setTimeout(this.loop, this.randomIntFromInterval(50000, 60000))
+        //Background sound 2
+      } else {
+        this.$store.state.music.background2.play()
+        setTimeout(this.loop, this.randomIntFromInterval(162000, 172000))
+      }
     },
 
     closeLetter() {
@@ -257,7 +258,7 @@ export default {
         this.$store.commit('playVoiceLine', 'vl3')
       }
 
-      this.$store.state.overlay.blurred = false;
+      this.$store.state.overlay.blurred = false
       this.$store.state.overlay.letter.visible = false
     },
 
@@ -266,13 +267,13 @@ export default {
         if (ob.frame === evt.target.id) {
 
           if (ob.name === 'IV7_offen_OB4 Brief') {
-            this.$store.state.sfx.collectEnvelope.volume = this.$store.state.settings.sfx / 10;
+            this.$store.state.sfx.collectEnvelope.volume = this.$store.state.settings.sfx / 10
             await this.$store.state.sfx.collectEnvelope.play()
           } else if (ob.name === 'OB2 Schlüssel') {
             this.$store.commit('playVoiceLine', 'vl7')
           }
 
-          ob.visible = false;
+          ob.visible = false
           this.$store.state.save.itembar.push(ob)
         }
       })))
@@ -286,7 +287,7 @@ export default {
           const index = this.$store.state.save.itembar.findIndex(item => item.name === ob.needs)
           if (index > -1) {
             if (ob.name === 'Kasten') {
-              this.$store.state.sfx.openCupboard.volume = this.$store.state.settings.sfx / 10;
+              this.$store.state.sfx.openCupboard.volume = this.$store.state.settings.sfx / 10
               await this.$store.state.sfx.openCupboard.play()
 
               setTimeout(() => {
@@ -309,11 +310,6 @@ export default {
   },
 
   mounted() {
-    this.$store.state.music.background1.volume = this.$store.state.settings.music / 10
-    this.$store.state.music.background2.volume = this.$store.state.settings.music / 10
-
-    this.loop()
-
     if (this.loadFromStorage === 'no') {
       this.$store.state.overlay.blurred = true
       this.$store.commit('saveGame')
@@ -373,6 +369,7 @@ export default {
             if (img.id === this.$store.getters.currentView.img) {
               this.changeOutInView(this.$store.getters.currentView.name)
               this.$store.commit('playVoiceLine', 'vl1')
+              setTimeout(() => this.loop(), 4000)
               setTimeout(() => {
                 this.$store.state.overlay.blurred = false
               }, 500)

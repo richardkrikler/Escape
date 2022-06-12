@@ -136,7 +136,7 @@ export default {
       }
     },
 
-    loop() {
+    async loop() {
       let audio = this.$refs.intro
 
       audio.play()

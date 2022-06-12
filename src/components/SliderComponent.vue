@@ -55,7 +55,6 @@ export default {
 
   methods: {
     onInput() {
-      // this.currentValue is a string because HTML is weird
       this.$store.commit('setSetting', {name: this.store, value: parseInt(this.currentValue)})
     }
   }

@@ -21,7 +21,7 @@ export default {
     $route() {
       for (let key in this.$store.state.overlay) {
         if (key !== 'letter') {
-          this.$store.state.overlay[key] = false;
+          this.$store.state.overlay[key] = false
         }
       }
     }

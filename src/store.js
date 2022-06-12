@@ -25,8 +25,7 @@ const getDefaultSaveState = () => {
             vl4: false,
             vl5: false,
             vl6: false,
-            vl7: false,
-            vl12: false
+            vl7: false
         },
         screen: {
             outerViews: [
@@ -146,8 +145,7 @@ export default {
             vl4: new Audio(BASE_AUDIO_PATH + 'voicelines/VL_4.mp3'),
             vl5: new Audio(BASE_AUDIO_PATH + 'voicelines/VL_5.mp3'),
             vl6: new Audio(BASE_AUDIO_PATH + 'voicelines/VL_6.mp3'),
-            vl7: new Audio(BASE_AUDIO_PATH + 'voicelines/VL_7.mp3'),
-            vl12: new Audio(BASE_AUDIO_PATH + 'voicelines/VL_12.mp3')
+            vl7: new Audio(BASE_AUDIO_PATH + 'voicelines/VL_7.mp3')
         },
         save: getDefaultSaveState()
     },
@@ -222,8 +220,11 @@ export default {
         setSetting(state, obj) {
             state.settings[obj.name] = obj.value
 
-            state.music.background1.volume = obj.value / 10
-            state.music.background2.volume = obj.value / 10
+            if (obj.name === 'music' || obj.name === 'voice' || obj.name === 'sfx') {
+                for (let key in state[obj.name]) {
+                    state[obj.name][key].volume = obj.value / 10
+                }
+            }
 
             // sets the settings variable in the localStorage and gives it the store Object where the settings are saved
             debouncer.debounce(() => localStorage.setItem('settings', JSON.stringify(state.settings)))
@@ -242,7 +243,7 @@ export default {
         playVoiceLine(state, vl) {
             if (!state.save.voice[vl]) {
                 state.voice[vl].volume = state.settings.voice / 10
-                state.voice[vl].play();
+                state.voice[vl].play()
                 state.save.voice[vl] = true
             }
         },
@@ -251,9 +252,9 @@ export default {
     actions: {
         switchOuterView({commit, getters, state}, {increment}) {
             if (increment) {
-                commit('setOuterView', getters.currentView.pos === state.save.screen.outerViews.length ? 0 : getters.currentView.pos);
+                commit('setOuterView', getters.currentView.pos === state.save.screen.outerViews.length ? 0 : getters.currentView.pos)
             } else {
-                commit('setOuterView', getters.currentView.pos === 1 ? state.save.screen.outerViews.length - 1 : getters.currentView.pos - 2);
+                commit('setOuterView', getters.currentView.pos === 1 ? state.save.screen.outerViews.length - 1 : getters.currentView.pos - 2)
             }
         },
 
