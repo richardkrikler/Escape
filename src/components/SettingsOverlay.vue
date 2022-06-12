@@ -18,12 +18,12 @@
             <div class="mb-10">
               <slider-component :min="0" :max="10" :value="$store.state.settings.sfx" setting-name="SFX" store="sfx"/>
             </div>
-            <div class="mb-10">
-              <checkbox-component setting-name="UNTERTITEL" :value="$store.state.settings.subtitles" store="subtitles"/>
-            </div>
-            <div class="mb-10">
-              <checkbox-component setting-name="HINWEISE" :value="$store.state.settings.hints" store="hints"/>
-            </div>
+<!--            <div class="mb-10">-->
+<!--              <checkbox-component setting-name="UNTERTITEL" :value="$store.state.settings.subtitles" store="subtitles"/>-->
+<!--            </div>-->
+<!--            <div class="mb-10">-->
+<!--              <checkbox-component setting-name="HINWEISE" :value="$store.state.settings.hints" store="hints"/>-->
+<!--            </div>-->
           </div>
 
         </div>
