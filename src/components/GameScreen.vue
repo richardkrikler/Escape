@@ -165,6 +165,7 @@ export default {
       backgroundSound1: true,
       cvVisible: true,
       obVisible: false,
+      timeouts: [],
       images: []
     }
   },
@@ -245,11 +246,11 @@ export default {
       if (!this.backgroundSound1) {
         this.$store.state.music.background1.play()
 
-        setTimeout(this.loop, this.randomIntFromInterval(50000, 60000))
+        this.timeouts[0] = setTimeout(this.loop, this.randomIntFromInterval(50000, 60000))
         //Background sound 2
       } else {
         this.$store.state.music.background2.play()
-        setTimeout(this.loop, this.randomIntFromInterval(162000, 172000))
+        this.timeouts[1] = setTimeout(this.loop, this.randomIntFromInterval(162000, 172000))
       }
     },
 
@@ -336,12 +337,14 @@ export default {
           this.$store.state.overlay.paused = true
           this.$store.state.overlay.letter.visible = false
         }
-      } else if ((evt.key === 'ArrowLeft' || evt.key === 'a') && this.$store.getters.outerViewVisible) {
-        this.$store.dispatch('switchOuterView', {increment: false})
-      } else if ((evt.key === 'ArrowRight' || evt.key === 'd') && this.$store.getters.outerViewVisible) {
-        this.$store.dispatch('switchOuterView', {increment: true})
-      } else if (evt.key === 'ArrowUp' && !this.$store.getters.outerViewVisible) {
-        this.innerToOuterView()
+      } else if (evt.key === 's') {
+        this.$store.state.music.background1.pause()
+        this.$store.state.music.background2.pause()
+        this.timeouts.forEach(t => clearTimeout(t))
+      } else if (evt.key === '1') {
+        this.$store.state.music.background1.play()
+      } else if(evt.key === '2') {
+        this.$store.state.music.background2.play()
       }
     }
 
@@ -369,7 +372,7 @@ export default {
             if (img.id === this.$store.getters.currentView.img) {
               this.changeOutInView(this.$store.getters.currentView.name)
               this.$store.commit('playVoiceLine', 'vl1')
-              setTimeout(() => this.loop(), 4000)
+              setTimeout(() => this.loop(), 6000)
               setTimeout(() => {
                 this.$store.state.overlay.blurred = false
               }, 500)
