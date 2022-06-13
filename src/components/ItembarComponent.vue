@@ -72,6 +72,13 @@ export default {
         this.$store.state.overlay.letter.img = 'Textfield_letter.png'
         this.$store.state.overlay.letter.visible = true
         this.$emit('changeLetter', this.$store.state.overlay.letter.img)
+      } else if (item === 'frameStartBrief') {
+        this.$store.state.overlay.blurred = true
+        this.$store.state.overlay.letter.img = 'Start-Brief.png'
+        this.$store.state.overlay.letter.visible = true
+        this.$emit('changeLetter', this.$store.state.overlay.letter.img)
+
+        this.$store.commit('playVoiceLine', 'vl2')
       }
     },
   }

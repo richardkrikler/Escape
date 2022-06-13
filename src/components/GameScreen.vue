@@ -144,9 +144,6 @@ import ArrowBackComponent from '@/components/ArrowBackComponent.vue'
 import ArrowForwardComponent from '@/components/ArrowForwardComponent.vue'
 import ArrowUpComponent from '@/components/ArrowUpComponent.vue'
 
-const collectEnvelope = new Audio('media/audio/IV7_offen_brief_aufheben.mp3')
-const openCupboard = new Audio('media/audio/IV7_schloss_aufschließen.mp3')
-
 export default {
   name: 'GameScreen',
 
@@ -165,9 +162,10 @@ export default {
 
   data() {
     return {
-      backgroundSound: true,
+      backgroundSound1: true,
       cvVisible: true,
       obVisible: false,
+      timeouts: [],
       images: []
     }
   },
@@ -186,7 +184,13 @@ export default {
           }
         })
         await this.changeObjects()
-        setTimeout(() => this.cvVisible = true, 100)
+        setTimeout(() => {
+          this.cvVisible = true
+
+          if (screenName === 'IV7') {
+            this.$store.commit('playVoiceLine', 'vl4')
+          }
+        }, 100)
       }, 180)
     },
 
@@ -234,39 +238,40 @@ export default {
      * and then do the same every 250 to 350 seconds (~5 min)
      **/
     loop() {
+      this.$store.state.music.background1.volume = this.$store.state.settings.music / 10
+      this.$store.state.music.background2.volume = this.$store.state.settings.music / 10
 
-      this.backgroundSound = !this.backgroundSound
+      this.backgroundSound1 = !this.backgroundSound1
 
-      if (!this.backgroundSound) {
+      if (!this.backgroundSound1) {
         this.$store.state.music.background1.play()
 
-        setTimeout(() => {
-              this.$store.state.music.background1.play()
-              setTimeout(this.loop, this.randomIntFromInterval(50000, 60000))
-            }
-
-            //Background sound 1
-
-            , 35000)
+        this.timeouts[0] = setTimeout(this.loop, this.randomIntFromInterval(50000, 60000))
         //Background sound 2
       } else {
         this.$store.state.music.background2.play()
-        setTimeout(this.loop, this.randomIntFromInterval(162000, 172000))
+        this.timeouts[1] = setTimeout(this.loop, this.randomIntFromInterval(162000, 172000))
       }
     },
 
     closeLetter() {
+      if (this.$store.state.overlay.letter.img === 'Start-Brief.png') {
+        this.$store.commit('playVoiceLine', 'vl3')
+      }
+
       this.$store.state.overlay.blurred = false
       this.$store.state.overlay.letter.visible = false
     },
 
     async itembarAdd(evt) {
-      this.$store.state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach(iv => iv.objects.forEach(async ob =>  {
+      this.$store.state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach(iv => iv.objects.forEach(async ob => {
         if (ob.frame === evt.target.id) {
 
-          if(ob.name === 'IV7_offen_OB4 Brief') {
-            collectEnvelope.volume = this.$store.state.settings.sfx/10;
-            await collectEnvelope.play()
+          if (ob.name === 'IV7_offen_OB4 Brief') {
+            this.$store.state.sfx.collectEnvelope.volume = this.$store.state.settings.sfx / 10
+            await this.$store.state.sfx.collectEnvelope.play()
+          } else if (ob.name === 'OB2 Schlüssel') {
+            this.$store.commit('playVoiceLine', 'vl7')
           }
 
           ob.visible = false
@@ -278,17 +283,23 @@ export default {
     },
 
     async open(evt) {
-      this.$store.state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach( iv => iv.objects.forEach(async ob => {
+      this.$store.state.save.screen.outerViews.forEach(ov => ov.innerViews.forEach(iv => iv.objects.forEach(async ob => {
         if (ob.frame === evt.target.id) {
           const index = this.$store.state.save.itembar.findIndex(item => item.name === ob.needs)
           if (index > -1) {
-            if(ob.name === 'Kasten') {
-              openCupboard.volume = this.$store.state.settings.sfx/10;
-              await openCupboard.play()
+            if (ob.name === 'Kasten') {
+              this.$store.state.sfx.openCupboard.volume = this.$store.state.settings.sfx / 10
+              await this.$store.state.sfx.openCupboard.play()
+
+              setTimeout(() => {
+                this.$store.commit('playVoiceLine', 'vl6')
+              }, 2000)
             }
             this.$store.state.save.itembar.splice(index, 1)
             this.$store.dispatch('changeView', {screenName: ob.opens})
             this.changeOutInView()
+          } else if (ob.name === 'Kasten') {
+            this.$store.commit('playVoiceLine', 'vl5')
           }
         }
       })))
@@ -300,23 +311,12 @@ export default {
   },
 
   mounted() {
-    this.$store.state.music.background1.volume = this.$store.state.settings.music / 10
-    this.$store.state.music.background2.volume = this.$store.state.settings.music / 10
-
-    this.loop()
-
     if (this.loadFromStorage === 'no') {
-      // first letter, explaining the game
-      this.$store.state.overlay.letter.img = 'Textfield_letter1.png'
-      this.$store.state.overlay.letter.visible = true
       this.$store.state.overlay.blurred = true
-
       this.$store.commit('saveGame')
     } else {
       this.$store.commit('loadGame')
     }
-
-
 
     this.incrementTimer()
 
@@ -337,12 +337,14 @@ export default {
           this.$store.state.overlay.paused = true
           this.$store.state.overlay.letter.visible = false
         }
-      } else if ((evt.key === 'ArrowLeft' || evt.key === 'a') && this.$store.getters.outerViewVisible) {
-        this.$store.dispatch('switchOuterView', {increment: false})
-      } else if ((evt.key === 'ArrowRight' || evt.key === 'd') && this.$store.getters.outerViewVisible) {
-        this.$store.dispatch('switchOuterView', {increment: true})
-      } else if (evt.key === 'ArrowUp' && !this.$store.getters.outerViewVisible) {
-        this.innerToOuterView()
+      } else if (evt.key === 's') {
+        this.$store.state.music.background1.pause()
+        this.$store.state.music.background2.pause()
+        this.timeouts.forEach(t => clearTimeout(t))
+      } else if (evt.key === '1') {
+        this.$store.state.music.background1.play()
+      } else if(evt.key === '2') {
+        this.$store.state.music.background2.play()
       }
     }
 
@@ -357,7 +359,7 @@ export default {
           const img = document.createElement('img')
           img.id = name
           img.src = reader.result
-          img.onload = () => {
+          img.onload = async () => {
             if (type === 'game') {
               img.style = 'max-width: 100vw !important; max-height: 100vh !important'
             } else if (type === 'letter') {
@@ -369,8 +371,12 @@ export default {
             addToImages(img)
             if (img.id === this.$store.getters.currentView.img) {
               this.changeOutInView(this.$store.getters.currentView.name)
+              this.$store.commit('playVoiceLine', 'vl1')
+              setTimeout(() => this.loop(), 6000)
+              setTimeout(() => {
+                this.$store.state.overlay.blurred = false
+              }, 500)
             }
-            this.changeLetter('Textfield_letter1.png')
           }
         }
         reader.readAsDataURL(xhr.response)
@@ -381,7 +387,7 @@ export default {
     }
 
     addDataUrl('Textfield_letter.png', this.$store.getters.imgPath('Textfield_letter.png'), 'letter')
-    addDataUrl('Textfield_letter1.png', this.$store.getters.imgPath('Textfield_letter1.png'), 'letter')
+    addDataUrl('Start-Brief.png', this.$store.getters.imgPath('Start-Brief.png'), 'letter')
 
     this.$store.state.save.screen.outerViews.forEach(ov => {
       addDataUrl(ov.img, this.$store.getters.imgPath(ov.img), 'game')

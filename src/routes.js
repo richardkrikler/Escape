@@ -1,7 +1,7 @@
 import TitleScreen from '@/components/TitleScreen.vue'
 import GameScreen from '@/components/GameScreen.vue'
 import ImprintScreen from '@/components/ImprintScreen.vue'
-import GuideScreen from "@/components/GuideScreen.vue";
+import GuideScreen from '@/components/GuideScreen.vue'
 
 export default [
     {

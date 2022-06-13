@@ -3,12 +3,30 @@ import {Debouncer} from './models/Debouncer'
 let debouncer = new Debouncer(300)
 
 export const BASE_IMG_PATH = '/media/images/'
+export const BASE_AUDIO_PATH = '/media/audio/'
 
 
 const getDefaultSaveState = () => {
     return {
         elapsedTime: 0,
-        itembar: [],
+        itembar: [
+            {
+                name: 'Start Brief',
+                img: '',
+                frame: 'frameStartBrief',
+                pixelArt: 'PA_Start-Brief.png',
+                visible: true
+            }
+        ],
+        voice: {
+            vl1: false,
+            vl2: false,
+            vl3: false,
+            vl4: false,
+            vl5: false,
+            vl6: false,
+            vl7: false
+        },
         screen: {
             outerViews: [
                 {
@@ -106,15 +124,28 @@ export default {
             }
         },
         settings: {
-            music: 10,
+            music: 5,
             voice: 10,
             sfx: 10,
             subtitles: true,
             hints: false
         },
         music: {
-            background1: new Audio('/media/audio/background1.wav'),
-            background2: new Audio('/media/audio/background2.wav'),
+            background1: new Audio(BASE_AUDIO_PATH + 'music/background1.wav'),
+            background2: new Audio(BASE_AUDIO_PATH + 'music/background2.wav')
+        },
+        sfx: {
+            collectEnvelope: new Audio(BASE_AUDIO_PATH + 'sfx/IV7_offen_brief_aufheben.mp3'),
+            openCupboard: new Audio(BASE_AUDIO_PATH + 'sfx/IV7_schloss_aufschließen.mp3'),
+        },
+        voice: {
+            vl1: new Audio(BASE_AUDIO_PATH + 'voicelines/VL_1.mp3'),
+            vl2: new Audio(BASE_AUDIO_PATH + 'voicelines/VL_2.mp3'),
+            vl3: new Audio(BASE_AUDIO_PATH + 'voicelines/VL_3.mp3'),
+            vl4: new Audio(BASE_AUDIO_PATH + 'voicelines/VL_4.mp3'),
+            vl5: new Audio(BASE_AUDIO_PATH + 'voicelines/VL_5.mp3'),
+            vl6: new Audio(BASE_AUDIO_PATH + 'voicelines/VL_6.mp3'),
+            vl7: new Audio(BASE_AUDIO_PATH + 'voicelines/VL_7.mp3')
         },
         save: getDefaultSaveState()
     },
@@ -189,8 +220,11 @@ export default {
         setSetting(state, obj) {
             state.settings[obj.name] = obj.value
 
-            state.music.background1.volume = obj.value/10
-            state.music.background2.volume = obj.value/10
+            if (obj.name === 'music' || obj.name === 'voice' || obj.name === 'sfx') {
+                for (let key in state[obj.name]) {
+                    state[obj.name][key].volume = obj.value / 10
+                }
+            }
 
             // sets the settings variable in the localStorage and gives it the store Object where the settings are saved
             debouncer.debounce(() => localStorage.setItem('settings', JSON.stringify(state.settings)))
@@ -204,15 +238,23 @@ export default {
 
         setInnerView(state, innerView) {
             innerView.visible = true
-        }
+        },
+
+        playVoiceLine(state, vl) {
+            if (!state.save.voice[vl]) {
+                state.voice[vl].volume = state.settings.voice / 10
+                state.voice[vl].play()
+                state.save.voice[vl] = true
+            }
+        },
     },
 
     actions: {
         switchOuterView({commit, getters, state}, {increment}) {
             if (increment) {
-                commit('setOuterView', getters.currentView.pos === state.save.screen.outerViews.length ? 0 : getters.currentView.pos);
+                commit('setOuterView', getters.currentView.pos === state.save.screen.outerViews.length ? 0 : getters.currentView.pos)
             } else {
-                commit('setOuterView', getters.currentView.pos === 1 ? state.save.screen.outerViews.length - 1 : getters.currentView.pos - 2);
+                commit('setOuterView', getters.currentView.pos === 1 ? state.save.screen.outerViews.length - 1 : getters.currentView.pos - 2)
             }
         },
 

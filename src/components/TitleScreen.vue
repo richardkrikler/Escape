@@ -1,6 +1,7 @@
 <template>
   <div class="title-screen">
-    <div :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')" class="title-content relative flex" @click="backgroundSound">
+    <div :class="($store.state.overlay.blurred ? 'blurred' : 'not-blurred')" class="title-content relative flex"
+         @click="backgroundSound">
       <div class="flex-1 grid place-items-center h-screen ml-20">
         <div class="text-4xl">
           <div class="container">
@@ -44,10 +45,11 @@
                      text="Kein gespeicherter Spielstand."
                      question="Möchten Sie ein neues Spiel starten?"/>
     </transition>
+
     <audio
+        src="/media/audio/music/background1.wav"
         ref="intro"
-        src="../src/assets/media/audio/background1.wav"
-        preload
+        preload="auto"
         id="intro"
         :volume="$store.state.settings.music/10"
     ></audio>
@@ -126,7 +128,7 @@ export default {
     },
 
     backgroundSound() {
-      if(!this.click) {
+      if (!this.click) {
         let audio = this.$refs.intro
         audio.play()
         setTimeout(this.loop, 50000)
@@ -134,7 +136,7 @@ export default {
       }
     },
 
-    loop() {
+    async loop() {
       let audio = this.$refs.intro
 
       audio.play()
